@@ -1,4 +1,4 @@
-name: Publish bricks to GitHub Pages
+name: Build Castle GPT and publish legacy redirects
 on:
   push:
     branches: [main]
@@ -19,13 +19,19 @@ jobs:
         with:
           python-version: '3.12'
       - name: Build Czech Castle atlas and all detail pages
-        run: python scripts/build.py
+        run: python castle-GPT/scripts/build.py
       - name: Verify routes, assets and catalogue relationships
-        run: python scripts/verify.py
+        run: python castle-GPT/scripts/verify.py
+      - name: Prepare redirects and shared catalogue images
+        run: python castle-GPT/scripts/prepare_legacy.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: castle-gpt-site
+          path: castle-GPT/_site
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4
         with:
-          path: _site
+          path: castle-GPT/_legacy
   deploy:
     needs: build
     runs-on: ubuntu-latest

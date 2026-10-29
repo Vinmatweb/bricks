@@ -1,5 +1,2 @@
-_site/
 __pycache__/
 *.pyc
-castle/web/assets/catalog/
-castle/assets.zip

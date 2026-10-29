@@ -3,9 +3,9 @@ import json,re
 from pathlib import Path
 from xml.etree import ElementTree
 root=Path(__file__).resolve().parents[1]
-site=root/'_site';base='/bricks/cs/castle/';atlas=site/'cs'/'castle'
+site=root/'_site';base='/bricks-gpt/cs/castle/';atlas=site/'cs'/'castle'
 d=json.loads((atlas/'catalog.json').read_text())
-slugs=json.loads((root/'castle'/'faction_routes.json').read_text())
+slugs=json.loads((root/'faction_routes.json').read_text())
 ss={x['id']:x for x in d['sets']};ff={x['id']:x for x in d['figures']}
 assert len(ss)==len(d['sets'])and len(ff)==len(d['figures'])
 pages=list(atlas.rglob('index.html'))
@@ -25,7 +25,7 @@ for faction in d['factions']:
  text=(atlas/slugs[faction['id']]/'index.html').read_text()
  assert faction['name']in text
 for item in d['sets']+d['figures']:
- if item.get('localImage'):assert (atlas/item['localImage']).is_file(),item['id']
+ if item.get('localImage'):assert (atlas/('assets/'+item['localImage'].split('/assets/',1)[-1])).is_file(),item['id']
 for s in d['sets']:
  for f in s['figures']:
   assert f['id']in ff and s['id']in ff[f['id']]['sets']

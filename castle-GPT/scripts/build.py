@@ -1,6 +1,6 @@
 """Build a portable static GitHub Pages site, including every deep link.
 
-Source is in castle/; the published Czech tree is in cs/castle/.
+Source is in castle-GPT/; the published Czech tree is in cs/castle/.
 No API keys, third-party packages or server rewrites are required.
 """
 import argparse, html, io, json, re, shutil, zipfile
@@ -10,27 +10,32 @@ from xml.sax.saxutils import escape as xml_escape
 ROOT=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser()
 parser.add_argument('--output',type=Path,default=ROOT/'_site')
-parser.add_argument('--base',default='/bricks/')
+parser.add_argument('--asset-base',default='/bricks/cs/castle/',help='Shared image host; empty string for a portable export.')
+parser.add_argument('--base',default='/bricks-gpt/')
 args=parser.parse_args()
 base='/'+args.base.strip('/')+'/'
 castle_base=base+'cs/castle/'
 out=args.output.resolve()
 if out==ROOT or ROOT not in out.parents:
  raise SystemExit('Output must be a child directory of this repository.')
-source=ROOT/'castle'/'web'
+source=ROOT/'web'
 data=json.loads((source/'catalog.json').read_text())
-slugs=json.loads((ROOT/'castle'/'faction_routes.json').read_text())
+slugs=json.loads((ROOT/'faction_routes.json').read_text())
 if set(slugs)!={f['id']for f in data['factions']}:raise SystemExit('Missing faction route.')
 if len(set(slugs.values()))!=len(slugs):raise SystemExit('Duplicate faction route.')
 if out.exists():shutil.rmtree(out)
 target=out/'cs'/'castle'
 shutil.copytree(source,target,ignore=shutil.ignore_patterns('catalog'))
-parts=sorted((ROOT/'castle'/'assets').glob('atlas-images.zip.*'))
+parts=sorted((ROOT/'assets').glob('atlas-images.zip.*'))
 if not parts:raise SystemExit('Missing bundled catalogue images.')
 with zipfile.ZipFile(io.BytesIO(b''.join(p.read_bytes()for p in parts))) as assets:
  for name in assets.namelist():
   if name.startswith('/')or '..'in Path(name).parts:raise SystemExit('Invalid asset path')
  assets.extractall(target/'assets')
+if args.asset_base:
+ for item in data['sets']+data['figures']:
+  if item.get('localImage'): item['localImage']=args.asset_base.rstrip('/')+'/'+item['localImage']
+ (target/'catalog.json').write_text(json.dumps(data,ensure_ascii=False,separators=(',',':')))
 e=lambda value:html.escape(str(value),quote=True)
 def legacy_url(value):
  bits=value.removeprefix('#/').strip('/').split('/')
