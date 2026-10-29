@@ -20,7 +20,6 @@ python scripts/build.py
 python scripts/verify.py
 ```
 
-Sestavený web je v `_site/`. `castle/web/` obsahuje běžné HTML, CSS, JavaScript, katalog JSON a optimalizované fotografie. Build používá pouze standardní knihovnu Pythonu. Obrázky ani katalog se při sestavení znovu nestahují.
+Sestavený web je v `_site/`. `castle/web/` obsahuje běžné HTML, CSS, JavaScript a katalog JSON. Optimalizované fotografie jsou v `castle/assets/atlas-images.zip.001` a `.002`; build je automaticky spojí a rozbalí. Dělení archivu slouží přenosu, na publikovaném webu jsou fotografie běžné samostatné soubory. Build používá pouze standardní knihovnu Pythonu. Obrázky ani katalog se při sestavení znovu nestahují.
 
 Data: Rebrickable a jednotlivě doložené katalogy. Katalogový snímek k 29. 10. 2026. Dostupnost je ručně ověřený stav, ne živý sklad. Podrobnosti a omezení jsou na stránce Zdroje. LEGO® je ochranná známka LEGO Group; projekt je nezávislý fanouškovský web.
-
