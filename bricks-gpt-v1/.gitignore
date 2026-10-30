@@ -1,0 +1,6 @@
+_site/
+_legacy/
+__pycache__/
+*.pyc
+web/assets/catalog/
+assets.zip

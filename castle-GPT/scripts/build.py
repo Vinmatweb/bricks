@@ -40,7 +40,7 @@ e=lambda value:html.escape(str(value),quote=True)
 def legacy_url(value):
  bits=value.removeprefix('#/').strip('/').split('/')
  kind=bits[0]
- if kind=='frakce':return castle_base+slugs[bits[1]]+'/'
+ if kind=='frakce':return castle_base+(slugs[bits[1]]+'/' if len(bits)>1 and bits[1] else 'frakce/')
  if kind=='set':return castle_base+'sety/'+bits[1]+'/'
  if kind=='minifigurka':return castle_base+'minifigurky/'+bits[1]+'/'
  return castle_base+({'bdp':'bricklink-designer-program','dostupne':'dostupnost'}.get(kind,kind)+'/ 'if kind else '').replace('/ ','/')
@@ -54,7 +54,7 @@ pages=[]
 def page(relative,title,description,content):
  path=target/relative/'index.html';path.parent.mkdir(parents=True,exist_ok=True)
  canonical='https://vinmat.eu'+castle_base+(relative.strip('/')+'/'if relative else '')
- body=re.sub(r'<main id="main">.*?</main>',lambda _: '<main id="main"><article class="wrap section">'+content+'</article></main>',template,flags=re.S)
+ body=re.sub(r'<main id="main"[^>]*>.*?</main>',lambda _: '<main id="main"><article class="wrap section">'+content+'</article></main>',template,flags=re.S)
  body=re.sub(r'<title>.*?</title>',lambda _:'<title>'+e(title)+'</title>',body)
  body=re.sub(r'<meta name="description" content="[^"]*">',lambda _:'<meta name="description" content="'+e(description[:260])+'">',body)
  tags='<link rel="canonical" href="'+e(canonical)+'"><meta property="og:type" content="website"><meta property="og:locale" content="cs_CZ"><meta property="og:title" content="'+e(title)+'"><meta property="og:description" content="'+e(description[:260])+'"><meta property="og:url" content="'+e(canonical)+'">'
@@ -80,6 +80,11 @@ for f in data['figures']:
 for route,title,items in [('sety','Katalog setů',data['sets']),('minifigurky','Katalog minifigurek',data['figures']),('bricklink-designer-program','BrickLink Designer Program',[s for s in data['sets']if s['kind']=='BDP']),('dostupnost','Dostupnost LEGO Castle',[s for s in data['sets']if s['status']=='available'])]:
  page(route,title+' | Castle Atlas',title+' — český průvodce světem LEGO Castle.','<h1>'+title+'</h1>'+listing(items,figurl if route=='minifigurky'else seturl))
 page('zdroje','Zdroje a metodika | Castle Atlas','Původ dat, vymezení frakcí a rozsah ověření dostupnosti.','<h1>Zdroje a metodika</h1><p>'+e(data['methodology'])+'</p>'+listing(data['sources'],lambda s:s['url']))
+page('frakce','Atlas frakcí | Castle Atlas','Přehled 32 frakcí a tematických skupin LEGO Castle.','<h1>Atlas frakcí</h1>'+listing(data['factions'],lambda f:castle_base+slugs[f['id']]+'/'))
+page('mapa','Mapa společných setů | Castle Atlas','Vazby frakcí doložené společnými inventáři minifigurek.','<h1>Mapa společných setů</h1><p>Vazby vycházejí z konkrétních minifigurek, nikoliv z domnělých aliancí.</p>'+listing(data['factions'],lambda f:castle_base+slugs[f['id']]+'/'))
+page('casova-osa','Časová osa | Castle Atlas','Katalogové výskyty frakcí LEGO Castle od roku 1978.','<h1>Časová osa</h1>'+listing(sorted(data['factions'],key=lambda f:f['year']),lambda f:castle_base+slugs[f['id']]+'/'))
+page('stazeni','Katalog ke stažení | Castle Atlas','CSV exporty setů a minifigurek a kompletní katalog JSON.','<h1>Katalog ke stažení</h1>'+link(castle_base+'catalog.json','Kompletní katalog JSON'))
+page('hledani','Hledání v atlasu | Castle Atlas','Hledání napříč frakcemi, sety a minifigurkami.','<h1>Hledání v atlasu</h1><p>Vyhledávání je v hlavičce stránky.</p>')
 (out/'.nojekyll').touch()
 redirect='<!doctype html><html lang="cs"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0;url='+castle_base+'"><title>Castle Atlas</title></head><body>'+link(castle_base,'Otevřít Castle Atlas')+'</body></html>'
 (out/'index.html').write_text(redirect)

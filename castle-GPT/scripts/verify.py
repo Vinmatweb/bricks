@@ -9,17 +9,19 @@ slugs=json.loads((root/'faction_routes.json').read_text())
 ss={x['id']:x for x in d['sets']};ff={x['id']:x for x in d['figures']}
 assert len(ss)==len(d['sets'])and len(ff)==len(d['figures'])
 pages=list(atlas.rglob('index.html'))
-expected=1+len(slugs)+len(ss)+len(ff)+5
+expected=1+len(slugs)+len(ss)+len(ff)+10
 assert len(pages)==expected,(len(pages),expected)
 for page in pages:
  text=page.read_text()
  assert '<base href="'+base+'">'in text
  assert 'href="#/'not in text
+ assert 'Načítám atlas…'not in text
+ assert '<h1>'in text
  for url in re.findall(r'href="('+re.escape(base)+r'[^"]+)"',text):
   if url.endswith('/'):
    relative=url[len(base):]
    assert (atlas/relative/'index.html').exists(),(page,url)
- for src in ['style.css','app.js','router.js','routes.js','catalog.json','assets/mark.svg']:
+ for src in ['style.css','app.js','router.js','routes.js','content.js','catalog.json','assets/mark.svg']:
   assert (atlas/src).is_file()
 for faction in d['factions']:
  text=(atlas/slugs[faction['id']]/'index.html').read_text()
