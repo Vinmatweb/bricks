@@ -6,7 +6,7 @@ Samostatné varianty informačního webu LEGO Castle:
 | --- | --- | --- |
 | `castle-GPT/` | Castle Atlas, GPT | https://vinmat.eu/bricks-gpt/cs/castle/ |
 | `castle-Claude/` | Hradní kronika / Castle Chronicle, Claude | https://vinmat.eu/bricks/castle/ · https://vinmat.eu/bricks/cs/castle/ |
-| `castle-Gem/` | Připraveno pro Gemini | Zatím bez webu |
+| `castle-Gem/` | LEGO Castle Codex, Gemini | https://vinmat.eu/bricks-gem/cs/castle/ |
 
 Všechny zdroje, katalogy, obrazové archivy a sestavovací skripty GPT verze jsou v `castle-GPT/`. V kořeni zůstává pouze tento rozcestník a společné nastavení GitHubu.
 
