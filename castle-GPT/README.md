@@ -29,7 +29,7 @@ Výstup: `castle-GPT/_site/`. Všechny frakce, sety a figurky mají skutečnou H
 GitHub Pages projektu `bricks` obsluhuje pouze `/bricks/`, nikoliv požadovanou cestu `/bricks-gpt/`. Proto:
 
 1. Veřejné HTML, CSS, JS, katalog a sitemap z `_site/` se publikují do `Vinmatweb/vinmatweb.github.io`, složky `bricks-gpt/`. Vygenerované `assets/catalog/*.webp` není třeba duplikovat — katalog používá společné fotografie pod `/bricks/cs/castle/assets/catalog/`.
-2. Workflow v tomto repozitáři kontroluje zdroje, připraví ke stažení export `castle-gpt-site` a automaticky publikuje `_legacy/` na původní GitHub Pages. Ten zachovává fotografie a přesměrovává původní HTML odkazy na `/bricks-gpt/`.
+2. Workflow v tomto repozitáři kontroluje zdroje, připraví ke stažení export `castle-gpt-site` a automaticky publikuje `_legacy/` na původní GitHub Pages. Ten zachovává fotografie a přesměrovává původní GPT detaily na `/bricks-gpt/`. Společné nasazení následně doplní hlavní stránky Claude verze na `/bricks/castle/` a `/bricks/cs/castle/`.
 3. Při další úpravě webu je třeba aktualizovat také publikovaný export `bricks-gpt/` v hlavním repozitáři. Push sem sám o sobě neaktualizuje HTML v jiném repozitáři. Při publikaci zachovej všechny ostatní soubory hlavního webu a jeho `CNAME`.
 
 V tomto projektu se `CNAME` nevytváří. Nový export neobsahuje žádné přihlašovací údaje ani API klíče.

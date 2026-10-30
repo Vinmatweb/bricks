@@ -1,0 +1,28 @@
+
+<style>
+.topright{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;font-size:.8rem;font-weight:700;letter-spacing:.06em}
+.lang a{padding:3px 9px;text-decoration:none;color:var(--ink-2);background:var(--paper)}
+.lang a[aria-current="true"]{background:var(--ink);color:var(--paper)}
+.shops{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:4px}
+.shops a{font-size:.8rem;text-decoration:none;padding:4px 9px;border-radius:3px;border:1px solid var(--ink);color:var(--ink);background:transparent;white-space:nowrap}
+.shops a.pri{background:var(--ink);color:var(--paper)}
+.tile .alt{font-size:.76rem;color:var(--muted);margin-top:4px}
+@media (max-width:860px){.topright{align-items:flex-start}}
+</style>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="#uvod" id="brand"></a>
+    <div class="topright">
+      <div class="lang" id="langsw" role="group" aria-label="Language"></div>
+      <nav class="main" id="mainnav"></nav>
+    </div>
+  </header>
+  <aside class="side" id="side">
+    <div id="sidenav"></div>
+  </aside>
+  <main id="view" tabindex="-1"></main>
+  <footer id="foot"></footer>
+</div>
+
+<script>
