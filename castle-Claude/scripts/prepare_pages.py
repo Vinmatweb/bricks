@@ -20,6 +20,10 @@ for relative,lang in [('castle/index.html','en'),('cs/castle/index.html','cs')]:
    path=Path(folder)/f'{i}.js';path.write_text(script)
    subprocess.run(['node','--check',str(path)],check=True,capture_output=True)
  dest=target/relative;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,dest)
+for relative in ['castle/favicon.svg','cs/castle/favicon.svg']:
+ source=root/'bricks'/relative
+ assert '<svg'in source.read_text()
+ shutil.copyfile(source,target/relative)
 status=root/'bricks/cs/castle/status.json';assert 'sets'in json.loads(status.read_text())
 shutil.copyfile(status,target/'cs/castle/status.json')
 assert '/bricks-gpt/cs/castle/black-falcons/'in(target/'cs/castle/black-falcons/index.html').read_text()

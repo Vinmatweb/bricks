@@ -13,11 +13,13 @@ wrap(){
     printf '<script>window.CASTLE_LANG="%s"</script>\n' "$lang"
     sed "1s#<title>.*</title>#<title>$title</title>#" src/01-head.html
     printf '\n</head>\n<body>\n'
-    cat src/02-shell.html src/03-data-cs.js src/04-data-en.js src/05-app.js
+    cat src/02-shell.html src/03-data-cs.js src/03b-setdesc.js src/04-data-en.js src/05-app.js
     printf '\n</body>\n</html>\n'
   } > "$output"
 }
 mkdir -p "$OUT/cs/castle" "$OUT/castle"
 wrap cs "Hradní kronika" "Neoficiální průvodce řadou LEGO® Castle 1978–2026 – frakce, historie a sety: Black Falcons, Lion Knights, Forestmen, Dragon Masters a další." "$OUT/cs/castle/index.html" "cs/castle/"
 wrap en "Castle Chronicle" "An unofficial guide to the LEGO® Castle theme 1978–2026 – factions, history and sets: Black Falcons, Lion Knights, Forestmen, Dragon Masters and more." "$OUT/castle/index.html" "castle/"
+cp src/favicon.svg "$OUT/cs/castle/favicon.svg"
+cp src/favicon.svg "$OUT/castle/favicon.svg"
 echo 'Built Castle Claude: cs + en'

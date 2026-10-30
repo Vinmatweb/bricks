@@ -174,52 +174,83 @@ const F = [
   sets:[["70400","Forest Ambush",2013],["70401","Gold Getaway",2013],["70402","The Gatehouse Raid",2013],["70403","Dragon Mountain",2013],["70404","King's Castle",2013],["850888","Castle Knights Accessory Set",2014],["850889","Castle Dragons Accessory Set",2014]],
   tributes:[]
  },
- {id:"nove-frakce", en:"Nové frakce (2025–)", cz:"Horse Knights, Serpent Knights, Griffin Knights, Kraken Warriors", years:"2025–", from:2025, to:2027, era:"n",
-  sh:{f:["#6b4a2b","#2a7a7a"],p:"pale",b:null,c:null},
-  intro:"Od roku 2025 se v nových sadách objevují dosud nepoužité rytířské skupiny. Brickset je eviduje pod názvy Horse Knights a Serpent Knights (31168), Griffin Knights a Kraken Warriors (21358 a sety BrickLink Designer Program). Oficiální příběh LEGO k nim zatím nedoložil.",
-  heraldry:"Kůň, had, gryf a krakatice jako erbovní zvířata – podle názvů.",
-  chars:["Pojmenované postavy zatím nedoloženy."],
-  rel:[["Horse Knights a Serpent Knights se potkávají v 31168 Medieval Horse Knight Castle; povaha vztahu není doložena.","unc"],["Griffin Knights a Kraken Warriors v 21358 a BDP 910070 Sleepy Dragon Inn (2027).","unc"]],
-  hist:["2025: 31168 Medieval Horse Knight Castle (Creator 3 v 1, designér Jonathan Robson).","2025: 21358 Minifigure Vending Machine (LEGO Ideas) s figurkami Griffin Knights a Kraken Warriors.","2026: BDP 910062 Alchemist's Shop a 910064 Dustmark Keep (Kraken Warriors)."],
+ {id:"horse-knights", en:"Horse Knights", cz:"Koňští rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#f2f2f2"],p:"plain",b:"#1f4f9a",c:"#d7a521"},
+  intro:"Nejnovější královská frakce, představená v roce 2025 v setu Creator 3 v 1 31168 Medieval Horse Knight Castle. Rytíři v bílých pláštích s modro-zlatým erbem s koněm mají vlastního krále, šampiona, kopiníka a lučištníka. Podle německého webu Promobricks přináší vlna Creator 2025 hrad „hned se dvěma novými frakcemi“. Název Horse Knights používá katalog BrickLink; jestli ho používá i LEGO, není ověřené.",
+  heraldry:"Bílý plášť s modrým a zlatým štítem s koněm, stříbrná kroužková zbroj, opasek s motivem podkov. Král nosí modrý plášť a zlatou korunu.",
+  chars:["Horse Knight King – král s korunou a modrým pláštěm","Horse Knight Champion – šampion se špičatým hledím a červeným chocholem","Kopiník a lučištník (s modrou kápí)"],
+  rel:[["V setu 31168 se potkávají s jediným rytířem Serpent Knights; set má turnajové kolbiště a tribunu, takže jde spíš o soupeře v turnaji než o válku. Výklad, ne oficiální příběh.","unc"],["Objevují se spolu s Griffin Knights a Kraken Warriors v BDP 910062 Alchemist's Shop a 910070 Sleepy Dragon Inn.","off"]],
+  hist:["2025: debut v 31168 Medieval Horse Knight Castle (designér Jonathan Robson).","2026: dva koňští rytíři v BDP 910062 Alchemist's Shop.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
   sets:[],
   tributes:[]
- }
+ },
+ {id:"serpent-knights", en:"Serpent Knights", cz:"Hadí rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#16181b"],p:"plain",b:"#5b2a6e",c:"#c9ced4"},
+  intro:"Temný rytíř v černé zbroji s fialovými pruhy, který v setu 31168 vystupuje jako jediný zástupce své frakce. Recenzenti ho popisují jako „hosta“ mezi koňskými rytíři. Hadí motiv na figurce vytištěný není, jméno pochází z katalogu BrickLink.",
+  heraldry:"Černá uzavřená přilba se žlutým trojitým chocholem, černý plášť, černý waffenrock s tmavě fialovými pruhy a stříbrnými kosočtverci.",
+  chars:["Serpent Knight – jediná figurka frakce (31168)"],
+  rel:[["Soupeř Horse Knights v turnaji v 31168 – výklad podle obsahu setu.","unc"]],
+  hist:["2025: jediný výskyt v 31168 Medieval Horse Knight Castle."],
+  sets:[],
+  tributes:[]
+ },
+ {id:"griffin-knights", en:"Griffin Knights", cz:"Gryfí rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#7a1f24"],p:"plain",b:"#d7a521",c:"#e8e8e8"},
+  intro:"Rytíři ve stříbrné zbroji přes tmavě červené roucho se štítem s gryfem. Poprvé se objevili v LEGO Ideas 21358 Minifigure Vending Machine (2025). Podle recenze na Brickset vybrali tuto frakci i Kraken Warriors fanoušci v anketě LEGO Ideas. Dále se vracejí v sadách BrickLink Designer Programu.",
+  heraldry:"Bílo-stříbrný gryf na tmavě červeném poli se zlatým lemem; stříbrná zbroj, tmavě červené rukávy, zlaté rukavice.",
+  chars:["Griffin Knight – muž a žena (21358)","Griffin Knight s ramenním plátem (910062)"],
+  rel:[["Vznikli spolu s Kraken Warriors (21358); oficiální vztah obou frakcí zatím nebyl popsán.","unc"],["Společně s Horse Knights a Kraken Warriors v 910062 a 910070.","off"]],
+  hist:["2025: debut v 21358 Minifigure Vending Machine (LEGO Ideas č. 66).","2026: BDP 910062 Alchemist's Shop.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
+  sets:[],
+  tributes:[]
+ },
+ {id:"kraken-warriors", en:"Kraken Warriors", cz:"Válečníci krakena", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#1f4a2a"],p:"plain",b:"#1d6f73",c:"#c5d34a"},
+  intro:"Námořní nájezdníci v tmavě zelené a tyrkysové s krakenem na hrudi a na kulatých štítech. Debutovali v 21358 Minifigure Vending Machine (2025) a od té doby jsou nejčastější novou frakcí: objevují se ve třech sadách BrickLink Designer Programu. V jednom z nich se figurka jmenuje Kraken Bandit, což naznačuje lapkovskou povahu.",
+  heraldry:"Žlutozelený kraken na tmavě zeleném hrudním plátu a v tmavě tyrkysovém kruhu na štítu; hnědá přilba s lícnicemi, tmavě zelený šátek.",
+  chars:["Kraken Warrior – muž s páskou přes oko a žena (21358)","Kraken Bandit (910062)"],
+  rel:[["Vznikli spolu s Griffin Knights (21358); oficiální vztah zatím nebyl popsán.","unc"],["Nájezdnický charakter (Kraken Bandit, páska přes oko) – výklad podle figurek.","fan"]],
+  hist:["2025: debut v 21358 Minifigure Vending Machine.","2026: BDP 910062 Alchemist's Shop a 910064 Dustmark Keep.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
+  sets:[],
+  tributes:[]
+ },
 ];
 
-// Moderní a pamětní sety (2016–2027) se stavem k 29. 10. 2026 podle Brickset
-// st: on = v prodeji na LEGO.com, off = vyřazeno, lim = limitovaná/jiný kanál
+// Novodobé a pamětní sety. y = rok uvedení, to = poslední rok prodeje (null = stále v prodeji)
+// st: on = v prodeji na LEGO.com, off = vyřazeno, lim = jen jiný kanál, soon = oznámeno
 const M = [
- {n:"10305",name:"Lion Knights' Castle",y:2022,pcs:4514,line:"Icons",f:["crusaders","black-falcons","forestmen","dragon-masters","klasicky-hrad"],st:"off",note:"Vyřazeno 31. 12. 2025; 90. výročí LEGO"},
- {n:"10332",name:"Medieval Town Square",y:2024,pcs:3304,line:"Icons",f:["crusaders","wolfpack","fantasy-era"],st:"off",note:"Vyřazeno 31. 12. 2025"},
- {n:"21325",name:"Medieval Blacksmith",y:2021,pcs:2164,line:"Ideas",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2023"},
- {n:"21343",name:"Viking Village",y:2023,pcs:2103,line:"Ideas",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2025"},
- {n:"21348",name:"Dungeons & Dragons: Red Dragon's Tale",y:2024,pcs:3745,line:"Ideas",f:[],st:"off",note:"Fantasy, mimo Castle; vyřazeno 31. 7. 2026"},
- {n:"21358",url:"https://www.lego.com/cs-cz/product/minifigure-vending-machine-21358",name:"Minifigure Vending Machine",y:2025,pcs:1343,line:"Ideas",f:["nove-frakce"],st:"on",note:"16 figurek napříč historií LEGO vč. Griffin Knights a Kraken Warriors"},
- {n:"31120",name:"Medieval Castle",y:2021,pcs:1426,line:"Creator 3 v 1",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2024"},
- {n:"31132",name:"Viking Ship and the Midgard Serpent",y:2022,pcs:1192,line:"Creator 3 v 1",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2023"},
- {n:"31161",url:"https://www.lego.com/cs-cz/product/medieval-dragon-31161",name:"Medieval Dragon",y:2025,pcs:715,line:"Creator 3 v 1",f:[],st:"on",note:"Středověký drak, bez frakce"},
- {n:"31168",url:"https://www.lego.com/cs-cz/product/medieval-horse-knight-castle-31168",name:"Medieval Horse Knight Castle",y:2025,pcs:1371,line:"Creator 3 v 1",f:["nove-frakce"],st:"on",note:"6 minifigurek; 119,99 € (Brickset)"},
- {n:"BL19001",name:"Löwenstein Castle",y:2019,pcs:2015,line:"BrickLink AFOL pilot",f:[],st:"off",note:"Autor Raziel_Regulus; limitovaná edice"},
- {n:"910001",name:"Castle in the Forest",y:2021,pcs:1957,line:"BrickLink Designer Program",f:["black-falcons","forestmen"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910029",name:"Mountain Fortress",y:2024,pcs:3995,line:"BrickLink DP – série 1",f:["black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910043",name:"Forest Stronghold",y:2025,pcs:3395,line:"BrickLink DP – série 3",f:["forestmen","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910045",name:"Siege Encampment",y:2025,pcs:2598,line:"BrickLink DP – série 4",f:["crusaders","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910047",name:"Medieval Seaside Market",y:2025,pcs:2560,line:"BrickLink DP – série 4",f:["crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910048",name:"Riverside Scholars",y:2025,pcs:2769,line:"BrickLink DP – série 4",f:[],st:"off",note:"Středověk bez frakce"},
- {n:"910057",name:"Outlaw Forest Den",y:2025,pcs:2618,line:"BrickLink DP – série 6",f:["wolfpack","crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910062",name:"Alchemist's Shop",y:2026,pcs:2319,line:"BrickLink DP – série 7",f:["nove-frakce"],st:"lim",note:"Prodej na BrickLink (Brickset: 1. 7.–31. 12. 2026), ne na lego.cz"},
- {n:"910064",name:"Dustmark Keep",y:2026,pcs:3960,line:"BrickLink DP – série 8",f:["nove-frakce"],st:"lim",note:"BrickLink, termín ověřte"},
- {n:"910070",name:"Sleepy Dragon Inn",y:2027,pcs:3121,line:"BrickLink DP – série 9",f:["nove-frakce"],st:"soon",note:"Oznámeno na 2027; Griffin Knights, Horse Knights, Kraken Warriors"},
- {n:"40567",name:"Forest Hideout",y:2022,pcs:258,line:"Dárek k nákupu",f:["forestmen"],st:"off",note:"Remake 6054; 90. výročí"},
- {n:"40601",name:"Majisto's Magical Workshop",y:2023,pcs:365,line:"Dárek k nákupu",f:["dragon-masters"],st:"off",note:"Remake 6048; znovu 9/2024"},
- {n:"40912",name:"Sea Serpent",y:2026,pcs:241,line:"Dárek k nákupu (Ideas)",f:["black-knights"],st:"off",note:"Insiders Days 7/2026; remake 6057"},
- {n:"40952",name:"LEGOLAND Castle",y:2026,pcs:613,line:"Jen v parcích LEGOLAND",f:[],st:"lim",note:"Prodej pouze v LEGOLANDu"},
- {n:"71025-3",name:"Minifigurky série 19 – Fright Knight",y:2019,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
- {n:"71034-11",name:"Minifigurky série 23 – Knight of the Yellow Castle",y:2022,pcs:null,line:"Sběratelské minifigurky",f:["klasicky-hrad"],st:"off",note:""},
- {n:"71037-5",name:"Minifigurky série 24 – Falconer",y:2023,pcs:null,line:"Sběratelské minifigurky",f:["black-falcons"],st:"off",note:""},
- {n:"71045-3",name:"Minifigurky série 25 – Vampire Knight",y:2024,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
- {n:"71048-2",name:"Minifigurky série 27 – Wolfpack Beastmaster",y:2025,pcs:null,line:"Sběratelské minifigurky",f:["wolfpack"],st:"off",note:"Brickset: 1. 1.–30. 4. 2025"}
+ {n:"31168",url:"https://www.lego.com/cs-cz/product/medieval-horse-knight-castle-31168",name:"Medieval Horse Knight Castle",y:2025,to:null,pcs:1371,mf:6,line:"Creator 3 v 1",f:["horse-knights","serpent-knights"],st:"on",note:"119,99 € (Brickset)"},
+ {n:"21358",url:"https://www.lego.com/cs-cz/product/minifigure-vending-machine-21358",name:"Minifigure Vending Machine",y:2025,to:null,pcs:1343,mf:16,line:"Ideas",f:["griffin-knights","kraken-warriors"],st:"on",note:"16 figurek napříč historií LEGO"},
+ {n:"31161",url:"https://www.lego.com/cs-cz/product/medieval-dragon-31161",name:"Medieval Dragon",y:2025,to:null,pcs:715,line:"Creator 3 v 1",f:[],st:"on",note:"Středověký drak, bez frakce"},
+ {n:"910070",name:"Sleepy Dragon Inn",y:2027,to:2027,pcs:3121,line:"BrickLink DP – série 9",f:["griffin-knights","horse-knights","kraken-warriors"],st:"soon",note:"Předobjednávky 6.–12. 10. 2026, dodání od března 2027"},
+ {n:"910064",name:"Dustmark Keep",y:2026,to:2026,pcs:3960,line:"BrickLink DP – série 8",f:["kraken-warriors"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910062",name:"Alchemist's Shop",y:2026,to:2026,pcs:2319,mf:9,line:"BrickLink DP – série 7",f:["kraken-warriors","griffin-knights","horse-knights"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"40912",name:"Sea Serpent",y:2026,to:2026,pcs:241,line:"Dárek k nákupu (Ideas)",f:["black-knights"],st:"off",note:"Insiders Days 7/2026; remake 6057"},
+ {n:"40952",name:"LEGOLAND Castle",y:2026,to:null,pcs:613,line:"Jen v parcích LEGOLAND",f:[],st:"lim",note:"Prodej pouze v LEGOLANDu"},
+ {n:"910057",name:"Outlaw Forest Den",y:2025,to:2025,pcs:2618,mf:10,line:"BrickLink DP – série 6",f:["wolfpack","crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910045",name:"Siege Encampment",y:2025,to:2025,pcs:2598,mf:18,line:"BrickLink DP – série 4",f:["crusaders","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910047",name:"Medieval Seaside Market",y:2025,to:2025,pcs:2560,mf:9,line:"BrickLink DP – série 4",f:["crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910048",name:"Riverside Scholars",y:2025,to:2025,pcs:2769,line:"BrickLink DP – série 4",f:[],st:"off",note:"Středověk bez frakce"},
+ {n:"910043",name:"Forest Stronghold",y:2025,to:2025,pcs:3395,mf:13,line:"BrickLink DP – série 3",f:["forestmen","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71048-2",name:"Minifigurky série 27 – Wolfpack Beastmaster",y:2025,to:2025,pcs:null,line:"Sběratelské minifigurky",f:["wolfpack"],st:"off",note:""},
+ {n:"10332",name:"Medieval Town Square",y:2024,to:2025,pcs:3304,mf:8,line:"Icons",f:["crusaders","wolfpack","fantasy-era"],st:"off",note:"Vyřazeno 31. 12. 2025"},
+ {n:"910029",name:"Mountain Fortress",y:2024,to:2024,pcs:3995,mf:9,line:"BrickLink DP – série 1",f:["black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71045-3",name:"Minifigurky série 25 – Vampire Knight",y:2024,to:2024,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
+ {n:"21343",name:"Viking Village",y:2023,to:2025,pcs:2103,line:"Ideas",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2025"},
+ {n:"40601",name:"Majisto's Magical Workshop",y:2023,to:2024,pcs:365,mf:2,line:"Dárek k nákupu",f:["dragon-masters"],st:"off",note:"Remake 6048; 11/2023 a 9/2024"},
+ {n:"71037-5",name:"Minifigurky série 24 – Falconer",y:2023,to:2023,pcs:null,line:"Sběratelské minifigurky",f:["black-falcons"],st:"off",note:""},
+ {n:"10305",name:"Lion Knights' Castle",y:2022,to:2025,pcs:4514,mf:22,line:"Icons",f:["crusaders","black-falcons","forestmen","dragon-masters","klasicky-hrad"],st:"off",note:"Vyřazeno 31. 12. 2025; 90. výročí LEGO"},
+ {n:"40567",name:"Forest Hideout",y:2022,to:2022,pcs:258,mf:2,line:"Dárek k nákupu",f:["forestmen"],st:"off",note:"Remake 6054; 90. výročí"},
+ {n:"31132",name:"Viking Ship and the Midgard Serpent",y:2022,to:2023,pcs:1192,line:"Creator 3 v 1",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2023"},
+ {n:"71034-11",name:"Minifigurky série 23 – Knight of the Yellow Castle",y:2022,to:2022,pcs:null,line:"Sběratelské minifigurky",f:["klasicky-hrad"],st:"off",note:""},
+ {n:"21325",name:"Medieval Blacksmith",y:2021,to:2023,pcs:2164,mf:4,line:"Ideas",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2023"},
+ {n:"31120",name:"Medieval Castle",y:2021,to:2024,pcs:1426,mf:4,line:"Creator 3 v 1",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2024"},
+ {n:"910001",name:"Castle in the Forest",y:2021,to:2022,pcs:1957,mf:6,line:"BrickLink Designer Program",f:["black-falcons","forestmen"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71025-3",name:"Minifigurky série 19 – Fright Knight",y:2019,to:2019,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
+ {n:"BL19001",name:"Löwenstein Castle",y:2019,to:2019,pcs:2015,line:"BrickLink AFOL pilot",f:[],st:"off",note:"Autor Raziel_Regulus; limitovaná edice"}
 ];
+// Starší reedice a pocty (před rokem 2016) – období prodeje pro časovou osu
+const REISSUE = {"10000":[2001,2001],"10039":[2002,2003],"10176":[2006,2007],"8683-14":[2010,2010]};
 // Původní minifigurky s erbem frakce (ID BrickLink/Brickset, ověřeno na brickset.com/minifigs)
 const MF = {
  "klasicky-hrad":[["cas002","Rytíř se štítem červeno-šedým"],["cas088s","Rytíř žlutého hradu (s nálepkami)"]],
@@ -239,7 +270,10 @@ const MF = {
  "fantasy-era":[["cas366","Korunní rytíř"],["cas330","Kostlivec válečník"]],
  "kingdoms":[["cas445","Lví rytíř"],["cas455","Dračí rytíř"]],
  "castle-2013":[["cas516","Králův rytíř s korunou"],["cas522","Dračí rytíř s dračím štítem"]],
- "nove-frakce":[["cas592","Horse Knight – král"],["cas593","Serpent Knight"],["idea232","Griffin Knight"],["idea229","Kraken Warrior"]]
+ "horse-knights":[["cas592","Horse Knight – král"],["cas590","Horse Knight – šampion"],["cas591","Horse Knight – kopiník"],["bdp355","Horse Knight (910062)"]],
+ "serpent-knights":[["cas593","Serpent Knight"]],
+ "griffin-knights":[["idea232","Griffin Knight – muž"],["idea236","Griffin Knight – žena"],["bdp353","Griffin Knight (910062)"]],
+ "kraken-warriors":[["idea229","Kraken Warrior – muž"],["idea234","Kraken Warrior – žena"],["bdp351","Kraken Bandit (910062)"]]
 };
 const mfUrl = id => id.startsWith("http")?id:`https://img.bricklink.com/ItemImage/MN/0/${id}.png`;
 const sid = n => /-\d+$/.test(n)?n:n.split("–")[0]+"-1";           // Brickset ID

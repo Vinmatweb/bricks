@@ -8,6 +8,19 @@
 .shops a{font-size:.8rem;text-decoration:none;padding:4px 9px;border-radius:3px;border:1px solid var(--ink);color:var(--ink);background:transparent;white-space:nowrap}
 .shops a.pri{background:var(--ink);color:var(--paper)}
 .tile .alt{font-size:.76rem;color:var(--muted);margin-top:4px}
+.feats{display:grid;gap:14px}
+.feat{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.feat .ph{aspect-ratio:auto;min-height:190px;border-bottom:0;border-right:1px solid var(--line)}
+.feat .fb{padding:12px 16px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.feat h3{margin:0;font-size:1.2rem;line-height:1.25}
+.feat p{margin:4px 0 2px;font-size:.97rem}
+.feat .ty .st{margin-left:6px}
+.feat .shops a:last-child{border-color:var(--line);color:var(--ink-2)}
+.emb{display:inline-flex;align-items:center;justify-content:center;flex:none}
+.emb img{max-height:100%;max-width:100%;object-fit:contain}
+aside a .nm{display:flex;flex-direction:column;min-width:0}
+aside a .nm .yr{margin-left:0;font-size:.68rem;line-height:1.3}
+@media (max-width:640px){.feat{grid-template-columns:minmax(0,1fr)}.feat .ph{border-right:0;border-bottom:1px solid var(--line);aspect-ratio:4/3;min-height:0}}
 @media (max-width:860px){.topright{align-items:flex-start}}
 </style>
 <div class="wrap">

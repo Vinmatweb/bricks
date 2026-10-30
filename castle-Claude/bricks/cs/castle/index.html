@@ -11,6 +11,7 @@
 <script>window.CASTLE_LANG="cs"</script>
 <title>Hradní kronika</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M6%204h52v28c0%2015-11%2024-26%2030C17%2056%206%2047%206%2032z%22%20fill%3D%22%231f4f9a%22%20stroke%3D%22%23d7a521%22%20stroke-width%3D%224%22/%3E%3Cpath%20d%3D%22M20%2046V24h4v-5h5v5h6v-5h5v5h4v22h-8v-8a4%204%200%200%200-8%200v8z%22%20fill%3D%22%23e7e9ec%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
@@ -162,6 +163,19 @@ footer .fsmall{font-size:.78rem}
 .shops a{font-size:.8rem;text-decoration:none;padding:4px 9px;border-radius:3px;border:1px solid var(--ink);color:var(--ink);background:transparent;white-space:nowrap}
 .shops a.pri{background:var(--ink);color:var(--paper)}
 .tile .alt{font-size:.76rem;color:var(--muted);margin-top:4px}
+.feats{display:grid;gap:14px}
+.feat{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.feat .ph{aspect-ratio:auto;min-height:190px;border-bottom:0;border-right:1px solid var(--line)}
+.feat .fb{padding:12px 16px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.feat h3{margin:0;font-size:1.2rem;line-height:1.25}
+.feat p{margin:4px 0 2px;font-size:.97rem}
+.feat .ty .st{margin-left:6px}
+.feat .shops a:last-child{border-color:var(--line);color:var(--ink-2)}
+.emb{display:inline-flex;align-items:center;justify-content:center;flex:none}
+.emb img{max-height:100%;max-width:100%;object-fit:contain}
+aside a .nm{display:flex;flex-direction:column;min-width:0}
+aside a .nm .yr{margin-left:0;font-size:.68rem;line-height:1.3}
+@media (max-width:640px){.feat{grid-template-columns:minmax(0,1fr)}.feat .ph{border-right:0;border-bottom:1px solid var(--line);aspect-ratio:4/3;min-height:0}}
 @media (max-width:860px){.topright{align-items:flex-start}}
 </style>
 <div class="wrap">
@@ -356,52 +370,83 @@ const F = [
   sets:[["70400","Forest Ambush",2013],["70401","Gold Getaway",2013],["70402","The Gatehouse Raid",2013],["70403","Dragon Mountain",2013],["70404","King's Castle",2013],["850888","Castle Knights Accessory Set",2014],["850889","Castle Dragons Accessory Set",2014]],
   tributes:[]
  },
- {id:"nove-frakce", en:"Nové frakce (2025–)", cz:"Horse Knights, Serpent Knights, Griffin Knights, Kraken Warriors", years:"2025–", from:2025, to:2027, era:"n",
-  sh:{f:["#6b4a2b","#2a7a7a"],p:"pale",b:null,c:null},
-  intro:"Od roku 2025 se v nových sadách objevují dosud nepoužité rytířské skupiny. Brickset je eviduje pod názvy Horse Knights a Serpent Knights (31168), Griffin Knights a Kraken Warriors (21358 a sety BrickLink Designer Program). Oficiální příběh LEGO k nim zatím nedoložil.",
-  heraldry:"Kůň, had, gryf a krakatice jako erbovní zvířata – podle názvů.",
-  chars:["Pojmenované postavy zatím nedoloženy."],
-  rel:[["Horse Knights a Serpent Knights se potkávají v 31168 Medieval Horse Knight Castle; povaha vztahu není doložena.","unc"],["Griffin Knights a Kraken Warriors v 21358 a BDP 910070 Sleepy Dragon Inn (2027).","unc"]],
-  hist:["2025: 31168 Medieval Horse Knight Castle (Creator 3 v 1, designér Jonathan Robson).","2025: 21358 Minifigure Vending Machine (LEGO Ideas) s figurkami Griffin Knights a Kraken Warriors.","2026: BDP 910062 Alchemist's Shop a 910064 Dustmark Keep (Kraken Warriors)."],
+ {id:"horse-knights", en:"Horse Knights", cz:"Koňští rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#f2f2f2"],p:"plain",b:"#1f4f9a",c:"#d7a521"},
+  intro:"Nejnovější královská frakce, představená v roce 2025 v setu Creator 3 v 1 31168 Medieval Horse Knight Castle. Rytíři v bílých pláštích s modro-zlatým erbem s koněm mají vlastního krále, šampiona, kopiníka a lučištníka. Podle německého webu Promobricks přináší vlna Creator 2025 hrad „hned se dvěma novými frakcemi“. Název Horse Knights používá katalog BrickLink; jestli ho používá i LEGO, není ověřené.",
+  heraldry:"Bílý plášť s modrým a zlatým štítem s koněm, stříbrná kroužková zbroj, opasek s motivem podkov. Král nosí modrý plášť a zlatou korunu.",
+  chars:["Horse Knight King – král s korunou a modrým pláštěm","Horse Knight Champion – šampion se špičatým hledím a červeným chocholem","Kopiník a lučištník (s modrou kápí)"],
+  rel:[["V setu 31168 se potkávají s jediným rytířem Serpent Knights; set má turnajové kolbiště a tribunu, takže jde spíš o soupeře v turnaji než o válku. Výklad, ne oficiální příběh.","unc"],["Objevují se spolu s Griffin Knights a Kraken Warriors v BDP 910062 Alchemist's Shop a 910070 Sleepy Dragon Inn.","off"]],
+  hist:["2025: debut v 31168 Medieval Horse Knight Castle (designér Jonathan Robson).","2026: dva koňští rytíři v BDP 910062 Alchemist's Shop.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
   sets:[],
   tributes:[]
- }
+ },
+ {id:"serpent-knights", en:"Serpent Knights", cz:"Hadí rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#16181b"],p:"plain",b:"#5b2a6e",c:"#c9ced4"},
+  intro:"Temný rytíř v černé zbroji s fialovými pruhy, který v setu 31168 vystupuje jako jediný zástupce své frakce. Recenzenti ho popisují jako „hosta“ mezi koňskými rytíři. Hadí motiv na figurce vytištěný není, jméno pochází z katalogu BrickLink.",
+  heraldry:"Černá uzavřená přilba se žlutým trojitým chocholem, černý plášť, černý waffenrock s tmavě fialovými pruhy a stříbrnými kosočtverci.",
+  chars:["Serpent Knight – jediná figurka frakce (31168)"],
+  rel:[["Soupeř Horse Knights v turnaji v 31168 – výklad podle obsahu setu.","unc"]],
+  hist:["2025: jediný výskyt v 31168 Medieval Horse Knight Castle."],
+  sets:[],
+  tributes:[]
+ },
+ {id:"griffin-knights", en:"Griffin Knights", cz:"Gryfí rytíři", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#7a1f24"],p:"plain",b:"#d7a521",c:"#e8e8e8"},
+  intro:"Rytíři ve stříbrné zbroji přes tmavě červené roucho se štítem s gryfem. Poprvé se objevili v LEGO Ideas 21358 Minifigure Vending Machine (2025). Podle recenze na Brickset vybrali tuto frakci i Kraken Warriors fanoušci v anketě LEGO Ideas. Dále se vracejí v sadách BrickLink Designer Programu.",
+  heraldry:"Bílo-stříbrný gryf na tmavě červeném poli se zlatým lemem; stříbrná zbroj, tmavě červené rukávy, zlaté rukavice.",
+  chars:["Griffin Knight – muž a žena (21358)","Griffin Knight s ramenním plátem (910062)"],
+  rel:[["Vznikli spolu s Kraken Warriors (21358); oficiální vztah obou frakcí zatím nebyl popsán.","unc"],["Společně s Horse Knights a Kraken Warriors v 910062 a 910070.","off"]],
+  hist:["2025: debut v 21358 Minifigure Vending Machine (LEGO Ideas č. 66).","2026: BDP 910062 Alchemist's Shop.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
+  sets:[],
+  tributes:[]
+ },
+ {id:"kraken-warriors", en:"Kraken Warriors", cz:"Válečníci krakena", years:"2025–", from:2025, to:2026, era:"n",
+  sh:{f:["#1f4a2a"],p:"plain",b:"#1d6f73",c:"#c5d34a"},
+  intro:"Námořní nájezdníci v tmavě zelené a tyrkysové s krakenem na hrudi a na kulatých štítech. Debutovali v 21358 Minifigure Vending Machine (2025) a od té doby jsou nejčastější novou frakcí: objevují se ve třech sadách BrickLink Designer Programu. V jednom z nich se figurka jmenuje Kraken Bandit, což naznačuje lapkovskou povahu.",
+  heraldry:"Žlutozelený kraken na tmavě zeleném hrudním plátu a v tmavě tyrkysovém kruhu na štítu; hnědá přilba s lícnicemi, tmavě zelený šátek.",
+  chars:["Kraken Warrior – muž s páskou přes oko a žena (21358)","Kraken Bandit (910062)"],
+  rel:[["Vznikli spolu s Griffin Knights (21358); oficiální vztah zatím nebyl popsán.","unc"],["Nájezdnický charakter (Kraken Bandit, páska přes oko) – výklad podle figurek.","fan"]],
+  hist:["2025: debut v 21358 Minifigure Vending Machine.","2026: BDP 910062 Alchemist's Shop a 910064 Dustmark Keep.","2027: oznámeni v BDP 910070 Sleepy Dragon Inn."],
+  sets:[],
+  tributes:[]
+ },
 ];
 
-// Moderní a pamětní sety (2016–2027) se stavem k 29. 10. 2026 podle Brickset
-// st: on = v prodeji na LEGO.com, off = vyřazeno, lim = limitovaná/jiný kanál
+// Novodobé a pamětní sety. y = rok uvedení, to = poslední rok prodeje (null = stále v prodeji)
+// st: on = v prodeji na LEGO.com, off = vyřazeno, lim = jen jiný kanál, soon = oznámeno
 const M = [
- {n:"10305",name:"Lion Knights' Castle",y:2022,pcs:4514,line:"Icons",f:["crusaders","black-falcons","forestmen","dragon-masters","klasicky-hrad"],st:"off",note:"Vyřazeno 31. 12. 2025; 90. výročí LEGO"},
- {n:"10332",name:"Medieval Town Square",y:2024,pcs:3304,line:"Icons",f:["crusaders","wolfpack","fantasy-era"],st:"off",note:"Vyřazeno 31. 12. 2025"},
- {n:"21325",name:"Medieval Blacksmith",y:2021,pcs:2164,line:"Ideas",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2023"},
- {n:"21343",name:"Viking Village",y:2023,pcs:2103,line:"Ideas",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2025"},
- {n:"21348",name:"Dungeons & Dragons: Red Dragon's Tale",y:2024,pcs:3745,line:"Ideas",f:[],st:"off",note:"Fantasy, mimo Castle; vyřazeno 31. 7. 2026"},
- {n:"21358",url:"https://www.lego.com/cs-cz/product/minifigure-vending-machine-21358",name:"Minifigure Vending Machine",y:2025,pcs:1343,line:"Ideas",f:["nove-frakce"],st:"on",note:"16 figurek napříč historií LEGO vč. Griffin Knights a Kraken Warriors"},
- {n:"31120",name:"Medieval Castle",y:2021,pcs:1426,line:"Creator 3 v 1",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2024"},
- {n:"31132",name:"Viking Ship and the Midgard Serpent",y:2022,pcs:1192,line:"Creator 3 v 1",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2023"},
- {n:"31161",url:"https://www.lego.com/cs-cz/product/medieval-dragon-31161",name:"Medieval Dragon",y:2025,pcs:715,line:"Creator 3 v 1",f:[],st:"on",note:"Středověký drak, bez frakce"},
- {n:"31168",url:"https://www.lego.com/cs-cz/product/medieval-horse-knight-castle-31168",name:"Medieval Horse Knight Castle",y:2025,pcs:1371,line:"Creator 3 v 1",f:["nove-frakce"],st:"on",note:"6 minifigurek; 119,99 € (Brickset)"},
- {n:"BL19001",name:"Löwenstein Castle",y:2019,pcs:2015,line:"BrickLink AFOL pilot",f:[],st:"off",note:"Autor Raziel_Regulus; limitovaná edice"},
- {n:"910001",name:"Castle in the Forest",y:2021,pcs:1957,line:"BrickLink Designer Program",f:["black-falcons","forestmen"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910029",name:"Mountain Fortress",y:2024,pcs:3995,line:"BrickLink DP – série 1",f:["black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910043",name:"Forest Stronghold",y:2025,pcs:3395,line:"BrickLink DP – série 3",f:["forestmen","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910045",name:"Siege Encampment",y:2025,pcs:2598,line:"BrickLink DP – série 4",f:["crusaders","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910047",name:"Medieval Seaside Market",y:2025,pcs:2560,line:"BrickLink DP – série 4",f:["crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910048",name:"Riverside Scholars",y:2025,pcs:2769,line:"BrickLink DP – série 4",f:[],st:"off",note:"Středověk bez frakce"},
- {n:"910057",name:"Outlaw Forest Den",y:2025,pcs:2618,line:"BrickLink DP – série 6",f:["wolfpack","crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
- {n:"910062",name:"Alchemist's Shop",y:2026,pcs:2319,line:"BrickLink DP – série 7",f:["nove-frakce"],st:"lim",note:"Prodej na BrickLink (Brickset: 1. 7.–31. 12. 2026), ne na lego.cz"},
- {n:"910064",name:"Dustmark Keep",y:2026,pcs:3960,line:"BrickLink DP – série 8",f:["nove-frakce"],st:"lim",note:"BrickLink, termín ověřte"},
- {n:"910070",name:"Sleepy Dragon Inn",y:2027,pcs:3121,line:"BrickLink DP – série 9",f:["nove-frakce"],st:"soon",note:"Oznámeno na 2027; Griffin Knights, Horse Knights, Kraken Warriors"},
- {n:"40567",name:"Forest Hideout",y:2022,pcs:258,line:"Dárek k nákupu",f:["forestmen"],st:"off",note:"Remake 6054; 90. výročí"},
- {n:"40601",name:"Majisto's Magical Workshop",y:2023,pcs:365,line:"Dárek k nákupu",f:["dragon-masters"],st:"off",note:"Remake 6048; znovu 9/2024"},
- {n:"40912",name:"Sea Serpent",y:2026,pcs:241,line:"Dárek k nákupu (Ideas)",f:["black-knights"],st:"off",note:"Insiders Days 7/2026; remake 6057"},
- {n:"40952",name:"LEGOLAND Castle",y:2026,pcs:613,line:"Jen v parcích LEGOLAND",f:[],st:"lim",note:"Prodej pouze v LEGOLANDu"},
- {n:"71025-3",name:"Minifigurky série 19 – Fright Knight",y:2019,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
- {n:"71034-11",name:"Minifigurky série 23 – Knight of the Yellow Castle",y:2022,pcs:null,line:"Sběratelské minifigurky",f:["klasicky-hrad"],st:"off",note:""},
- {n:"71037-5",name:"Minifigurky série 24 – Falconer",y:2023,pcs:null,line:"Sběratelské minifigurky",f:["black-falcons"],st:"off",note:""},
- {n:"71045-3",name:"Minifigurky série 25 – Vampire Knight",y:2024,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
- {n:"71048-2",name:"Minifigurky série 27 – Wolfpack Beastmaster",y:2025,pcs:null,line:"Sběratelské minifigurky",f:["wolfpack"],st:"off",note:"Brickset: 1. 1.–30. 4. 2025"}
+ {n:"31168",url:"https://www.lego.com/cs-cz/product/medieval-horse-knight-castle-31168",name:"Medieval Horse Knight Castle",y:2025,to:null,pcs:1371,mf:6,line:"Creator 3 v 1",f:["horse-knights","serpent-knights"],st:"on",note:"119,99 € (Brickset)"},
+ {n:"21358",url:"https://www.lego.com/cs-cz/product/minifigure-vending-machine-21358",name:"Minifigure Vending Machine",y:2025,to:null,pcs:1343,mf:16,line:"Ideas",f:["griffin-knights","kraken-warriors"],st:"on",note:"16 figurek napříč historií LEGO"},
+ {n:"31161",url:"https://www.lego.com/cs-cz/product/medieval-dragon-31161",name:"Medieval Dragon",y:2025,to:null,pcs:715,line:"Creator 3 v 1",f:[],st:"on",note:"Středověký drak, bez frakce"},
+ {n:"910070",name:"Sleepy Dragon Inn",y:2027,to:2027,pcs:3121,line:"BrickLink DP – série 9",f:["griffin-knights","horse-knights","kraken-warriors"],st:"soon",note:"Předobjednávky 6.–12. 10. 2026, dodání od března 2027"},
+ {n:"910064",name:"Dustmark Keep",y:2026,to:2026,pcs:3960,line:"BrickLink DP – série 8",f:["kraken-warriors"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910062",name:"Alchemist's Shop",y:2026,to:2026,pcs:2319,mf:9,line:"BrickLink DP – série 7",f:["kraken-warriors","griffin-knights","horse-knights"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"40912",name:"Sea Serpent",y:2026,to:2026,pcs:241,line:"Dárek k nákupu (Ideas)",f:["black-knights"],st:"off",note:"Insiders Days 7/2026; remake 6057"},
+ {n:"40952",name:"LEGOLAND Castle",y:2026,to:null,pcs:613,line:"Jen v parcích LEGOLAND",f:[],st:"lim",note:"Prodej pouze v LEGOLANDu"},
+ {n:"910057",name:"Outlaw Forest Den",y:2025,to:2025,pcs:2618,mf:10,line:"BrickLink DP – série 6",f:["wolfpack","crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910045",name:"Siege Encampment",y:2025,to:2025,pcs:2598,mf:18,line:"BrickLink DP – série 4",f:["crusaders","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910047",name:"Medieval Seaside Market",y:2025,to:2025,pcs:2560,mf:9,line:"BrickLink DP – série 4",f:["crusaders"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"910048",name:"Riverside Scholars",y:2025,to:2025,pcs:2769,line:"BrickLink DP – série 4",f:[],st:"off",note:"Středověk bez frakce"},
+ {n:"910043",name:"Forest Stronghold",y:2025,to:2025,pcs:3395,mf:13,line:"BrickLink DP – série 3",f:["forestmen","black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71048-2",name:"Minifigurky série 27 – Wolfpack Beastmaster",y:2025,to:2025,pcs:null,line:"Sběratelské minifigurky",f:["wolfpack"],st:"off",note:""},
+ {n:"10332",name:"Medieval Town Square",y:2024,to:2025,pcs:3304,mf:8,line:"Icons",f:["crusaders","wolfpack","fantasy-era"],st:"off",note:"Vyřazeno 31. 12. 2025"},
+ {n:"910029",name:"Mountain Fortress",y:2024,to:2024,pcs:3995,mf:9,line:"BrickLink DP – série 1",f:["black-falcons"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71045-3",name:"Minifigurky série 25 – Vampire Knight",y:2024,to:2024,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
+ {n:"21343",name:"Viking Village",y:2023,to:2025,pcs:2103,line:"Ideas",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2025"},
+ {n:"40601",name:"Majisto's Magical Workshop",y:2023,to:2024,pcs:365,mf:2,line:"Dárek k nákupu",f:["dragon-masters"],st:"off",note:"Remake 6048; 11/2023 a 9/2024"},
+ {n:"71037-5",name:"Minifigurky série 24 – Falconer",y:2023,to:2023,pcs:null,line:"Sběratelské minifigurky",f:["black-falcons"],st:"off",note:""},
+ {n:"10305",name:"Lion Knights' Castle",y:2022,to:2025,pcs:4514,mf:22,line:"Icons",f:["crusaders","black-falcons","forestmen","dragon-masters","klasicky-hrad"],st:"off",note:"Vyřazeno 31. 12. 2025; 90. výročí LEGO"},
+ {n:"40567",name:"Forest Hideout",y:2022,to:2022,pcs:258,mf:2,line:"Dárek k nákupu",f:["forestmen"],st:"off",note:"Remake 6054; 90. výročí"},
+ {n:"31132",name:"Viking Ship and the Midgard Serpent",y:2022,to:2023,pcs:1192,line:"Creator 3 v 1",f:["vikingove"],st:"off",note:"Vyřazeno 31. 12. 2023"},
+ {n:"71034-11",name:"Minifigurky série 23 – Knight of the Yellow Castle",y:2022,to:2022,pcs:null,line:"Sběratelské minifigurky",f:["klasicky-hrad"],st:"off",note:""},
+ {n:"21325",name:"Medieval Blacksmith",y:2021,to:2023,pcs:2164,mf:4,line:"Ideas",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2023"},
+ {n:"31120",name:"Medieval Castle",y:2021,to:2024,pcs:1426,mf:4,line:"Creator 3 v 1",f:["black-falcons"],st:"off",note:"Vyřazeno 31. 12. 2024"},
+ {n:"910001",name:"Castle in the Forest",y:2021,to:2022,pcs:1957,mf:6,line:"BrickLink Designer Program",f:["black-falcons","forestmen"],st:"off",note:"Limitovaná edice, vyprodáno"},
+ {n:"71025-3",name:"Minifigurky série 19 – Fright Knight",y:2019,to:2019,pcs:null,line:"Sběratelské minifigurky",f:["fright-knights"],st:"off",note:""},
+ {n:"BL19001",name:"Löwenstein Castle",y:2019,to:2019,pcs:2015,line:"BrickLink AFOL pilot",f:[],st:"off",note:"Autor Raziel_Regulus; limitovaná edice"}
 ];
+// Starší reedice a pocty (před rokem 2016) – období prodeje pro časovou osu
+const REISSUE = {"10000":[2001,2001],"10039":[2002,2003],"10176":[2006,2007],"8683-14":[2010,2010]};
 // Původní minifigurky s erbem frakce (ID BrickLink/Brickset, ověřeno na brickset.com/minifigs)
 const MF = {
  "klasicky-hrad":[["cas002","Rytíř se štítem červeno-šedým"],["cas088s","Rytíř žlutého hradu (s nálepkami)"]],
@@ -421,12 +466,80 @@ const MF = {
  "fantasy-era":[["cas366","Korunní rytíř"],["cas330","Kostlivec válečník"]],
  "kingdoms":[["cas445","Lví rytíř"],["cas455","Dračí rytíř"]],
  "castle-2013":[["cas516","Králův rytíř s korunou"],["cas522","Dračí rytíř s dračím štítem"]],
- "nove-frakce":[["cas592","Horse Knight – král"],["cas593","Serpent Knight"],["idea232","Griffin Knight"],["idea229","Kraken Warrior"]]
+ "horse-knights":[["cas592","Horse Knight – král"],["cas590","Horse Knight – šampion"],["cas591","Horse Knight – kopiník"],["bdp355","Horse Knight (910062)"]],
+ "serpent-knights":[["cas593","Serpent Knight"]],
+ "griffin-knights":[["idea232","Griffin Knight – muž"],["idea236","Griffin Knight – žena"],["bdp353","Griffin Knight (910062)"]],
+ "kraken-warriors":[["idea229","Kraken Warrior – muž"],["idea234","Kraken Warrior – žena"],["bdp351","Kraken Bandit (910062)"]]
 };
 const mfUrl = id => id.startsWith("http")?id:`https://img.bricklink.com/ItemImage/MN/0/${id}.png`;
 const sid = n => /-\d+$/.test(n)?n:n.split("–")[0]+"-1";           // Brickset ID
 const disp = n => n.replace(/-\d+$/,"");                             // zobrazované číslo
 const setImg = n => `https://images.brickset.com/sets/images/${sid(n)}.jpg`;
+// Vlastní popisy důležitých setů (fakta: Brickset, recenze Brickset, Wikipedia, Brickipedia, TheBrickFan)
+const SETDESC = {
+ "31168":{cs:"Hrad Creatoru 3 v 1 od designéra Jonathana Robsona, se kterým přišla nová frakce Horse Knights. Kamenná strážní věž, obytná část v tudorovském stylu s modrou střechou, padací mříž, hodovní síň s trůnem a lustrem, královská ložnice, krb, který slouží i jako kovárna s kovadlinou, stáj a skrýš s pokladem pod schody. Šest minifigurek: čtyři koňští rytíři včetně krále a šampiona a jeden Serpent Knight jako soupeř na turnaji. Koně jsou postavení z kostek. Z dílků jdou postavit i dva další modely.",
+          en:"A Creator 3in1 castle by designer Jonathan Robson that introduced the new Horse Knights faction. A stone watchtower, Tudor-style living quarters with a blue roof, a portcullis, a banquet hall with a throne and chandelier, the king's bedroom, a fireplace that doubles as a forge with an anvil, a stable and a hidden treasure spot under the stairs. Six minifigures: Horse Knights including the king and a champion, plus a lone Serpent Knight as a tournament rival. The horses are brick-built, and the parts make two more models."},
+ "21358":{cs:"LEGO Ideas č. 66 podle fanouškovského návrhu „Minifigure Prize Machine“. Funkční automat: vhodíte jednu ze dvou potištěných mincí, otočíte klikou a vypadne kapsle s figurkou, mince se vrátí. Šestnáct figurek v osmi motivech připomíná historii LEGO; za hradní řadu přináší dvě úplně nové frakce, Griffin Knights a Kraken Warriors, každou ve dvou figurkách se štítem.",
+          en:"LEGO Ideas No. 66, based on the fan project “Minifigure Prize Machine”. A working vending machine: insert one of two printed coins, turn the handle and a capsule with a figure drops out while the coin comes back. Sixteen figures in eight designs nod to LEGO history; for the castle line it brings two brand-new factions, Griffin Knights and Kraken Warriors, each as two figures with shields."},
+ "910070":{cs:"Hostinec z 9. série BrickLink Designer Programu od autora MarinBD. Otočením polena na boku se v krbu opéká kuře, zatímco hosté tančí a na pódiu hraje bard. Set je navržený tak, aby stál vedle 21325 Medieval Blacksmith a 910062 Alchemist's Shop. Hostům dělají společnost Griffin Knights, Horse Knights a Kraken Warriors.",
+           en:"A tavern from BrickLink Designer Program Series 9 by MarinBD. Turning a log on the side roasts a chicken over the hearth while patrons dance and a bard performs on stage. It is designed to stand next to 21325 Medieval Blacksmith and 910062 Alchemist's Shop. Griffin Knights, Horse Knights and Kraken Warriors keep the guests company."},
+ "910064":{cs:"Velká pevnost z 8. série BrickLink Designer Programu (3 960 dílků) s pozorovací věží, vozem a koněm. Sídlo nájezdníků Kraken Warriors. Předobjednávky se otevřely v červnu 2026.",
+           en:"A large keep from BrickLink Designer Program Series 8 (3,960 pieces) with an observation tower, a cart and a horse. A base for the Kraken Warriors raiders. Pre-orders opened in June 2026."},
+ "910062":{cs:"Alchymistova dílna od autora Shram ze 7. série BrickLink Designer Programu, plně zafinancovaná za dva dny. Laboratoř, kašna, zahrada a váhy. Mezi devíti figurkami jsou Kraken Bandit, Griffin Knight a dva Horse Knights.",
+           en:"An alchemist's shop by Shram from BrickLink Designer Program Series 7, fully funded within two days. A laboratory, a fountain, a garden and scales. The nine figures include a Kraken Bandit, a Griffin Knight and two Horse Knights."},
+ "40912":{cs:"Dárek k nákupu během Insiders Days v červenci 2026. Nová verze lodi 6057 Sea Serpent (1992) podle vítězného návrhu soutěže „A Twist of Nostalgia“ (HallowedBrick02), set dotáhla designérka Mel Caddick. Asi 20 cm dlouhá loď s látkovou plachtou, vesly, štíty po stranách a poklopem do podpalubí; dva rytíři se štíty s wyvernou.",
+          en:"A gift with purchase during Insiders Days in July 2026. A new take on the 1992 ship 6057 Sea Serpent, based on the winning entry of the “A Twist of Nostalgia” contest (HallowedBrick02) and finished by designer Mel Caddick. An approx. 20 cm ship with a fabric sail, oars, side shields and a below-deck hatch; two knights with wyvern shields."},
+ "910057":{cs:"Doupě psanců od autora BrickHammer (6. série BrickLink Designer Programu, 2025): jeskyně, padací dveře, padací mříž, pozorovatelna a vlk. Wolfpack tu po letech znovu dostal vlastní úkryt, Lion Knights hlídkují.",
+           en:"An outlaw den by BrickHammer (BrickLink Designer Program Series 6, 2025): a cave, a trapdoor, a portcullis, a lookout and a wolf. The Wolfpack get their own hideout again after decades, with Lion Knights on patrol."},
+ "910045":{cs:"Obléhací tábor od autora SleeplessNight k 25. výročí BrickLinku: obléhací věž, katapult, stany, kovář a pozorovací věž. S 18 minifigurkami jde o největší armádu v jednom setu této doby – Lion Knights proti Black Falcons.",
+           en:"A siege camp by SleeplessNight for BrickLink's 25th anniversary: a siege tower, a catapult, tents, a blacksmith and an observation tower. With 18 minifigures it is the biggest army in a single set of the era – Lion Knights against Black Falcons."},
+ "910047":{cs:"Přímořský trh od autora Bricks_fan_uy (4. série BrickLink Designer Programu): koncové věže, tržiště, přístav s jeřábem, hradní část s úřadem výběrčího daní, vinárna s vozíkem a loď. Hlídají ho Lion Knights.",
+           en:"A seaside market by Bricks_fan_uy (BrickLink Designer Program Series 4): end towers, a market, a harbour with a crane, a castle section with the tax collector's office, a winery with a cart and a boat. Guarded by Lion Knights."},
+ "910043":{cs:"Lesní pevnost (3. série BrickLink Designer Programu) ze dvou polovin spojených mostem a lanovkou mezi věžemi. Sklep s přístupem k potoku, plánovací stůl, pokladnice, spíž a ložnice. Třináct figurek: devět Forestmen, tři Black Falcons a kostlivec.",
+           en:"A forest stronghold (BrickLink Designer Program Series 3) in two halves joined by a bridge and a zip line between the towers. A cellar with access to the stream, a planning table, a treasure room, a pantry and a bedroom. Thirteen figures: nine Forestmen, three Black Falcons and a skeleton."},
+ "910029":{cs:"Horská pevnost od autora SleeplessNight, první série BrickLink Designer Programu (2024), vyprodaná krátce po otevření předobjednávek. Padací most, padací mříž, žalář, stáj a mikromodel; devět figurek s Black Falcons.",
+           en:"A mountain fortress by SleeplessNight from BrickLink Designer Program Series 1 (2024), sold out shortly after pre-orders opened. A drawbridge, a portcullis, a dungeon, a stable and a microscale model; nine figures with Black Falcons."},
+ "10332":{cs:"Středověké náměstí (designéři Henrik Rubin Saaby a Rok Žgalin Kobe), nová verze vesnice 10193 a doplněk k 10305. Tesařská dílna s jeřábem, sýrárna s kozí ohradou, tkalcovská chalupa se stavem, na kterém je tapisérie se starými hradními sety, třípatrový hostinec Broken Axe s tajnou zásuvkou na mince, dílna malíře štítů a strážní věž. Osm figurek včetně rytíře Lion Knights a návratu frakce Wolfpack. Unikátní tmavě šedá koza.",
+          en:"A medieval town square (designers Henrik Rubin Saaby and Rok Žgalin Kobe), a new version of village 10193 and a companion to 10305. A carpenter's workshop with a crane, a cheesemaker's shop with a goat pen, a weaver's cottage whose loom shows a tapestry of early castle sets, the three-storey Broken Axe Inn with a secret coin drawer, a shield painter's workshop and a guard tower. Eight figures including a Lion Knight and the return of the Wolfpack. A unique dark grey goat."},
+ "10305":{cs:"Vlajková loď návratu klasiky, vydaná k 90. výročí LEGO jako nová interpretace hradu 6080 (designéři Milan Madge, Mike Psiaki a Carl Merriam). Dvě poloviny se dají otevřít na téměř 70 cm. Uvnitř stáj, zbrojnice, dvě kobky, kuchyně s mlýnem poháněným vodním kolem, hodovní síň, královnina komnata s miniaturou hradu 375 a pod hradem jeskynní úkryt Forestmen. Padací most na protizávaží, padací mříž, střílny na kameny, padací dveře a tajný vchod za stromem. 22 minifigurek: Lion Knights s královnou, Black Falcons, Forestmen i čaroděj Majisto. Krabice kopíruje styl LEGOLAND Castle z 80. let.",
+          en:"The flagship of the classics' return, released for LEGO's 90th anniversary as a reimagining of castle 6080 (designers Milan Madge, Mike Psiaki and Carl Merriam). Its two halves open to almost 70 cm. Inside: a stable, an armoury, two dungeon cells, a kitchen with a mill driven by a water wheel, a dining hall, the queen's chamber with a miniature 375 castle, and a Forestmen cave hideout beneath the castle. A counterweight drawbridge, a portcullis, murder holes for dropping stones, trapdoors and a secret entrance behind a tree. 22 minifigures: Lion Knights with their queen, Black Falcons, Forestmen and the wizard Majisto. The box copies the 1980s LEGOLAND Castle style."},
+ "40567":{cs:"Dárek k nákupu k 90. výročí LEGO (2022), malá nová verze stromového úkrytu 6054 se zachovanou černou věží a modrou střechou. Otevírá se na pantech, po žebříku se leze k sudu se zlatem a nechybí terč na střelbu. Dva Forestmen.",
+          en:"A gift with purchase for LEGO's 90th anniversary (2022), a small new version of the 6054 tree hideout that keeps its black tower and blue roof. It hinges open, a ladder leads up to a barrel of gold, and there is an archery target. Two Forestmen."},
+ "40601":{cs:"Dárek k nákupu z listopadu 2023 (znovu v září 2024), nová verze dílny 6048 z roku 1993 se strmou červenou střechou s kopími. Otevírá se zezadu. Majisto a Dragon Knight s látkovým waffenrockem.",
+          en:"A gift with purchase from November 2023 (again in September 2024), a new version of the 1993 workshop 6048 with its steep red roof and spears. It opens at the back. Majisto and a Dragon Knight with a fabric tabard."},
+ "21325":{cs:"LEGO Ideas č. 33 podle návrhu fanouška Clemense Fiedlera. Třípatrová kovárna, jejíž patra se dají sundat: dole kamenná dílna s kovadlinami a výhní, která se po stisku měchu rozsvítí, nad ní hrázděná kuchyně a jídelna, v podkroví ložnice; střecha s mechem. Venku jabloň se studnou, terč, dýně a kůň s vozem. Dva nově potištění rytíři Black Falcons.",
+          en:"LEGO Ideas No. 33, based on a design by fan Clemens Fiedler. A three-storey blacksmith whose floors lift apart: a stone workshop with anvils and a forge that lights up when you press the bellows, a half-timbered kitchen and dining room above, a bedroom in the attic and a mossy roof. Outside: an apple tree with a well, an archery target, pumpkins and a horse and cart. Two newly printed Black Falcon knights."},
+ "31120":{cs:"Středověký hrad Creatoru 3 v 1 (Jonathan Robson, Morten Rauff): brána, kovárna, vodní mlýn, vězení a královská komnata, zadní strana se otevírá. Ohnivý drak z kostek, sokol, slepice. Hlídají ho rytíři Black Falcons. Z dílků jde postavit i věž s trebuchetem nebo tržiště s větrným mlýnem; tři kusy se dají spojit do velkého hradu.",
+          en:"A Creator 3in1 medieval castle (Jonathan Robson, Morten Rauff): a gate, a smithy, a water mill, a prison and the king's room, with a back that opens. A brick-built fire-breathing dragon, a falcon and chickens. Guarded by Black Falcon knights. The parts also build a tower with a trebuchet or a marketplace with a windmill; three copies combine into one big castle."},
+ "910001":{cs:"Hrad v lese z prvního kola BrickLink Designer Programu (2021): jeskyně, vor, padací dveře, padací mříž, střelnice, kuchyně a ložnice. Šest figurek – Forestmen a Black Falcons.",
+           en:"A castle in the forest from the first BrickLink Designer Program round (2021): a cave, a raft, a trapdoor, a portcullis, target practice, a kitchen and a bedroom. Six figures – Forestmen and Black Falcons."},
+ "10223":{cs:"Závěr řady Kingdoms: hradní zeď s bránou a šesti místnostmi, hrázděný dům, královská lóže, dva stany a turnajová bariéra, celkem asi 51 cm. Devět figurek včetně krále, královny, princezny a rytíře se sokolem na štítu. Dva kusy se dají spojit.",
+          en:"The finale of the Kingdoms line: a castle wall with a gate and six rooms, a half-timbered house, a royal box, two tents and a jousting barrier, about 51 cm wide. Nine figures including the king, queen, princess and a knight with a falcon on his shield. Two copies can be combined."},
+ "10193":{cs:"Středověká tržní vesnice: dvě patrové budovy na pantech – hostinec a kovárna, kde vodní kolo pohání kladivo. Tržní stánek, strom a vůz se senem tažený koněm, dvě krávy. Osm figurek s Korunními rytíři. Předloha pro 10332 z roku 2024.",
+          en:"A medieval market village: two hinged two-storey buildings – a tavern and a smithy where a water wheel drives a hammer. A market stall, a tree, a horse-drawn hay cart and two cows. Eight figures with Crown Knights. The basis for 10332 in 2024."},
+ "10176":{cs:"Hrad pro dospělé fanoušky od Henrika Rubina Saabyho (2006), pocta hradům 6090 Royal Knights a 6091 Knights' Kingdom. Žalář, katapult, kovárna, trůn a vyvýšená základní deska; dvanáct figurek včetně kostlivců.",
+          en:"A castle for adult fans by Henrik Rubin Saaby (2006), a tribute to castles 6090 (Royal Knights) and 6091 (Knights' Kingdom). A dungeon, a catapult, a blacksmith, a throne and a raised baseplate; twelve figures including skeletons."},
+ "10039":{cs:"Reedice hradu 6074 v řadě LEGO Legends (2002–2003): 426 dílků, šest figurek a padací most, prakticky shodná s originálem z roku 1986.",
+          en:"A reissue of castle 6074 in the LEGO Legends line (2002–2003): 426 pieces, six figures and a drawbridge, practically identical to the 1986 original."},
+ "6097":{cs:"Hlavní hrad Fright Knights s Basilem the Bat Lord a čarodějnicí Willou: padací dveře, vězení, trůn a drak. 601 dílků, osm figurek.",
+         en:"The Fright Knights' headquarters with Basil the Bat Lord and Willa the Witch: a trapdoor, a jail, a throne and a dragon. 601 pieces, eight figures."},
+ "6090":{cs:"Největší set Royal Knights: katapult, padací dveře, trůn a kostlivci v podzemí. 764 dílků, jedenáct figurek. Autor Niels Milan Pedersen.",
+         en:"The largest Royal Knights set: a catapult, a trapdoor, a throne and skeletons underground. 764 pieces, eleven figures. Designed by Niels Milan Pedersen."},
+ "6082":{cs:"Pevnost Dragon Masters s čarodějem Majistem a drakem: padací dveře a žalář. 397 dílků, šest figurek. Autor Daniel August Krentz.",
+         en:"The Dragon Masters' fortress with the wizard Majisto and a dragon: a trapdoor and a dungeon. 397 pieces, six figures. Designed by Daniel August Krentz."},
+ "6086":{cs:"Černý hrad Black Knights na vyvýšené základní desce: padací most, padací mříž, žalář se zajatcem z Wolfpack a studna. 588 dílků, dvanáct figurek. Autor Niels Milan Pedersen.",
+         en:"The Black Knights' black castle on a raised baseplate: a drawbridge, a portcullis, a dungeon with a Wolfpack prisoner and a well. 588 pieces, twelve figures. Designed by Niels Milan Pedersen."},
+ "6054":{cs:"Stromový úkryt Forestmen s terčem na střelbu, černou věží a modrou střechou. 201 dílků, dvě figurky. V roce 2022 se vrátil jako dárek 40567.",
+         en:"The Forestmen's tree hideout with an archery target, a black tower and a blue roof. 201 pieces, two figures. It returned in 2022 as gift 40567."},
+ "6074":{cs:"Pevnost Black Falcons, nástupce hradu 6073: sklopné hradby a padací most. 435 dílků, šest figurek. Autor Daniel August Krentz. V roce 2002 vyšla znovu jako 10039.",
+         en:"The Black Falcons' fortress, successor to castle 6073: hinged walls and a drawbridge. 435 pieces, six figures. Designed by Daniel August Krentz. Reissued in 2002 as 10039."},
+ "6073":{cs:"První hrad Black Falcons (1984): sklopné hradby, padací most a žalář. 408 dílků, šest figurek. Autor Daniel August Krentz.",
+         en:"The first Black Falcons castle (1984): hinged walls, a drawbridge and a dungeon. 408 pieces, six figures. Designed by Daniel August Krentz."},
+ "6080":{cs:"Královský hrad Lion Knights z roku 1984 s padacím mostem, padací mříží a žalářem na velké základní desce. 664 dílků, dvanáct figurek. Autor Niels Milan Pedersen. Předloha pro 10305 Lion Knights' Castle.",
+         en:"The Lion Knights' King's Castle from 1984 with a drawbridge, a portcullis and a dungeon on a large baseplate. 664 pieces, twelve figures. Designed by Niels Milan Pedersen. The model for 10305 Lion Knights' Castle."},
+ "375-2":{cs:"Slavný žlutý hrad, první velký set řady (1978). Sklopné hradby a padací most, 767 dílků a 14 minifigurek. Autor Daniel August Krentz. Jeho miniatura je v královnině komnatě setu 10305.",
+          en:"The famous yellow castle, the line's first large set (1978). Hinged walls and a drawbridge, 767 pieces and 14 minifigures. Designed by Daniel August Krentz. A miniature of it sits in the queen's chamber of set 10305."}
+};
 
 /* ---------- ENGLISH CONTENT (overlay over the Czech data above) ---------- */
 const ERAS_EN = {c:"Classic era (1978–1999)", s:"Story era (2000–2006)", f:"Fantasy & Kingdoms (2007–2014)", n:"Nostalgia revival (2016–today)"};
@@ -533,21 +646,39 @@ const FEN = {
   chars:["The King, the Princess, the Dragon Wizard"],
   rel:["The King's Knights against the Dragon Knights."],
   hist:["2013: 70404 King's Castle (996 pieces).","2014: two battle packs (850888, 850889).","2016–2018: the futuristic NEXO Knights line (kingdom of Knighton) carried on the knight theme but is not part of Castle."]},
- "nove-frakce":{en:"New factions (2025–)",alt:"Horse Knights, Serpent Knights, Griffin Knights, Kraken Warriors",
-  intro:"Since 2025 new knight groups have been appearing. Brickset lists them as Horse Knights and Serpent Knights (31168), Griffin Knights and Kraken Warriors (21358 and BrickLink Designer Program sets). No official LEGO story has been documented for them yet.",
-  heraldry:"A horse, a serpent, a griffin and a kraken as heraldic animals – going by the names.",
-  chars:["No named characters documented yet."],
-  rel:["Horse Knights and Serpent Knights meet in 31168 Medieval Horse Knight Castle; the nature of their relationship is not documented.","Griffin Knights and Kraken Warriors in 21358 and BDP 910070 Sleepy Dragon Inn (2027)."],
-  hist:["2025: 31168 Medieval Horse Knight Castle (Creator 3in1, designer Jonathan Robson).","2025: 21358 Minifigure Vending Machine (LEGO Ideas) with Griffin Knights and Kraken Warriors figures.","2026: BDP 910062 Alchemist's Shop and 910064 Dustmark Keep (Kraken Warriors)."]}
+ "horse-knights":{alt:"The horse crest knights",
+  intro:"The newest royal faction, introduced in 2025 in the Creator 3in1 set 31168 Medieval Horse Knight Castle. Knights in white surcoats with a blue-and-gold horse crest have their own king, champion, spearman and archer. According to the German site Promobricks, the 2025 Creator wave brings a castle “with two new factions at once”. The name Horse Knights is used by the BrickLink catalogue; whether LEGO uses it too is not verified.",
+  heraldry:"A white surcoat with a blue and gold horse shield, silver chain mail, a belt with a horseshoe motif. The king wears a blue cape and a gold crown.",
+  chars:["Horse Knight King – crowned, with a blue cape","Horse Knight Champion – pointed visor and a red plume","A spearman and an archer (with a blue hood)"],
+  rel:["In 31168 they meet a single Serpent Knight; the set has a tournament ground and a spectator stand, so this looks like a tournament rivalry rather than a war. An interpretation, not an official story.","They appear with Griffin Knights and Kraken Warriors in BDP 910062 Alchemist's Shop and 910070 Sleepy Dragon Inn."],
+  hist:["2025: debut in 31168 Medieval Horse Knight Castle (designer Jonathan Robson).","2026: two Horse Knights in BDP 910062 Alchemist's Shop.","2027: announced in BDP 910070 Sleepy Dragon Inn."]},
+ "serpent-knights":{alt:"The black knight",
+  intro:"A dark knight in black armour with purple stripes, appearing in set 31168 as the only member of his faction. Reviewers describe him as a “guest” among the Horse Knights. No serpent motif is printed on the figure; the name comes from the BrickLink catalogue.",
+  heraldry:"A black closed great helm with a yellow triple plume, a black cape, a black surcoat with dark purple stripes and silver diamonds.",
+  chars:["Serpent Knight – the faction's only figure (31168)"],
+  rel:["A tournament rival of the Horse Knights in 31168 – read from the set's contents."],
+  hist:["2025: only appearance, in 31168 Medieval Horse Knight Castle."]},
+ "griffin-knights":{alt:"The griffin crest knights",
+  intro:"Knights in silver armour over dark red robes with a griffin shield. They first appeared in LEGO Ideas 21358 Minifigure Vending Machine (2025). According to a Brickset review, this faction and the Kraken Warriors were chosen by fans in a LEGO Ideas poll. They return in BrickLink Designer Program sets.",
+  heraldry:"A white-and-silver griffin on dark red with a gold border; silver armour, dark red sleeves, gold gloves.",
+  chars:["Griffin Knight – male and female (21358)","Griffin Knight with a shoulder plate (910062)"],
+  rel:["Created together with the Kraken Warriors (21358); no official relationship has been described yet.","Together with Horse Knights and Kraken Warriors in 910062 and 910070."],
+  hist:["2025: debut in 21358 Minifigure Vending Machine (LEGO Ideas No. 66).","2026: BDP 910062 Alchemist's Shop.","2027: announced in BDP 910070 Sleepy Dragon Inn."]},
+ "kraken-warriors":{alt:"Sea raiders",
+  intro:"Sea raiders in dark green and turquoise with a kraken on the chest and on round shields. They debuted in 21358 Minifigure Vending Machine (2025) and have since been the most frequent new faction, appearing in three BrickLink Designer Program sets. In one of them the figure is called Kraken Bandit, which hints at an outlaw character.",
+  heraldry:"A yellowish-green kraken on a dark green breastplate and in a dark turquoise circle on the shield; a brown helmet with cheek guards, a dark green bandana.",
+  chars:["Kraken Warrior – a man with an eye patch and a woman (21358)","Kraken Bandit (910062)"],
+  rel:["Created together with the Griffin Knights (21358); no official relationship described yet.","A raider character (Kraken Bandit, eye patch) – read from the figures."],
+  hist:["2025: debut in 21358 Minifigure Vending Machine.","2026: BDP 910062 Alchemist's Shop and 910064 Dustmark Keep.","2027: announced in BDP 910070 Sleepy Dragon Inn."]},
 };
 const NOTE_EN = {
  "10305":"Retired 31 Dec 2025; LEGO 90th anniversary","10332":"Retired 31 Dec 2025","21325":"Retired 31 Dec 2023","21343":"Retired 31 Dec 2025",
- "21348":"Fantasy, not Castle; retired 31 Jul 2026","21358":"16 figures from LEGO history incl. Griffin Knights and Kraken Warriors",
- "31120":"Retired 31 Dec 2024","31132":"Retired 31 Dec 2023","31161":"Medieval dragon, no faction","31168":"6 minifigures; €119.99 (Brickset)",
+ "21348":"Fantasy, not Castle; retired 31 Jul 2026","21358":"16 figures from LEGO history",
+ "31120":"Retired 31 Dec 2024","31132":"Retired 31 Dec 2023","31161":"Medieval dragon, no faction","31168":"€119.99 (Brickset)",
  "BL19001":"Designer Raziel_Regulus; limited edition","910001":"Limited edition, sold out","910029":"Limited edition, sold out","910043":"Limited edition, sold out",
  "910045":"Limited edition, sold out","910047":"Limited edition, sold out","910048":"Medieval, no faction","910057":"Limited edition, sold out",
- "910062":"Sold on BrickLink (Brickset: 1 Jul–31 Dec 2026), not on LEGO.com","910064":"BrickLink, check dates","910070":"Announced for 2027; Griffin Knights, Horse Knights, Kraken Warriors",
- "40567":"Remake of 6054; 90th anniversary","40601":"Remake of 6048; again 9/2024","40912":"Insiders Days 7/2026; remake of 6057","40952":"Sold only at LEGOLAND",
+ "910062":"Limited edition, sold out","910064":"Limited edition, sold out","910070":"Pre-orders 6–12 Oct 2026, shipping from March 2027",
+ "40567":"Remake of 6054; 90th anniversary","40601":"Remake of 6048; 11/2023 and 9/2024","40912":"Insiders Days 7/2026; remake of 6057","40952":"Sold only at LEGOLAND",
  "71048-2":"Brickset: 1 Jan–30 Apr 2025"
 };
 const MF_EN = {cas002:"Knight with red/grey shield",cas088s:"Yellow Castle knight (stickers)",cas112:"Crusader Lion – lion crest",cas105:"Crusader Axe – crossed axes",
@@ -558,7 +689,7 @@ const MF_EN = {cas002:"Knight with red/grey shield",cas088s:"Yellow Castle knigh
  cas056:"Shogun in armour",cas055:"Samurai",cas035:"King Leo",cas046:"Cedric the Bull",cas265:"Jayko",cas256:"Shadow Knight Vladek",
  "https://images.brickset.com/minifigs/large/vik015.jpg":"Viking warrior 1a","https://images.brickset.com/minifigs/large/vik001.jpg":"Viking warrior 1d",
  cas366:"Crown Knight",cas330:"Skeleton warrior",cas445:"Lion Knight",cas455:"Dragon Knight",cas516:"King's Knight with crown",cas522:"Dragon Knight with dragon shield",
- cas592:"Horse Knight – king",cas593:"Serpent Knight",idea232:"Griffin Knight",idea229:"Kraken Warrior"};
+ cas592:"Horse Knight – king",cas590:"Horse Knight – champion",cas591:"Horse Knight – spearman",bdp355:"Horse Knight (910062)",cas593:"Serpent Knight",idea232:"Griffin Knight – male",idea236:"Griffin Knight – female",bdp353:"Griffin Knight (910062)",idea229:"Kraken Warrior – male",idea234:"Kraken Warrior – female",bdp351:"Kraken Bandit (910062)"};
 
 /* ================== JAZYK / LANGUAGE ================== */
 // Výchozí jazyk určuje nasazená stránka (window.CASTLE_LANG); v náhledu přepíná na místě.
@@ -609,7 +740,7 @@ function shopsFor(m){
 /* ================== TEXTY UI ================== */
 const UI = {
  cs:{brand:"Hradní kronika", tagline:"Neoficiální průvodce řadou LEGO® Castle 1978–2026", title:"Hradní kronika",
-  nav:[["uvod","Úvod"],["diagram","Diagram vztahů"],["v-prodeji","Teď v prodeji"],["moderni-sety","Moderní sety"],["brzy","Již brzy"],["zdroje","Zdroje"]],
+  nav:[["uvod","Úvod"],["diagram","Diagram vztahů"],["v-prodeji","Teď v prodeji"],["nedavno-vyrazeno","Nedávno vyřazeno"],["brzy","Již brzy"],["zdroje","Zdroje"]],
   factions:"Frakce", returnNav:"Návrat klasiky",
   foot:"LEGO® je ochranná známka skupiny LEGO, která tento web nesponzoruje, neschvaluje ani nepodporuje. Fotky setů a figurek: Brickset, BrickLink.",
   affNote:"Odkazy na obchody jsou partnerské: při nákupu můžeme získat malou provizi, cena pro vás zůstává stejná.",
@@ -618,7 +749,7 @@ const UI = {
   type:{re:"Reedice",icons:"LEGO Icons",ideas:"LEGO Ideas",creator:"Creator 3 v 1",bdp:"BrickLink DP",gwp:"Dárek k nákupu",cmf:"Minifigurka"},
   retired:"Vyřazeno", soldOutTmp:"Na lego.cz dočasně vyprodáno"},
  en:{brand:"Castle Chronicle", tagline:"An unofficial guide to the LEGO® Castle theme 1978–2026", title:"Castle Chronicle",
-  nav:[["uvod","Home"],["diagram","Faction map"],["v-prodeji","On sale now"],["moderni-sety","Modern sets"],["brzy","Coming soon"],["zdroje","Sources"]],
+  nav:[["uvod","Home"],["diagram","Faction map"],["v-prodeji","On sale now"],["nedavno-vyrazeno","Recently retired"],["brzy","Coming soon"],["zdroje","Sources"]],
   factions:"Factions", returnNav:"The classics return",
   foot:"LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. Set and minifigure photos: Brickset, BrickLink.",
   affNote:"Shop links are affiliate links: we may earn a small commission on purchases at no extra cost to you.",
@@ -678,6 +809,25 @@ function mini(f,h=30){
 }
 const linkFactions = ids => ids.map(id=>`<a href="#${id}">${esc(fx(fById(id),"name"))}</a>`).join(", ");
 
+
+/* ================== ERBY – FOTKY ORIGINÁLNÍCH ŠTÍTŮ ==================
+   Číslo dílu a barva podle katalogu BrickLink (najdete v inventáři minifigurky, např. cas101a → Inventory).
+   Formát "dil/barvaID", např. "3846p45/1" (1 = White, 11 = Black, 59 = Dark Red, 80 = Dark Green, 9 = Light Gray).
+   Prázdné = zobrazí se zjednodušený kreslený štít. Když se fotka nenačte, také se použije kreslený štít. */
+const SHIELD_PARTS = {
+  "black-falcons": "3846p45/1",
+  "griffin-knights": "4972pb02/59",
+  "kraken-warriors": "75902pb35/80"
+  // "crusaders": "", "forestmen": "", "black-knights": "", "wolfpack": "", "dragon-masters": "", "royal-knights": "",
+  // "fright-knights": "", "horse-knights": "", "serpent-knights": "", ...
+};
+function emblem(f,h=26){
+  const p=SHIELD_PARTS[f.id];
+  if(!p) return shield(f.sh,h);
+  const [part,col]=p.split("/");
+  const a=`https://img.bricklink.com/ItemImage/PN/${col}/${part}.png`, b=`https://img.bricklink.com/ItemImage/PL/${part}.png`;
+  return `<span class="emb" style="height:${h}px;width:${Math.round(h*0.9)}px"><img src="${a}" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='${b}'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden>${shield(f.sh,h)}</span></span>`;
+}
 /* ================== DLAŽDICE SETU ================== */
 // o: {n,name,y,pcs,line,st,note} – pokud existuje v M, doplní se odtud (url, cena, stav)
 function tile(o, opts={}){
@@ -699,6 +849,62 @@ function tile(o, opts={}){
 const tiles = arr => arr.length?`<div class="tiles">${arr.join("")}</div>`:`<div class="empty">${t("none")}</div>`;
 
 /* ================== RÁM STRÁNKY ================== */
+
+/* ================== POŘADÍ FRAKCÍ (od nejnovějších) ================== */
+const GROUPS = [
+  {id:"now", cs:"Současné frakce (2025–)", en:"Current factions (2025–)", ids:["horse-knights","serpent-knights","griffin-knights","kraken-warriors"]},
+  {id:"back", cs:"Klasické frakce v nových setech", en:"Classic factions in new sets", ids:["crusaders","forestmen","black-falcons","wolfpack","black-knights","dragon-masters","fright-knights","klasicky-hrad"]},
+  {id:"old", cs:"Starší řady", en:"Earlier lines", ids:["castle-2013","kingdoms","fantasy-era","vikingove","knights-kingdom-2","knights-kingdom","ninja","dark-forest","royal-knights"]}
+];
+const ORDER = GROUPS.flatMap(g=>g.ids);
+F.sort((a,b)=>ORDER.indexOf(a.id)-ORDER.indexOf(b.id));
+const NOW_YEAR = 2026;
+
+// všechna období prodeje frakce: [od, do, popisek, typ] – typ "orig" = původní řada
+function salePeriods(f){
+  const out=[];
+  if(f.sets.length) out.push([f.from,f.to,f.years,"orig"]);
+  const seen=new Set();
+  for(const m of M) if(m.f.includes(f.id)&&m.st!=="soon"){ seen.add(m.n); out.push([m.y, m.to==null?NOW_YEAR:m.to, `${disp(m.n)} ${trName(m.name)}`, "new"]); }
+  for(const tr of f.tributes) if(!seen.has(tr[0])&&REISSUE[tr[0]]){ seen.add(tr[0]); out.push([REISSUE[tr[0]][0],REISSUE[tr[0]][1],`${disp(tr[0])} ${trName(tr[1])}`,"new"]); }
+  return out;
+}
+// roky jako text, sloučené do souvislých úseků: "1984–1992 · 2001 · 2022–2025"
+function yearLabel(f){
+  const ys=new Set();
+  for(const [a,b] of salePeriods(f)) for(let y=a;y<=b;y++) ys.add(y);
+  const arr=[...ys].sort((a,b)=>a-b), parts=[];
+  for(let i=0;i<arr.length;){ let j=i; while(j+1<arr.length&&arr[j+1]===arr[j]+1) j++; parts.push(arr[i]===arr[j]?`${arr[i]}`:`${arr[i]}–${arr[j]}`); i=j+1; }
+  return parts.reverse().join(" · ") || f.years;   // od nejnovějšího
+}
+// všechny sety frakce (původní, reedice, novodobé), seřazené od nejnovějšího
+function factionSets(f){
+  const map=new Map();
+  for(const s of f.sets) map.set(s[0],{n:s[0],name:s[1],y:s[2],st:"off",line:""});
+  for(const tr of f.tributes){ const m=M.find(x=>x.n===tr[0]); map.set(tr[0], m?{...m}:{n:tr[0],name:tr[1],y:tr[2],st:"off",line:t("type")[tr[3]]||""}); }
+  for(const m of M) if(m.f.includes(f.id)) map.set(m.n,{...m});
+  return [...map.values()].sort((a,b)=>b.y-a.y || String(b.n).localeCompare(String(a.n)));
+}
+const descOf = n => SETDESC[n] ? SETDESC[n][LANG] : "";
+
+// velká karta setu s popisem
+function feature(m){
+  m = Object.assign({}, M.find(x=>x.n===m.n)||{}, m);
+  const shops=shopsFor(m);
+  const primary = m.st==="on" && shops[0] ? shops[0].url(m) : bs(m.n);
+  const facts=[m.y, m.pcs?`${fmtNum(m.pcs)} ${t("pieces")}`:"", m.mf?`${m.mf} ${LANG==="cs"?"minifigurek":"minifigures"}`:""].filter(Boolean).join(" · ");
+  const fl = m.f && m.f.length ? `<span class="tnote">${linkFactions(m.f)}</span>` : "";
+  return `<article class="feat">
+    <a class="ph" href="${primary}" ${m.st==="on"?RELAFF:REL} data-n="${esc(disp(m.n))}"><img loading="lazy" src="${setImg(m.n)}" alt="${esc(trName(m.name))}" ${IMGFAIL}></a>
+    <div class="fb"><span class="tn">${esc(disp(m.n))}${m.line?` · ${esc(trLine(m.line))}`:""}</span>
+      <h3>${esc(trName(m.name))}</h3>
+      <div class="ty">${facts} ${m.st?stTxt(m.st):""}</div>
+      <p>${esc(descOf(m.n))}</p>${fl}
+      <div class="shops">${shops.map((s,i)=>`<a class="${i===0&&m.st==="on"?"pri":""}" href="${s.url(m)}" ${RELAFF}>${esc(s.label)}</a>`).join("")}<a href="${bs(m.n)}" ${REL}>Brickset</a></div>
+    </div></article>`;
+}
+
+/* ================== RÁM STRÁNKY ================== */
 function renderChrome(){
   document.documentElement.lang = LANG;
   document.title = t("title");
@@ -711,14 +917,95 @@ function renderChrome(){
   $("#foot").innerHTML = `<div class="fmain"><span>© 2026 ${cs?"Vyrobeno s ❤️ ke kreativnímu hraní":"Made with ❤️ for creative play"}</span><span class="dot">·</span><a href="#soukromi">${cs?"Zásady ochrany osobních údajů":"Privacy Policy"}</a><span class="dot">·</span><a href="#podminky">${cs?"Podmínky užití":"Terms of Use"}</a><span class="dot">·</span><a href="mailto:${CONTACT}" title="${CONTACT}">✉️ ${cs?"Kontakt":"Contact"}</a></div>`
     + `<div class="fsmall">${esc(t("foot"))}${anyAff()?" "+esc(t("affNote")):""}</div>`;
   let h="";
-  for(const k of ["c","s","f","n"]){
-    h+=`<h2>${eraName(k)}</h2><ul>`;
-    for(const f of F.filter(x=>x.era===k)) h+=`<li><a href="#${f.id}" style="--fc:${f.sh.f[0]}">${mini(f,30)}<span>${esc(fx(f,"name"))}</span><span class="yr">${f.years}</span></a></li>`;
-    if(k==="n") h+=`<li><a href="#navrat"><span class="mini" style="height:30px">${shield({f:["#d7a521"],p:"plain",b:null,c:null},30)}</span><span>${t("returnNav")}</span><span class="yr">2016–2026</span></a></li>`;
+  for(const g of GROUPS){
+    h+=`<h2>${esc(g[LANG])}</h2><ul>`;
+    for(const id of g.ids){ const f=fById(id); h+=`<li><a href="#${f.id}" style="--fc:${f.sh.f[0]}">${emblem(f,28)}<span class="nm">${esc(fx(f,"name"))}<span class="yr">${yearLabel(f)}</span></span></a></li>`; }
+    if(g.id==="back") h+=`<li><a href="#navrat">${shield({f:["#d7a521"],p:"plain",b:null,c:null},26)}<span class="nm">${t("returnNav")}<span class="yr">2016–2026</span></span></a></li>`;
     h+="</ul>";
   }
   $("#sidenav").innerHTML=h;
 }
+
+/* ================== ČASOVÁ OSA ================== */
+function timeline(){
+  const x0=1978,x1=2028,L=170,W=900,R=16,row=19,top=24;
+  const sx=y=>L+(y-x0)/(x1-x0)*(W-L-R);
+  let H=top+F.length*row+GROUPS.length*14+8;
+  let g="", y=top;
+  for(let yy=1980;yy<=2025;yy+=5){g+=`<line class="gl" x1="${sx(yy)}" x2="${sx(yy)}" y1="${top-6}" y2="${H-6}"/><text class="ax" x="${sx(yy)}" y="12" text-anchor="middle">${yy}</text>`;}
+  for(const gr of GROUPS){
+    g+=`<text class="ax" x="4" y="${y+9}" font-weight="700">${esc(gr[LANG].toUpperCase())}</text>`; y+=14;
+    for(const id of gr.ids){
+      const f=fById(id);
+      g+=`<a href="#${f.id}"><text x="${L-8}" y="${y+12}" text-anchor="end" font-size="12">${esc(fx(f,"name"))}</text>`;
+      for(const [a,b,label,typ] of salePeriods(f)){
+        const w=Math.max(5,sx(b+1)-sx(a)), hgt=typ==="orig"?13:8, yy=typ==="orig"?y+2:y+4.5;
+        g+=`<rect x="${sx(a)}" y="${yy}" width="${w}" height="${hgt}" rx="2" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity="${typ==="orig"?.35:.6}"><title>${esc(label)} (${a===b?a:a+"–"+b})</title></rect>`;
+      }
+      g+=`</a>`; y+=row;
+    }
+  }
+  return `<div class="tl"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LANG==="cs"?"Časová osa frakcí":"Faction timeline"}">${g}</svg></div>`;
+}
+
+/* ================== STRÁNKA FRAKCE ================== */
+function vFaction(f){
+  const en=LANG==="en";
+  const all=factionSets(f);
+  const featured=all.filter(m=>SETDESC[m.n] || m.st==="on" || m.st==="soon");
+  const retired=all.filter(m=>m.st==="off"||m.st==="lim");
+  const figs=(MF[f.id]||[]).map(m=>{const cap=en?(MF_EN[m[0]]||m[1]):m[1];return `<figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="${mfUrl(m[0])}" alt="${esc(cap)}" ${IMGFAIL}></div><figcaption>${esc(cap)}</figcaption></figure>`;}).join("");
+  const rels=fx(f,"rel");
+  const yearOf = s => { const m=String(s).match(/^(\d{4})/); return m?+m[1]:-1; };
+  const hist=fx(f,"hist").map((h,i)=>[h,i]).sort((a,b)=>(yearOf(b[0])-yearOf(a[0]))||(a[1]-b[1])).map(x=>x[0]);
+  const idx=F.indexOf(f), prev=F[idx-1], next=F[idx+1];
+  return `
+  <div class="eyebrow">${eraName(f.era)}</div>
+  <div class="fhead">${emblem(f,84)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${yearLabel(f)}</span><span class="chip">${all.length} ${en?"sets":"setů"}</span></div></div></div>
+  <p class="lede">${esc(fx(f,"intro"))}</p>
+  <div class="erb"><div class="figs">${figs}</div><div class="panel"><div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p style="margin:6px 0 12px">${esc(fx(f,"heraldry"))}</p><div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts" style="margin-top:6px">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div></div>
+  <h2 class="sec">${en?"Sets with this faction":"Sety s touto frakcí"}</h2>
+  ${featured.length?`<div class="feats">${featured.map(feature).join("")}</div>`:`<div class="empty">${en?"No described sets yet.":"Zatím bez popsaných setů."}</div>`}
+  <h2 class="sec">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
+  <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
+  <p style="margin-top:8px"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"}</a></p>
+  <h2 class="sec">${en?"History":"Historie"}</h2>
+  <ul class="facts">${hist.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
+  <h2 class="sec">${en?"Retired sets":"Vyřazené sety"}</h2>
+  <p style="font-size:.92rem;color:var(--ink-2)">${en?"From newest to oldest.":"Od nejnovějších po nejstarší."}</p>
+  ${tiles(retired.map(m=>tile(m,{noNote:!M.find(x=>x.n===m.n)})))}
+  <div class="meta" style="margin-top:28px;justify-content:space-between">${prev?`<a href="#${prev.id}">← ${esc(fx(prev,"name"))}</a>`:"<span></span>"}${next?`<a href="#${next.id}">${esc(fx(next,"name"))} →</a>`:""}</div>`;
+}
+
+/* ================== TEĎ V PRODEJI ================== */
+function vSale(){
+  const en=LANG==="en", on=M.filter(m=>m.st==="on"), lim=M.filter(m=>m.st==="lim");
+  const checked = LIVE.checked ? (en?`Checked automatically · last check ${esc(LIVE.checked)}`:`Hlídáno automaticky · poslední kontrola ${esc(LIVE.checked)}`) : (en?"Status as of 30 Oct 2026":"Stav k 30. 10. 2026");
+  return `
+  <div class="eyebrow">${checked}</div>
+  <h1>${en?"On sale now":"Teď v prodeji"}</h1>
+  <p class="lede">${en
+    ?"Castle and medieval sets you can buy at LEGO.com right now. Links go straight to the product page; once a set leaves the shop, it moves to Recently retired by itself."
+    :"Hradní a středověké sety, které teď koupíte na lego.cz. Odkaz vede přímo na produktovou stránku; jakmile set z nabídky zmizí, sám se přesune do sekce Nedávno vyřazeno."}</p>
+  <div class="feats">${on.map(feature).join("")}</div>
+  ${lim.length?`<h2 class="sec">${en?"Only at LEGOLAND parks":"Jen v parcích LEGOLAND"}</h2>${tiles(lim.map(m=>tile(m)))}`:""}
+  <p class="note">${en?"Sale status is checked automatically once a week (LEGO and Brickset). Always confirm the price in the shop.":"Stav prodeje se kontroluje automaticky jednou týdně (lego.cz a Brickset). Cenu vždy ověřte v obchodě."}</p>`;
+}
+
+/* ================== NEDÁVNO VYŘAZENO ================== */
+function vRetired(){
+  const en=LANG==="en";
+  const list=M.filter(m=>m.st==="off").sort((a,b)=>(b.to||0)-(a.to||0)||b.y-a.y);
+  const byYear={};
+  for(const m of list){ const k=m.to||m.y; (byYear[k]=byYear[k]||[]).push(m); }
+  let h=`<div class="eyebrow">2016–2026</div><h1>${en?"Recently retired":"Nedávno vyřazeno"}</h1>
+  <p class="lede">${en?"Castle and medieval sets of recent years that are no longer sold by LEGO. Many can still be found at other online shops, on eBay or in second-hand marketplaces.":"Hradní a středověké sety posledních let, které LEGO už neprodává. Mnohé se dají ještě sehnat na různých e-shopech a v bazarech."}</p>`;
+  for(const y of Object.keys(byYear).sort((a,b)=>b-a)){
+    h+=`<h2 class="sec">${en?"Last sold in":"Naposledy v prodeji"} ${y}</h2>${tiles(byYear[y].map(m=>tile(m,{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:`<span class="tnote">${en?"no faction":"bez frakce"}</span>`})))}`;
+  }
+  return h;
+}
+
 document.addEventListener("click",e=>{
   const a=e.target.closest("#langsw a"); if(!a) return;
   const l=a.dataset.lang; if(l===LANG){e.preventDefault();return;}
@@ -727,27 +1014,7 @@ document.addEventListener("click",e=>{
 });
 
 /* ================== POHLEDY ================== */
-function timeline(){
-  const x0=1978,x1=2027,L=170,W=900,R=16,row=19,top=24;
-  const sx=y=>L+(y-x0)/(x1-x0)*(W-L-R);
-  const H=top+(F.length+1)*row+14, half=(sx(1)-sx(0))/2;
-  let g="";
-  for(let y=1980;y<=2025;y+=5){g+=`<line class="gl" x1="${sx(y)}" x2="${sx(y)}" y1="${top-6}" y2="${H-6}"/><text class="ax" x="${sx(y)}" y="12" text-anchor="middle">${y}</text>`;}
-  F.forEach((f,i)=>{
-    const y=top+i*row, w=Math.max(6,sx(f.to+1)-sx(f.from));
-    g+=`<a href="#${f.id}"><text x="${L-8}" y="${y+12}" text-anchor="end" font-size="12">${esc(fx(f,"name"))}</text><rect x="${sx(f.from)}" y="${y+2}" width="${w}" height="13" rx="2" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity=".35"/>`;
-    const tr=new Map();
-    f.tributes.forEach(x=>tr.set(x[0],[x[2],x[1]]));
-    M.filter(m=>m.f.includes(f.id)).forEach(m=>tr.set(m.n,[m.y,m.name]));
-    [...tr].filter(([,v])=>v[0]>f.to).forEach(([n,[yr,nm]])=>{g+=`<circle cx="${sx(yr)+half}" cy="${y+8.5}" r="4.5" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity=".6"><title>${esc(disp(n))} ${esc(trName(nm))} (${yr})</title></circle>`;});
-    g+=`</a>`;
-  });
-  const yN=top+F.length*row+4, cnt={};
-  g+=`<a href="#navrat"><text x="${L-8}" y="${yN+12}" text-anchor="end" font-size="12" font-weight="700">${LANG==="cs"?"Novodobé sety":"Modern sets"}</text>`;
-  M.slice().sort((a,b)=>a.y-b.y).forEach(m=>{cnt[m.y]=(cnt[m.y]||0)+1;g+=`<rect x="${sx(m.y)+1}" y="${yN+2}" width="${half*2-2}" height="13" rx="2" fill="var(--or)" opacity="${Math.min(1,.25+cnt[m.y]*.12)}"><title>${esc(disp(m.n))} ${esc(trName(m.name))} (${m.y})</title></rect>`;});
-  g+=`</a>`;
-  return `<div class="tl"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LANG==="cs"?"Časová osa frakcí":"Faction timeline"} 1978–2027">${g}</svg></div>`;
-}
+
 
 function vHome(){
   const cards=F.map(f=>`<a class="fcard" href="#${f.id}">${mini(f,64)}<div><b>${esc(fx(f,"name"))}</b><span>${esc(fx(f,"alt"))}</span><div class="y">${f.years}</div></div></a>`).join("");
@@ -800,68 +1067,11 @@ function vHome(){
   <p class="note">Štítky u tvrzení: ${tag("off")} doloženo sety, katalogy, krabicemi nebo návody LEGO (často přes citaci Wikipedie/Brickipedie), ${tag("fan")} výklad fanoušků, ${tag("unc")} rozporné nebo neověřené. Erby jsou ukázané na původních figurkách; malé štíty jsou zjednodušené barevné značky, ne repliky.</p>`;
 }
 
-function vFaction(f){
-  const en=LANG==="en";
-  const mod=M.filter(m=>m.f.includes(f.id));
-  const current=mod.filter(m=>m.st==="on");
-  const tribRows=f.tributes.map(x=>{const m=M.find(y=>y.n===x[0]);return tile({n:x[0],name:x[1],y:x[2],line:t("type")[x[3]]||"",st:m?m.st:"off",pcs:m?m.pcs:null});});
-  for(const m of mod){ if(!f.tributes.some(x=>x[0]===m.n) && m.st!=="on") tribRows.push(tile({n:m.n})); }
-  const origRows=f.sets.map(s=>tile({n:s[0],name:s[1],y:s[2],st:"off"},{noNote:true}));
-  const figs=(MF[f.id]||[]).map(m=>{const cap=en?(MF_EN[m[0]]||m[1]):m[1];return `<figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="${mfUrl(m[0])}" alt="${esc(cap)}" ${IMGFAIL}></div><figcaption>${esc(cap)}</figcaption></figure>`;}).join("");
-  const rels=fx(f,"rel");
-  const cur=current.length?tiles(current.map(m=>tile({n:m.n})))
-    : `<div class="empty">${en?`No set from this faction is on sale at LEGO.com right now. The latest releases are listed below; current medieval sets without a faction are on the <a href="#v-prodeji">On sale now</a> page.`:`Na lego.cz se teď neprodává žádný set této frakce. Poslední novinky najdete níže, aktuální středověké sety bez frakce na stránce <a href="#v-prodeji">Teď v prodeji</a>.`}</div>`;
-  const idx=F.indexOf(f), prev=F[idx-1], next=F[idx+1];
-  return `
-  <div class="eyebrow">${eraName(f.era)}</div>
-  <div class="fhead">${mini(f,96)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${f.years}</span><span class="chip">${f.sets.length} ${en?"original sets":"původních setů"}</span></div></div></div>
-  <p class="lede">${esc(fx(f,"intro"))}</p>
-  <h2 class="sec">${en?"The crest on original minifigures":"Erb na původních figurkách"}</h2>
-  <div class="erb"><div class="figs">${figs}</div><div class="panel"><div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p style="margin:6px 0 0">${esc(fx(f,"heraldry"))}</p></div></div>
-  <div class="twocol" style="margin-top:14px">
-    <div class="panel"><div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts" style="margin-top:6px">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
-  </div>
-  <h2 class="sec">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
-  <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
-  <p style="margin-top:8px"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"}</a></p>
-  <h2 class="sec">${en?"History":"Historie"}</h2>
-  <ul class="facts">${fx(f,"hist").map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
-  <h2 class="sec">${en?"On sale now":"Aktuálně v prodeji"}</h2>
-  ${cur}
-  <h2 class="sec">${en?"Retired sets":"Vyřazené sety"}</h2>
-  ${f.sets.length?`<h3>${en?"Original line":"Původní řada"} ${f.years}</h3>${tiles(origRows)}`:""}
-  <h3>${en?"Reissues, tributes and limited editions":"Reedice, pocty a limitované edice"}</h3>
-  <p style="font-size:.92rem;color:var(--ink-2)">${en?"LEGO Icons, Ideas, Creator, BrickLink Designer Program, gifts with purchase and collectible minifigures.":"LEGO Icons, Ideas, Creator, BrickLink Designer Program, dárky k nákupu a sběratelské minifigurky."}</p>
-  ${tiles(tribRows)}
-  <div class="meta" style="margin-top:28px;justify-content:space-between">${prev?`<a href="#${prev.id}">← ${esc(fx(prev,"name"))}</a>`:"<span></span>"}${next?`<a href="#${next.id}">${esc(fx(next,"name"))} →</a>`:""}</div>`;
-}
 
-function vSale(){
-  const en=LANG==="en", on=M.filter(m=>m.st==="on");
-  const facts = m => m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:"";
-  const checked = LIVE.checked ? (en?`Checked automatically · last check ${esc(LIVE.checked)}`:`Hlídáno automaticky · poslední kontrola ${esc(LIVE.checked)}`) : (en?"Status as of 29 Oct 2026":"Stav k 29. 10. 2026");
-  return `
-  <div class="eyebrow">${checked}</div>
-  <h1>${en?"On sale now":"Teď v prodeji"}</h1>
-  <p class="lede">${en
-    ?"Medieval and castle sets currently sold at LEGO.com. Links go straight to the product page; once a set leaves the shop, its link switches to Brickset and the set moves to the retired list. No classic faction is on sale at the moment: 10305 Lion Knights' Castle and 10332 Medieval Town Square ended on 31 Dec 2025."
-    :"Středověké a hradní sety, které se prodávají na lego.cz. Odkaz vede přímo na produktovou stránku; jakmile set z nabídky zmizí, odkaz se přepne na Brickset a set se přesune mezi vyřazené. Klasické frakce v nabídce momentálně nejsou: 10305 Lion Knights' Castle i 10332 Medieval Town Square skončily 31. 12. 2025."}</p>
-  ${tiles(on.map(m=>tile({n:m.n},{extra:facts(m)})))}
-  <h2 class="sec">${en?"Outside LEGO.com":"Mimo lego.cz"}</h2>
-  ${tiles(M.filter(m=>m.st==="lim").map(m=>tile({n:m.n})))}
-  <p class="note">${en?"Sale status is checked automatically once a week (LEGO and Brickset). Always confirm the price in the shop.":"Stav prodeje se kontroluje automaticky jednou týdně (lego.cz a Brickset). Cenu vždy ověřte v obchodě."}</p>`;
-}
 
-function vModern(){
-  const en=LANG==="en";
-  const groups=[...new Set(M.map(m=>m.line.replace(/ – série \d+/,"")))];
-  let h=`<div class="eyebrow">2016–2027</div><h1>${en?"Modern sets":"Moderní sety"}</h1><p class="lede">${en?"All modern castle and medieval sets: reimagined classic factions for adult fans, fan designs and limited editions.":"Všechny novodobé hradní a středověké sety: reinterpretace klasických frakcí pro dospělé, fanouškovské návrhy a limitované edice."}</p>`;
-  for(const g of groups){
-    const rows=M.filter(m=>m.line.replace(/ – série \d+/,"")===g).sort((a,b)=>a.y-b.y).map(m=>tile({n:m.n,line:m.line.includes("série")?m.line.split("– ")[1]:""},{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:""}));
-    h+=`<h2 class="sec">${esc(trLine(g))}</h2>${tiles(rows)}`;
-  }
-  return h;
-}
+
+
+
 
 function vReturn(){
   const en=LANG==="en";
@@ -942,7 +1152,8 @@ function vDiagram(){
     ["kingdoms","Lion Knights (red)","Dragon Knights (green)","x","Two human kingdoms."],
     ["castle-2013","King's Knights","The Dragon Wizard's Dragon Knights","x","The last standalone line."],
     ["ninja","Shogun, samurai, grey ninjas","Bandits Kendo and Bonsai","x","The red ninjas' role is contradictory in the sources."],
-    ["nove-frakce","Horse Knights","Serpent Knights","?","Together in 31168; relationship not documented yet."]
+    ["horse-knights","Horse Knights","Serpent Knights","?","Together in 31168, most likely as tournament rivals; not documented officially."],
+    ["griffin-knights","Griffin Knights","Kraken Warriors","?","Introduced together in 21358; their relationship has not been described yet."]
   ]:[
     ["knights-kingdom","Lvi krále Lea","Býci (Cedric the Bull)","x","Hrad krále Lea proti psancům z Temného lesa."],
     ["knights-kingdom-2","Rytíři Morcie (Mathias, Jayko…)","Vladek, Shadow & Rogue Knights","x","Tři roky příběhu 2004–2006."],
@@ -953,7 +1164,8 @@ function vDiagram(){
     ["kingdoms","Lví rytíři (červení)","Dračí rytíři (zelení)","x","Dvě lidská království."],
     ["castle-2013","Královi rytíři","Dračí rytíři Dračího čaroděje","x","Poslední samostatná řada."],
     ["ninja","Šógun, samurajové, šedí ninjové","Bandité Kendo a Bonsai","x","Role červených ninjů je v materiálech rozporná."],
-    ["nove-frakce","Horse Knights","Serpent Knights","?","Společně v 31168; vztah zatím nedoložen."]
+    ["horse-knights","Horse Knights","Serpent Knights","?","Společně v 31168, nejspíš jako soupeři na turnaji; oficiálně nedoloženo."],
+    ["griffin-knights","Griffin Knights","Kraken Warriors","?","Představeni spolu v 21358; jejich vztah zatím nebyl popsán."]
   ]).map(p=>`<div class="pair"><div class="vs"><span>${esc(p[1])}</span><span class="${p[3]==="a"?"a":"x"}">${p[3]==="a"?"⟷":p[3]==="?"?"?":"⚔"}</span><span>${esc(p[2])}</span></div><div style="color:var(--ink-2);margin-top:4px">${esc(p[4])} <a href="#${p[0]}">${esc(fx(fById(p[0]),"name"))}</a></div></div>`).join("");
   return `
   <div class="eyebrow">${en?"Who fought whom":"Kdo s kým bojoval"}</div>
@@ -1128,7 +1340,7 @@ function route(keepScroll){
   if(f) html=vFaction(f);
   else if(r==="diagram") html=vDiagram();
   else if(r==="v-prodeji") html=vSale();
-  else if(r==="moderni-sety") html=vModern();
+  else if(r==="moderni-sety"||r==="nedavno-vyrazeno") html=vRetired();
   else if(r==="zdroje") html=vSources();
   else if(r==="navrat") html=vReturn();
   else if(r==="brzy") html=vSoon();

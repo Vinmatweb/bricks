@@ -48,7 +48,7 @@ function shopsFor(m){
 /* ================== TEXTY UI ================== */
 const UI = {
  cs:{brand:"Hradní kronika", tagline:"Neoficiální průvodce řadou LEGO® Castle 1978–2026", title:"Hradní kronika",
-  nav:[["uvod","Úvod"],["diagram","Diagram vztahů"],["v-prodeji","Teď v prodeji"],["moderni-sety","Moderní sety"],["brzy","Již brzy"],["zdroje","Zdroje"]],
+  nav:[["uvod","Úvod"],["diagram","Diagram vztahů"],["v-prodeji","Teď v prodeji"],["nedavno-vyrazeno","Nedávno vyřazeno"],["brzy","Již brzy"],["zdroje","Zdroje"]],
   factions:"Frakce", returnNav:"Návrat klasiky",
   foot:"LEGO® je ochranná známka skupiny LEGO, která tento web nesponzoruje, neschvaluje ani nepodporuje. Fotky setů a figurek: Brickset, BrickLink.",
   affNote:"Odkazy na obchody jsou partnerské: při nákupu můžeme získat malou provizi, cena pro vás zůstává stejná.",
@@ -57,7 +57,7 @@ const UI = {
   type:{re:"Reedice",icons:"LEGO Icons",ideas:"LEGO Ideas",creator:"Creator 3 v 1",bdp:"BrickLink DP",gwp:"Dárek k nákupu",cmf:"Minifigurka"},
   retired:"Vyřazeno", soldOutTmp:"Na lego.cz dočasně vyprodáno"},
  en:{brand:"Castle Chronicle", tagline:"An unofficial guide to the LEGO® Castle theme 1978–2026", title:"Castle Chronicle",
-  nav:[["uvod","Home"],["diagram","Faction map"],["v-prodeji","On sale now"],["moderni-sety","Modern sets"],["brzy","Coming soon"],["zdroje","Sources"]],
+  nav:[["uvod","Home"],["diagram","Faction map"],["v-prodeji","On sale now"],["nedavno-vyrazeno","Recently retired"],["brzy","Coming soon"],["zdroje","Sources"]],
   factions:"Factions", returnNav:"The classics return",
   foot:"LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. Set and minifigure photos: Brickset, BrickLink.",
   affNote:"Shop links are affiliate links: we may earn a small commission on purchases at no extra cost to you.",
@@ -117,6 +117,25 @@ function mini(f,h=30){
 }
 const linkFactions = ids => ids.map(id=>`<a href="#${id}">${esc(fx(fById(id),"name"))}</a>`).join(", ");
 
+
+/* ================== ERBY – FOTKY ORIGINÁLNÍCH ŠTÍTŮ ==================
+   Číslo dílu a barva podle katalogu BrickLink (najdete v inventáři minifigurky, např. cas101a → Inventory).
+   Formát "dil/barvaID", např. "3846p45/1" (1 = White, 11 = Black, 59 = Dark Red, 80 = Dark Green, 9 = Light Gray).
+   Prázdné = zobrazí se zjednodušený kreslený štít. Když se fotka nenačte, také se použije kreslený štít. */
+const SHIELD_PARTS = {
+  "black-falcons": "3846p45/1",
+  "griffin-knights": "4972pb02/59",
+  "kraken-warriors": "75902pb35/80"
+  // "crusaders": "", "forestmen": "", "black-knights": "", "wolfpack": "", "dragon-masters": "", "royal-knights": "",
+  // "fright-knights": "", "horse-knights": "", "serpent-knights": "", ...
+};
+function emblem(f,h=26){
+  const p=SHIELD_PARTS[f.id];
+  if(!p) return shield(f.sh,h);
+  const [part,col]=p.split("/");
+  const a=`https://img.bricklink.com/ItemImage/PN/${col}/${part}.png`, b=`https://img.bricklink.com/ItemImage/PL/${part}.png`;
+  return `<span class="emb" style="height:${h}px;width:${Math.round(h*0.9)}px"><img src="${a}" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='${b}'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden>${shield(f.sh,h)}</span></span>`;
+}
 /* ================== DLAŽDICE SETU ================== */
 // o: {n,name,y,pcs,line,st,note} – pokud existuje v M, doplní se odtud (url, cena, stav)
 function tile(o, opts={}){
@@ -138,6 +157,62 @@ function tile(o, opts={}){
 const tiles = arr => arr.length?`<div class="tiles">${arr.join("")}</div>`:`<div class="empty">${t("none")}</div>`;
 
 /* ================== RÁM STRÁNKY ================== */
+
+/* ================== POŘADÍ FRAKCÍ (od nejnovějších) ================== */
+const GROUPS = [
+  {id:"now", cs:"Současné frakce (2025–)", en:"Current factions (2025–)", ids:["horse-knights","serpent-knights","griffin-knights","kraken-warriors"]},
+  {id:"back", cs:"Klasické frakce v nových setech", en:"Classic factions in new sets", ids:["crusaders","forestmen","black-falcons","wolfpack","black-knights","dragon-masters","fright-knights","klasicky-hrad"]},
+  {id:"old", cs:"Starší řady", en:"Earlier lines", ids:["castle-2013","kingdoms","fantasy-era","vikingove","knights-kingdom-2","knights-kingdom","ninja","dark-forest","royal-knights"]}
+];
+const ORDER = GROUPS.flatMap(g=>g.ids);
+F.sort((a,b)=>ORDER.indexOf(a.id)-ORDER.indexOf(b.id));
+const NOW_YEAR = 2026;
+
+// všechna období prodeje frakce: [od, do, popisek, typ] – typ "orig" = původní řada
+function salePeriods(f){
+  const out=[];
+  if(f.sets.length) out.push([f.from,f.to,f.years,"orig"]);
+  const seen=new Set();
+  for(const m of M) if(m.f.includes(f.id)&&m.st!=="soon"){ seen.add(m.n); out.push([m.y, m.to==null?NOW_YEAR:m.to, `${disp(m.n)} ${trName(m.name)}`, "new"]); }
+  for(const tr of f.tributes) if(!seen.has(tr[0])&&REISSUE[tr[0]]){ seen.add(tr[0]); out.push([REISSUE[tr[0]][0],REISSUE[tr[0]][1],`${disp(tr[0])} ${trName(tr[1])}`,"new"]); }
+  return out;
+}
+// roky jako text, sloučené do souvislých úseků: "1984–1992 · 2001 · 2022–2025"
+function yearLabel(f){
+  const ys=new Set();
+  for(const [a,b] of salePeriods(f)) for(let y=a;y<=b;y++) ys.add(y);
+  const arr=[...ys].sort((a,b)=>a-b), parts=[];
+  for(let i=0;i<arr.length;){ let j=i; while(j+1<arr.length&&arr[j+1]===arr[j]+1) j++; parts.push(arr[i]===arr[j]?`${arr[i]}`:`${arr[i]}–${arr[j]}`); i=j+1; }
+  return parts.reverse().join(" · ") || f.years;   // od nejnovějšího
+}
+// všechny sety frakce (původní, reedice, novodobé), seřazené od nejnovějšího
+function factionSets(f){
+  const map=new Map();
+  for(const s of f.sets) map.set(s[0],{n:s[0],name:s[1],y:s[2],st:"off",line:""});
+  for(const tr of f.tributes){ const m=M.find(x=>x.n===tr[0]); map.set(tr[0], m?{...m}:{n:tr[0],name:tr[1],y:tr[2],st:"off",line:t("type")[tr[3]]||""}); }
+  for(const m of M) if(m.f.includes(f.id)) map.set(m.n,{...m});
+  return [...map.values()].sort((a,b)=>b.y-a.y || String(b.n).localeCompare(String(a.n)));
+}
+const descOf = n => SETDESC[n] ? SETDESC[n][LANG] : "";
+
+// velká karta setu s popisem
+function feature(m){
+  m = Object.assign({}, M.find(x=>x.n===m.n)||{}, m);
+  const shops=shopsFor(m);
+  const primary = m.st==="on" && shops[0] ? shops[0].url(m) : bs(m.n);
+  const facts=[m.y, m.pcs?`${fmtNum(m.pcs)} ${t("pieces")}`:"", m.mf?`${m.mf} ${LANG==="cs"?"minifigurek":"minifigures"}`:""].filter(Boolean).join(" · ");
+  const fl = m.f && m.f.length ? `<span class="tnote">${linkFactions(m.f)}</span>` : "";
+  return `<article class="feat">
+    <a class="ph" href="${primary}" ${m.st==="on"?RELAFF:REL} data-n="${esc(disp(m.n))}"><img loading="lazy" src="${setImg(m.n)}" alt="${esc(trName(m.name))}" ${IMGFAIL}></a>
+    <div class="fb"><span class="tn">${esc(disp(m.n))}${m.line?` · ${esc(trLine(m.line))}`:""}</span>
+      <h3>${esc(trName(m.name))}</h3>
+      <div class="ty">${facts} ${m.st?stTxt(m.st):""}</div>
+      <p>${esc(descOf(m.n))}</p>${fl}
+      <div class="shops">${shops.map((s,i)=>`<a class="${i===0&&m.st==="on"?"pri":""}" href="${s.url(m)}" ${RELAFF}>${esc(s.label)}</a>`).join("")}<a href="${bs(m.n)}" ${REL}>Brickset</a></div>
+    </div></article>`;
+}
+
+/* ================== RÁM STRÁNKY ================== */
 function renderChrome(){
   document.documentElement.lang = LANG;
   document.title = t("title");
@@ -150,14 +225,95 @@ function renderChrome(){
   $("#foot").innerHTML = `<div class="fmain"><span>© 2026 ${cs?"Vyrobeno s ❤️ ke kreativnímu hraní":"Made with ❤️ for creative play"}</span><span class="dot">·</span><a href="#soukromi">${cs?"Zásady ochrany osobních údajů":"Privacy Policy"}</a><span class="dot">·</span><a href="#podminky">${cs?"Podmínky užití":"Terms of Use"}</a><span class="dot">·</span><a href="mailto:${CONTACT}" title="${CONTACT}">✉️ ${cs?"Kontakt":"Contact"}</a></div>`
     + `<div class="fsmall">${esc(t("foot"))}${anyAff()?" "+esc(t("affNote")):""}</div>`;
   let h="";
-  for(const k of ["c","s","f","n"]){
-    h+=`<h2>${eraName(k)}</h2><ul>`;
-    for(const f of F.filter(x=>x.era===k)) h+=`<li><a href="#${f.id}" style="--fc:${f.sh.f[0]}">${mini(f,30)}<span>${esc(fx(f,"name"))}</span><span class="yr">${f.years}</span></a></li>`;
-    if(k==="n") h+=`<li><a href="#navrat"><span class="mini" style="height:30px">${shield({f:["#d7a521"],p:"plain",b:null,c:null},30)}</span><span>${t("returnNav")}</span><span class="yr">2016–2026</span></a></li>`;
+  for(const g of GROUPS){
+    h+=`<h2>${esc(g[LANG])}</h2><ul>`;
+    for(const id of g.ids){ const f=fById(id); h+=`<li><a href="#${f.id}" style="--fc:${f.sh.f[0]}">${emblem(f,28)}<span class="nm">${esc(fx(f,"name"))}<span class="yr">${yearLabel(f)}</span></span></a></li>`; }
+    if(g.id==="back") h+=`<li><a href="#navrat">${shield({f:["#d7a521"],p:"plain",b:null,c:null},26)}<span class="nm">${t("returnNav")}<span class="yr">2016–2026</span></span></a></li>`;
     h+="</ul>";
   }
   $("#sidenav").innerHTML=h;
 }
+
+/* ================== ČASOVÁ OSA ================== */
+function timeline(){
+  const x0=1978,x1=2028,L=170,W=900,R=16,row=19,top=24;
+  const sx=y=>L+(y-x0)/(x1-x0)*(W-L-R);
+  let H=top+F.length*row+GROUPS.length*14+8;
+  let g="", y=top;
+  for(let yy=1980;yy<=2025;yy+=5){g+=`<line class="gl" x1="${sx(yy)}" x2="${sx(yy)}" y1="${top-6}" y2="${H-6}"/><text class="ax" x="${sx(yy)}" y="12" text-anchor="middle">${yy}</text>`;}
+  for(const gr of GROUPS){
+    g+=`<text class="ax" x="4" y="${y+9}" font-weight="700">${esc(gr[LANG].toUpperCase())}</text>`; y+=14;
+    for(const id of gr.ids){
+      const f=fById(id);
+      g+=`<a href="#${f.id}"><text x="${L-8}" y="${y+12}" text-anchor="end" font-size="12">${esc(fx(f,"name"))}</text>`;
+      for(const [a,b,label,typ] of salePeriods(f)){
+        const w=Math.max(5,sx(b+1)-sx(a)), hgt=typ==="orig"?13:8, yy=typ==="orig"?y+2:y+4.5;
+        g+=`<rect x="${sx(a)}" y="${yy}" width="${w}" height="${hgt}" rx="2" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity="${typ==="orig"?.35:.6}"><title>${esc(label)} (${a===b?a:a+"–"+b})</title></rect>`;
+      }
+      g+=`</a>`; y+=row;
+    }
+  }
+  return `<div class="tl"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LANG==="cs"?"Časová osa frakcí":"Faction timeline"}">${g}</svg></div>`;
+}
+
+/* ================== STRÁNKA FRAKCE ================== */
+function vFaction(f){
+  const en=LANG==="en";
+  const all=factionSets(f);
+  const featured=all.filter(m=>SETDESC[m.n] || m.st==="on" || m.st==="soon");
+  const retired=all.filter(m=>m.st==="off"||m.st==="lim");
+  const figs=(MF[f.id]||[]).map(m=>{const cap=en?(MF_EN[m[0]]||m[1]):m[1];return `<figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="${mfUrl(m[0])}" alt="${esc(cap)}" ${IMGFAIL}></div><figcaption>${esc(cap)}</figcaption></figure>`;}).join("");
+  const rels=fx(f,"rel");
+  const yearOf = s => { const m=String(s).match(/^(\d{4})/); return m?+m[1]:-1; };
+  const hist=fx(f,"hist").map((h,i)=>[h,i]).sort((a,b)=>(yearOf(b[0])-yearOf(a[0]))||(a[1]-b[1])).map(x=>x[0]);
+  const idx=F.indexOf(f), prev=F[idx-1], next=F[idx+1];
+  return `
+  <div class="eyebrow">${eraName(f.era)}</div>
+  <div class="fhead">${emblem(f,84)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${yearLabel(f)}</span><span class="chip">${all.length} ${en?"sets":"setů"}</span></div></div></div>
+  <p class="lede">${esc(fx(f,"intro"))}</p>
+  <div class="erb"><div class="figs">${figs}</div><div class="panel"><div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p style="margin:6px 0 12px">${esc(fx(f,"heraldry"))}</p><div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts" style="margin-top:6px">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div></div>
+  <h2 class="sec">${en?"Sets with this faction":"Sety s touto frakcí"}</h2>
+  ${featured.length?`<div class="feats">${featured.map(feature).join("")}</div>`:`<div class="empty">${en?"No described sets yet.":"Zatím bez popsaných setů."}</div>`}
+  <h2 class="sec">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
+  <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
+  <p style="margin-top:8px"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"}</a></p>
+  <h2 class="sec">${en?"History":"Historie"}</h2>
+  <ul class="facts">${hist.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
+  <h2 class="sec">${en?"Retired sets":"Vyřazené sety"}</h2>
+  <p style="font-size:.92rem;color:var(--ink-2)">${en?"From newest to oldest.":"Od nejnovějších po nejstarší."}</p>
+  ${tiles(retired.map(m=>tile(m,{noNote:!M.find(x=>x.n===m.n)})))}
+  <div class="meta" style="margin-top:28px;justify-content:space-between">${prev?`<a href="#${prev.id}">← ${esc(fx(prev,"name"))}</a>`:"<span></span>"}${next?`<a href="#${next.id}">${esc(fx(next,"name"))} →</a>`:""}</div>`;
+}
+
+/* ================== TEĎ V PRODEJI ================== */
+function vSale(){
+  const en=LANG==="en", on=M.filter(m=>m.st==="on"), lim=M.filter(m=>m.st==="lim");
+  const checked = LIVE.checked ? (en?`Checked automatically · last check ${esc(LIVE.checked)}`:`Hlídáno automaticky · poslední kontrola ${esc(LIVE.checked)}`) : (en?"Status as of 30 Oct 2026":"Stav k 30. 10. 2026");
+  return `
+  <div class="eyebrow">${checked}</div>
+  <h1>${en?"On sale now":"Teď v prodeji"}</h1>
+  <p class="lede">${en
+    ?"Castle and medieval sets you can buy at LEGO.com right now. Links go straight to the product page; once a set leaves the shop, it moves to Recently retired by itself."
+    :"Hradní a středověké sety, které teď koupíte na lego.cz. Odkaz vede přímo na produktovou stránku; jakmile set z nabídky zmizí, sám se přesune do sekce Nedávno vyřazeno."}</p>
+  <div class="feats">${on.map(feature).join("")}</div>
+  ${lim.length?`<h2 class="sec">${en?"Only at LEGOLAND parks":"Jen v parcích LEGOLAND"}</h2>${tiles(lim.map(m=>tile(m)))}`:""}
+  <p class="note">${en?"Sale status is checked automatically once a week (LEGO and Brickset). Always confirm the price in the shop.":"Stav prodeje se kontroluje automaticky jednou týdně (lego.cz a Brickset). Cenu vždy ověřte v obchodě."}</p>`;
+}
+
+/* ================== NEDÁVNO VYŘAZENO ================== */
+function vRetired(){
+  const en=LANG==="en";
+  const list=M.filter(m=>m.st==="off").sort((a,b)=>(b.to||0)-(a.to||0)||b.y-a.y);
+  const byYear={};
+  for(const m of list){ const k=m.to||m.y; (byYear[k]=byYear[k]||[]).push(m); }
+  let h=`<div class="eyebrow">2016–2026</div><h1>${en?"Recently retired":"Nedávno vyřazeno"}</h1>
+  <p class="lede">${en?"Castle and medieval sets of recent years that are no longer sold by LEGO. Many can still be found at other online shops, on eBay or in second-hand marketplaces.":"Hradní a středověké sety posledních let, které LEGO už neprodává. Mnohé se dají ještě sehnat na různých e-shopech a v bazarech."}</p>`;
+  for(const y of Object.keys(byYear).sort((a,b)=>b-a)){
+    h+=`<h2 class="sec">${en?"Last sold in":"Naposledy v prodeji"} ${y}</h2>${tiles(byYear[y].map(m=>tile(m,{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:`<span class="tnote">${en?"no faction":"bez frakce"}</span>`})))}`;
+  }
+  return h;
+}
+
 document.addEventListener("click",e=>{
   const a=e.target.closest("#langsw a"); if(!a) return;
   const l=a.dataset.lang; if(l===LANG){e.preventDefault();return;}
@@ -166,27 +322,7 @@ document.addEventListener("click",e=>{
 });
 
 /* ================== POHLEDY ================== */
-function timeline(){
-  const x0=1978,x1=2027,L=170,W=900,R=16,row=19,top=24;
-  const sx=y=>L+(y-x0)/(x1-x0)*(W-L-R);
-  const H=top+(F.length+1)*row+14, half=(sx(1)-sx(0))/2;
-  let g="";
-  for(let y=1980;y<=2025;y+=5){g+=`<line class="gl" x1="${sx(y)}" x2="${sx(y)}" y1="${top-6}" y2="${H-6}"/><text class="ax" x="${sx(y)}" y="12" text-anchor="middle">${y}</text>`;}
-  F.forEach((f,i)=>{
-    const y=top+i*row, w=Math.max(6,sx(f.to+1)-sx(f.from));
-    g+=`<a href="#${f.id}"><text x="${L-8}" y="${y+12}" text-anchor="end" font-size="12">${esc(fx(f,"name"))}</text><rect x="${sx(f.from)}" y="${y+2}" width="${w}" height="13" rx="2" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity=".35"/>`;
-    const tr=new Map();
-    f.tributes.forEach(x=>tr.set(x[0],[x[2],x[1]]));
-    M.filter(m=>m.f.includes(f.id)).forEach(m=>tr.set(m.n,[m.y,m.name]));
-    [...tr].filter(([,v])=>v[0]>f.to).forEach(([n,[yr,nm]])=>{g+=`<circle cx="${sx(yr)+half}" cy="${y+8.5}" r="4.5" fill="${f.sh.f[0]}" stroke="currentColor" stroke-opacity=".6"><title>${esc(disp(n))} ${esc(trName(nm))} (${yr})</title></circle>`;});
-    g+=`</a>`;
-  });
-  const yN=top+F.length*row+4, cnt={};
-  g+=`<a href="#navrat"><text x="${L-8}" y="${yN+12}" text-anchor="end" font-size="12" font-weight="700">${LANG==="cs"?"Novodobé sety":"Modern sets"}</text>`;
-  M.slice().sort((a,b)=>a.y-b.y).forEach(m=>{cnt[m.y]=(cnt[m.y]||0)+1;g+=`<rect x="${sx(m.y)+1}" y="${yN+2}" width="${half*2-2}" height="13" rx="2" fill="var(--or)" opacity="${Math.min(1,.25+cnt[m.y]*.12)}"><title>${esc(disp(m.n))} ${esc(trName(m.name))} (${m.y})</title></rect>`;});
-  g+=`</a>`;
-  return `<div class="tl"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LANG==="cs"?"Časová osa frakcí":"Faction timeline"} 1978–2027">${g}</svg></div>`;
-}
+
 
 function vHome(){
   const cards=F.map(f=>`<a class="fcard" href="#${f.id}">${mini(f,64)}<div><b>${esc(fx(f,"name"))}</b><span>${esc(fx(f,"alt"))}</span><div class="y">${f.years}</div></div></a>`).join("");
@@ -239,68 +375,11 @@ function vHome(){
   <p class="note">Štítky u tvrzení: ${tag("off")} doloženo sety, katalogy, krabicemi nebo návody LEGO (často přes citaci Wikipedie/Brickipedie), ${tag("fan")} výklad fanoušků, ${tag("unc")} rozporné nebo neověřené. Erby jsou ukázané na původních figurkách; malé štíty jsou zjednodušené barevné značky, ne repliky.</p>`;
 }
 
-function vFaction(f){
-  const en=LANG==="en";
-  const mod=M.filter(m=>m.f.includes(f.id));
-  const current=mod.filter(m=>m.st==="on");
-  const tribRows=f.tributes.map(x=>{const m=M.find(y=>y.n===x[0]);return tile({n:x[0],name:x[1],y:x[2],line:t("type")[x[3]]||"",st:m?m.st:"off",pcs:m?m.pcs:null});});
-  for(const m of mod){ if(!f.tributes.some(x=>x[0]===m.n) && m.st!=="on") tribRows.push(tile({n:m.n})); }
-  const origRows=f.sets.map(s=>tile({n:s[0],name:s[1],y:s[2],st:"off"},{noNote:true}));
-  const figs=(MF[f.id]||[]).map(m=>{const cap=en?(MF_EN[m[0]]||m[1]):m[1];return `<figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="${mfUrl(m[0])}" alt="${esc(cap)}" ${IMGFAIL}></div><figcaption>${esc(cap)}</figcaption></figure>`;}).join("");
-  const rels=fx(f,"rel");
-  const cur=current.length?tiles(current.map(m=>tile({n:m.n})))
-    : `<div class="empty">${en?`No set from this faction is on sale at LEGO.com right now. The latest releases are listed below; current medieval sets without a faction are on the <a href="#v-prodeji">On sale now</a> page.`:`Na lego.cz se teď neprodává žádný set této frakce. Poslední novinky najdete níže, aktuální středověké sety bez frakce na stránce <a href="#v-prodeji">Teď v prodeji</a>.`}</div>`;
-  const idx=F.indexOf(f), prev=F[idx-1], next=F[idx+1];
-  return `
-  <div class="eyebrow">${eraName(f.era)}</div>
-  <div class="fhead">${mini(f,96)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${f.years}</span><span class="chip">${f.sets.length} ${en?"original sets":"původních setů"}</span></div></div></div>
-  <p class="lede">${esc(fx(f,"intro"))}</p>
-  <h2 class="sec">${en?"The crest on original minifigures":"Erb na původních figurkách"}</h2>
-  <div class="erb"><div class="figs">${figs}</div><div class="panel"><div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p style="margin:6px 0 0">${esc(fx(f,"heraldry"))}</p></div></div>
-  <div class="twocol" style="margin-top:14px">
-    <div class="panel"><div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts" style="margin-top:6px">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div>
-  </div>
-  <h2 class="sec">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
-  <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
-  <p style="margin-top:8px"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"}</a></p>
-  <h2 class="sec">${en?"History":"Historie"}</h2>
-  <ul class="facts">${fx(f,"hist").map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
-  <h2 class="sec">${en?"On sale now":"Aktuálně v prodeji"}</h2>
-  ${cur}
-  <h2 class="sec">${en?"Retired sets":"Vyřazené sety"}</h2>
-  ${f.sets.length?`<h3>${en?"Original line":"Původní řada"} ${f.years}</h3>${tiles(origRows)}`:""}
-  <h3>${en?"Reissues, tributes and limited editions":"Reedice, pocty a limitované edice"}</h3>
-  <p style="font-size:.92rem;color:var(--ink-2)">${en?"LEGO Icons, Ideas, Creator, BrickLink Designer Program, gifts with purchase and collectible minifigures.":"LEGO Icons, Ideas, Creator, BrickLink Designer Program, dárky k nákupu a sběratelské minifigurky."}</p>
-  ${tiles(tribRows)}
-  <div class="meta" style="margin-top:28px;justify-content:space-between">${prev?`<a href="#${prev.id}">← ${esc(fx(prev,"name"))}</a>`:"<span></span>"}${next?`<a href="#${next.id}">${esc(fx(next,"name"))} →</a>`:""}</div>`;
-}
 
-function vSale(){
-  const en=LANG==="en", on=M.filter(m=>m.st==="on");
-  const facts = m => m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:"";
-  const checked = LIVE.checked ? (en?`Checked automatically · last check ${esc(LIVE.checked)}`:`Hlídáno automaticky · poslední kontrola ${esc(LIVE.checked)}`) : (en?"Status as of 29 Oct 2026":"Stav k 29. 10. 2026");
-  return `
-  <div class="eyebrow">${checked}</div>
-  <h1>${en?"On sale now":"Teď v prodeji"}</h1>
-  <p class="lede">${en
-    ?"Medieval and castle sets currently sold at LEGO.com. Links go straight to the product page; once a set leaves the shop, its link switches to Brickset and the set moves to the retired list. No classic faction is on sale at the moment: 10305 Lion Knights' Castle and 10332 Medieval Town Square ended on 31 Dec 2025."
-    :"Středověké a hradní sety, které se prodávají na lego.cz. Odkaz vede přímo na produktovou stránku; jakmile set z nabídky zmizí, odkaz se přepne na Brickset a set se přesune mezi vyřazené. Klasické frakce v nabídce momentálně nejsou: 10305 Lion Knights' Castle i 10332 Medieval Town Square skončily 31. 12. 2025."}</p>
-  ${tiles(on.map(m=>tile({n:m.n},{extra:facts(m)})))}
-  <h2 class="sec">${en?"Outside LEGO.com":"Mimo lego.cz"}</h2>
-  ${tiles(M.filter(m=>m.st==="lim").map(m=>tile({n:m.n})))}
-  <p class="note">${en?"Sale status is checked automatically once a week (LEGO and Brickset). Always confirm the price in the shop.":"Stav prodeje se kontroluje automaticky jednou týdně (lego.cz a Brickset). Cenu vždy ověřte v obchodě."}</p>`;
-}
 
-function vModern(){
-  const en=LANG==="en";
-  const groups=[...new Set(M.map(m=>m.line.replace(/ – série \d+/,"")))];
-  let h=`<div class="eyebrow">2016–2027</div><h1>${en?"Modern sets":"Moderní sety"}</h1><p class="lede">${en?"All modern castle and medieval sets: reimagined classic factions for adult fans, fan designs and limited editions.":"Všechny novodobé hradní a středověké sety: reinterpretace klasických frakcí pro dospělé, fanouškovské návrhy a limitované edice."}</p>`;
-  for(const g of groups){
-    const rows=M.filter(m=>m.line.replace(/ – série \d+/,"")===g).sort((a,b)=>a.y-b.y).map(m=>tile({n:m.n,line:m.line.includes("série")?m.line.split("– ")[1]:""},{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:""}));
-    h+=`<h2 class="sec">${esc(trLine(g))}</h2>${tiles(rows)}`;
-  }
-  return h;
-}
+
+
+
 
 function vReturn(){
   const en=LANG==="en";
@@ -381,7 +460,8 @@ function vDiagram(){
     ["kingdoms","Lion Knights (red)","Dragon Knights (green)","x","Two human kingdoms."],
     ["castle-2013","King's Knights","The Dragon Wizard's Dragon Knights","x","The last standalone line."],
     ["ninja","Shogun, samurai, grey ninjas","Bandits Kendo and Bonsai","x","The red ninjas' role is contradictory in the sources."],
-    ["nove-frakce","Horse Knights","Serpent Knights","?","Together in 31168; relationship not documented yet."]
+    ["horse-knights","Horse Knights","Serpent Knights","?","Together in 31168, most likely as tournament rivals; not documented officially."],
+    ["griffin-knights","Griffin Knights","Kraken Warriors","?","Introduced together in 21358; their relationship has not been described yet."]
   ]:[
     ["knights-kingdom","Lvi krále Lea","Býci (Cedric the Bull)","x","Hrad krále Lea proti psancům z Temného lesa."],
     ["knights-kingdom-2","Rytíři Morcie (Mathias, Jayko…)","Vladek, Shadow & Rogue Knights","x","Tři roky příběhu 2004–2006."],
@@ -392,7 +472,8 @@ function vDiagram(){
     ["kingdoms","Lví rytíři (červení)","Dračí rytíři (zelení)","x","Dvě lidská království."],
     ["castle-2013","Královi rytíři","Dračí rytíři Dračího čaroděje","x","Poslední samostatná řada."],
     ["ninja","Šógun, samurajové, šedí ninjové","Bandité Kendo a Bonsai","x","Role červených ninjů je v materiálech rozporná."],
-    ["nove-frakce","Horse Knights","Serpent Knights","?","Společně v 31168; vztah zatím nedoložen."]
+    ["horse-knights","Horse Knights","Serpent Knights","?","Společně v 31168, nejspíš jako soupeři na turnaji; oficiálně nedoloženo."],
+    ["griffin-knights","Griffin Knights","Kraken Warriors","?","Představeni spolu v 21358; jejich vztah zatím nebyl popsán."]
   ]).map(p=>`<div class="pair"><div class="vs"><span>${esc(p[1])}</span><span class="${p[3]==="a"?"a":"x"}">${p[3]==="a"?"⟷":p[3]==="?"?"?":"⚔"}</span><span>${esc(p[2])}</span></div><div style="color:var(--ink-2);margin-top:4px">${esc(p[4])} <a href="#${p[0]}">${esc(fx(fById(p[0]),"name"))}</a></div></div>`).join("");
   return `
   <div class="eyebrow">${en?"Who fought whom":"Kdo s kým bojoval"}</div>
@@ -567,7 +648,7 @@ function route(keepScroll){
   if(f) html=vFaction(f);
   else if(r==="diagram") html=vDiagram();
   else if(r==="v-prodeji") html=vSale();
-  else if(r==="moderni-sety") html=vModern();
+  else if(r==="moderni-sety"||r==="nedavno-vyrazeno") html=vRetired();
   else if(r==="zdroje") html=vSources();
   else if(r==="navrat") html=vReturn();
   else if(r==="brzy") html=vSoon();
