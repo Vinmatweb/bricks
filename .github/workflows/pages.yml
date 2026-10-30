@@ -31,9 +31,7 @@ jobs:
         run: python castle-GPT/scripts/verify.py
       - name: Prepare redirects and shared catalogue images
         run: python castle-GPT/scripts/prepare_legacy.py
-      - name: Build Claude English and Czech editions
-        run: bash castle-Claude/_src/castle/build.sh
-      - name: Verify and add Claude pages to the shared site
+      - name: Verify and publish prerendered Claude English and Czech pages
         run: python castle-Claude/scripts/prepare_pages.py
       - uses: actions/upload-artifact@v4
         with:

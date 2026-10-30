@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Griffin Knights – LEGO Castle faction | Castle Chronicle</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2064%2064%22%3E%3Cpath%20d%3D%22M6%204h52v28c0%2015-11%2024-26%2030C17%2056%206%2047%206%2032z%22%20fill%3D%22%231f4f9a%22%20stroke%3D%22%23d7a521%22%20stroke-width%3D%224%22/%3E%3Cpath%20d%3D%22M20%2046V24h4v-5h5v5h6v-5h5v5h4v22h-8v-8a4%204%200%200%200-8%200v8z%22%20fill%3D%22%23e7e9ec%22/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grenze+Gotisch:wght@500;700&amp;family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap">
+<style>
+/* Layout: kamenná „hradní kronika“ — boční seznam frakcí s erby, vpravo obsah; na mobilu se seznam skládá nad obsah. */
+:root{
+  --stone:#e7e9ec; --stone-2:#d9dde2; --paper:#f6f7f8; --ink:#1d2229; --ink-2:#4b5560; --line:#c3c9d0;
+  --gules:#b3282d; --azure:#1f4f9a; --or:#d7a521; --vert:#2f6b3a; --sable:#16181b; --argent:#f2f2f2;
+  --ok:#2f7d46; --warn:#a46a00; --muted:#6c7681; --blk:#16181b;
+  --display:"Grenze Gotisch","UnifrakturMaguntia",Georgia,serif;
+  --body:"Alegreya Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --stone:#15181c; --stone-2:#1e2328; --paper:#1a1e23; --ink:#e8eaed; --ink-2:#aab3bd; --line:#343b43;
+  --gules:#e0565a; --azure:#6f9be0; --or:#e6bb4a; --vert:#6fb27c; --sable:#0b0c0e; --argent:#dfe2e6;
+  --ok:#5fbf7c; --warn:#e0a53a; --muted:#8c96a1; --blk:#4a515b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --stone:#15181c; --stone-2:#1e2328; --paper:#1a1e23; --ink:#e8eaed; --ink-2:#aab3bd; --line:#343b43;
+  --gules:#e0565a; --azure:#6f9be0; --or:#e6bb4a; --vert:#6fb27c; --sable:#0b0c0e; --argent:#dfe2e6;
+  --ok:#5fbf7c; --warn:#e0a53a; --muted:#8c96a1; --blk:#4a515b; color-scheme:dark}
+body{background:var(--stone);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+a{color:var(--azure)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--or);outline-offset:2px}
+.wrap{display:grid;grid-template-columns:270px minmax(0,1fr);gap:28px;max-width:1240px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 60px}
+header.top{grid-column:1/-1;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;border-bottom:3px double var(--line);padding-bottom:12px}
+.brand{font-family:var(--display);font-size:2.6rem;line-height:1;margin:0;color:var(--ink);text-decoration:none}
+.brand small{display:block;font-family:var(--body);font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:6px}
+nav.main{display:flex;flex-wrap:wrap;gap:6px}
+nav.main a{font-size:.95rem;text-decoration:none;color:var(--ink);padding:5px 10px;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
+nav.main a[aria-current="page"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+aside.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 12px);align-self:start;max-height:calc(100vh - 30px);overflow:auto}
+aside h2{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:14px 0 6px;font-weight:700}
+aside ul{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+aside a{display:flex;align-items:center;gap:9px;padding:5px 6px;border-radius:3px;text-decoration:none;color:var(--ink);font-size:.95rem;line-height:1.2}
+aside a:hover{background:var(--stone-2)}
+aside a[aria-current="page"]{background:var(--paper);box-shadow:inset 3px 0 0 var(--fc,var(--ink))}
+aside a .yr{margin-left:auto;font-family:var(--mono);font-size:.7rem;color:var(--muted)}
+main{min-width:0}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(2.2rem,5vw,3.4rem);line-height:1.02;margin:6px 0 10px;text-wrap:balance}
+h2.sec{font-family:var(--display);font-weight:500;font-size:1.75rem;margin:34px 0 10px;text-wrap:balance}
+h3{font-size:1.1rem;margin:20px 0 6px}
+p{max-width:68ch;margin:0 0 12px}
+.lede{font-size:1.15rem;color:var(--ink-2);max-width:62ch}
+.eyebrow{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:18px 20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.fcard{display:flex;gap:12px;align-items:flex-start;text-decoration:none;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:12px}
+.fcard:hover{border-color:var(--ink-2)}
+.fcard b{display:block;font-size:1.02rem;line-height:1.2}
+.fcard span{font-size:.85rem;color:var(--ink-2)}
+.fcard .y{font-family:var(--mono);font-size:.75rem;color:var(--muted)}
+.fhead{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.fhead svg{flex:none}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
+.chip{font-size:.78rem;padding:2px 8px;border-radius:99px;border:1px solid var(--line);background:var(--paper);color:var(--ink-2);white-space:nowrap}
+.tag{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:1px 6px;border-radius:3px;vertical-align:1px;margin-left:4px}
+.tag.off{background:color-mix(in srgb,var(--ok) 18%,transparent);color:var(--ok)}
+.tag.fan{background:color-mix(in srgb,var(--warn) 18%,transparent);color:var(--warn)}
+.tag.unc{background:color-mix(in srgb,var(--muted) 20%,transparent);color:var(--muted)}
+.twocol{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+ul.facts{margin:0;padding-left:1.1em}
+ul.facts li{margin:3px 0;max-width:68ch}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700;background:var(--stone-2)}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.num a{text-decoration:none}
+.st{font-size:.78rem;font-weight:700;white-space:nowrap}
+.st.on{color:var(--ok)} .st.off{color:var(--muted)} .st.lim{color:var(--warn)}
+.empty{border:1px dashed var(--line);border-radius:4px;padding:14px 16px;color:var(--ink-2);background:color-mix(in srgb,var(--paper) 60%,transparent)}
+.note{font-size:.88rem;color:var(--ink-2);border-left:3px solid var(--or);padding:4px 0 4px 12px;margin:14px 0;max-width:72ch}
+.buy{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.buy .panel{display:flex;flex-direction:column;gap:6px}
+.buy .n{font-family:var(--mono);font-size:.85rem;color:var(--muted)}
+.buy b{font-size:1.1rem;line-height:1.25}
+.buy a.btn{margin-top:auto;align-self:flex-start;font-size:.9rem;text-decoration:none;background:var(--ink);color:var(--paper);padding:6px 12px;border-radius:3px}
+.diagram{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:8px}
+.diagram svg{display:block;min-width:760px;width:100%;height:auto}
+.dg-node > rect{fill:var(--stone);stroke:var(--line)}
+.dg-node:hover > rect,.dg-node:focus > rect{stroke:var(--ink)}
+.dg-node text{fill:var(--ink);font-family:var(--body)}
+.dg-node .yr{fill:var(--muted);font-family:var(--mono);font-size:11px}
+.e-off{stroke:var(--gules);stroke-width:2.4;fill:none}
+.e-fan{stroke:var(--gules);stroke-width:2;stroke-dasharray:2 5;stroke-linecap:round;fill:none}
+.e-ally{stroke:var(--ok);stroke-width:2.6;fill:none}
+.e-legend{stroke:var(--azure);stroke-width:2;stroke-dasharray:9 4 2 4;fill:none}
+.e-line{stroke:var(--muted);stroke-width:1.8;stroke-dasharray:7 5;fill:none}
+.legend{display:flex;flex-wrap:wrap;gap:16px;margin:10px 0;font-size:.88rem;color:var(--ink-2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.pairs{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px}
+.pair{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:10px 12px;font-size:.93rem}
+.pair .vs{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-weight:700}
+.pair .x{color:var(--gules);font-family:var(--display);font-size:1.2rem}
+.pair .a{color:var(--ok);font-family:var(--display);font-size:1.2rem}
+.tl{overflow-x:auto;background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:8px}
+.tl svg{display:block;min-width:720px;width:100%;height:auto}
+.tl text{font-family:var(--body);fill:var(--ink)}
+.tl .ax{fill:var(--muted);font-family:var(--mono);font-size:10px}
+.tl .gl{stroke:var(--line);stroke-width:1}
+.tl a:hover rect{opacity:.8}
+/* dlaždice setů – fotky mají bílé pozadí, proto bílý rám i v tmavém režimu */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:12px}
+.tile{background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.tile:hover{border-color:var(--ink-2)}
+.ph{position:relative;aspect-ratio:4/3;background:#fff;display:grid;place-items:center;padding:8px;text-decoration:none;border-bottom:1px solid var(--line)}
+.ph img{max-width:100%;max-height:100%;object-fit:contain;display:block}
+.ph.noimg::after{content:attr(data-n);font-family:var(--mono);font-size:1.4rem;color:#8a929b}
+.tile .b{padding:9px 11px 11px;display:flex;flex-direction:column;gap:3px;flex:1}
+.tile .b b{font-size:.98rem;line-height:1.25}
+.tn{font-family:var(--mono);font-size:.74rem;color:var(--muted)}
+.ty{font-size:.85rem;color:var(--ink-2)}
+.tnote{font-size:.8rem;color:var(--ink-2)}
+.tile .btn{margin-top:auto;align-self:flex-start;font-size:.85rem;text-decoration:none;background:var(--ink);color:var(--paper);padding:5px 10px;border-radius:3px}
+.tile .alt{font-size:.78rem;color:var(--muted);margin-top:2px}
+.mini{display:inline-flex;align-items:center;justify-content:center;flex:none;min-width:24px}
+.mini img{width:auto;display:block}
+.fhead .mini{background:#fff;border:1px solid var(--line);border-radius:4px;padding:6px;height:auto!important}
+.fcard .mini{background:#fff;border-radius:3px;padding:3px;height:auto!important}
+.erb{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;align-items:start}
+.figs{display:flex;gap:10px;flex-wrap:wrap}
+.fig{margin:0;width:150px;display:flex;flex-direction:column}
+.fig .ph{aspect-ratio:auto;height:190px;display:flex;align-items:flex-end;justify-content:center;padding:10px;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.fig .ph img{height:100%;width:auto;max-width:100%;object-fit:contain;object-position:bottom}
+.fig .ph.noimg{align-items:center}
+.fig figcaption{font-size:.8rem;color:var(--ink-2);margin-top:4px;line-height:1.3}
+@media (max-width:640px){.erb{grid-template-columns:minmax(0,1fr)}.fig{width:calc(50% - 5px)}.tiles{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+footer{grid-column:1/-1;border-top:1px solid var(--line);padding-top:14px;font-size:.85rem;color:var(--muted);display:grid;gap:6px}
+footer .fmain{display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;color:var(--ink-2)}
+footer .fmain a{color:var(--ink-2)}
+footer .fsmall{font-size:.78rem}
+@media (max-width:860px){
+  .wrap{grid-template-columns:minmax(0,1fr)}
+  aside.side{position:static;max-height:none}
+  aside ul{grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+  .brand{font-size:2.1rem}
+}
+@media (prefers-reduced-motion:no-preference){main{animation:fade .25s ease-out}@keyframes fade{from{opacity:.4}to{opacity:1}}}
+</style>
+
+<meta name="description" content="Knights in silver armour over dark red robes with a griffin shield. They first appeared in LEGO Ideas 21358 Minifigure Vending Machine (2025)."><meta property="og:title" content="Griffin Knights – LEGO Castle faction | Castle Chronicle"><meta property="og:description" content="Knights in silver armour over dark red robes with a griffin shield. They first appeared in LEGO Ideas 21358 Minifigure Vending Machine (2025)."><link rel="canonical" href="https://vinmat.eu/bricks/castle/griffin-knights/"><link rel="alternate" hreflang="cs" href="https://vinmat.eu/bricks/cs/castle/griffin-knights/"><link rel="alternate" hreflang="en" href="https://vinmat.eu/bricks/castle/griffin-knights/"><link rel="alternate" hreflang="x-default" href="https://vinmat.eu/bricks/castle/griffin-knights/"></head>
+<body>
+
+<style>
+.topright{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.tools{display:flex;gap:8px;align-items:center}
+.themebtn{font:inherit;font-size:.8rem;font-weight:700;padding:3px 9px;border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink-2);cursor:pointer}
+.themebtn:hover{color:var(--ink)}
+.lang{display:inline-flex;border:1px solid var(--line);border-radius:3px;overflow:hidden;font-size:.8rem;font-weight:700;letter-spacing:.06em}
+.lang a{padding:3px 9px;text-decoration:none;color:var(--ink-2);background:var(--paper)}
+.lang a[aria-current="true"]{background:var(--ink);color:var(--paper)}
+.shops{display:flex;flex-wrap:wrap;gap:5px;margin-top:auto;padding-top:4px}
+.shops a{font-size:.8rem;text-decoration:none;padding:4px 9px;border-radius:3px;border:1px solid var(--ink);color:var(--ink);background:transparent;white-space:nowrap}
+.shops a.pri{background:var(--ink);color:var(--paper)}
+.tile .alt{font-size:.76rem;color:var(--muted);margin-top:4px}
+.feats{display:grid;gap:14px}
+.feat{display:grid;grid-template-columns:minmax(0,260px) minmax(0,1fr);background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.feat .ph{aspect-ratio:auto;min-height:190px;border-bottom:0;border-right:1px solid var(--line)}
+.feat .fb{padding:12px 16px 14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.feat h3{margin:0;font-size:1.2rem;line-height:1.25}
+.feat p{margin:4px 0 2px;font-size:.97rem}
+.feat .ty .st{margin-left:6px}
+.feat .shops a:last-child{border-color:var(--line);color:var(--ink-2)}
+.emb{display:inline-flex;align-items:center;justify-content:center;flex:none}
+.emb img{max-height:100%;max-width:100%;object-fit:contain}
+aside a .nm{display:flex;flex-direction:column;min-width:0}
+aside a .nm .yr{margin-left:0;font-size:.68rem;line-height:1.3}
+@media (max-width:640px){.feat{grid-template-columns:minmax(0,1fr)}.feat .ph{border-right:0;border-bottom:1px solid var(--line);aspect-ratio:4/3;min-height:0}}
+.cnt{font-family:var(--mono);font-size:.8rem;color:var(--muted);font-weight:400;margin-left:6px}
+.mfigs{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+.mfig{margin:0;background:var(--paper);border:1px solid var(--line);border-radius:4px;overflow:hidden;display:flex;flex-direction:column}
+.mfig .ph{aspect-ratio:auto;height:150px;display:flex;align-items:flex-end;justify-content:center;padding:8px}
+.mfig .ph img{height:100%;width:auto;max-width:100%;object-fit:contain}
+.mfig figcaption{padding:6px 8px 8px;display:flex;flex-direction:column;gap:2px;font-size:.78rem;line-height:1.3}
+.mfig figcaption b{font-size:.82rem}
+.mfig figcaption span{color:var(--muted);font-family:var(--mono);font-size:.72rem}
+.dgwrap{display:flex;flex-direction:column;gap:10px}
+.dgtabs{display:flex;flex-wrap:wrap;gap:6px}
+.dgtab{font:inherit;font-size:.85rem;padding:5px 10px;border:1px solid var(--line);border-radius:3px;background:var(--paper);color:var(--ink);cursor:pointer}
+.dgtab[aria-selected="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.dggrid{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:14px;align-items:start}
+.dgsvg{background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:6px}
+.dgsvg svg{display:block;width:100%;height:auto}
+.e-with{stroke:var(--muted);stroke-width:2;stroke-dasharray:1 6;stroke-linecap:round;fill:none}
+.dgt,.dgy{paint-order:stroke;stroke:var(--paper);stroke-width:5px;stroke-linejoin:round}
+.dgco a{white-space:nowrap}
+.dgsvg path{transition:stroke-width .15s,opacity .15s}
+.dgsvg .dg-sel{stroke-width:6}
+.dgsvg .dg-near{stroke-width:3.4}
+.dg-hit{stroke:transparent;stroke-width:16;fill:none;cursor:pointer}
+.dg-hit:focus-visible{stroke:var(--or);stroke-opacity:.35}
+.dgn{cursor:pointer}
+.dgn .dgc{fill:#fff;stroke:var(--line);stroke-width:2}
+.dgn:hover .dgc,.dgn:focus-visible .dgc{stroke:var(--ink-2)}
+.dgn.sel .dgc{stroke:var(--or);stroke-width:4}
+.dgn:focus{outline:none}
+.dgt{fill:var(--ink);font-family:var(--body);font-size:18px;font-weight:700}
+.dgy{fill:var(--muted);font-family:var(--mono);font-size:13px}
+.dgside{position:sticky;top:12px;display:flex;flex-direction:column;gap:8px}
+.dgside p{margin:0;font-size:.95rem}
+.dghead{display:flex;gap:12px;align-items:center}
+.dghead .emb{background:#fff;border:1px solid var(--line);border-radius:4px;padding:4px;box-sizing:content-box}
+.dgh{margin:0;font-size:1.15rem;line-height:1.2}
+.dgg{margin:8px 0 2px;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.dgg-ally{color:var(--ok)} .dgg-riv{color:var(--gules)} .dgg-succ{color:var(--azure)} .dgg-with{color:var(--muted)}
+.dgrel{display:flex;justify-content:space-between;gap:8px;width:100%;font:inherit;font-size:.92rem;text-align:left;padding:6px 9px;border:1px solid var(--line);border-radius:3px;background:var(--stone);color:var(--ink);cursor:pointer}
+.dgrel:hover{border-color:var(--ink-2)}
+.dgmore{color:var(--muted);font-size:.8rem}
+.dgback{align-self:flex-start;font:inherit;font-size:.82rem;background:none;border:0;color:var(--azure);cursor:pointer;padding:0}
+.dgbtns{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.dgbtns .btn{font-size:.85rem;text-decoration:none;background:var(--ink);color:var(--paper);padding:6px 11px;border-radius:3px}
+@media (max-width:1100px){.dggrid{grid-template-columns:minmax(0,1fr)}.dgside{position:static}}
+@media (max-width:860px){.topright{align-items:flex-start}}
+</style>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="/bricks/castle/" id="brand">Castle Chronicle<small>An unofficial guide to the LEGO® Castle theme 1978–2026</small></a>
+    <div class="topright">
+      <div class="tools"><button type="button" class="themebtn" id="themebtn" title="Dark mode" aria-label="Dark mode">☾</button><div class="lang" id="langsw" role="group" aria-label="Language"><a href="/bricks/cs/castle/griffin-knights/" data-lang="cs" hreflang="cs" aria-current="false">CS</a><a href="/bricks/castle/griffin-knights/" data-lang="en" hreflang="en" aria-current="true">EN</a></div></div>
+      <nav class="main" id="mainnav" aria-label="Main navigation"><a href="/bricks/castle/">Home</a><a href="/bricks/castle/diagram/">Faction map</a><a href="/bricks/castle/v-prodeji/">On sale now</a><a href="/bricks/castle/nedavno-vyrazeno/">Recently retired</a><a href="/bricks/castle/brzy/">Coming soon</a><a href="/bricks/castle/zdroje/">Sources</a></nav>
+    </div>
+  </header>
+  <aside class="side" id="side" aria-label="Factions">
+    <div id="sidenav"><h2>Current factions (2025–)</h2><ul><li><a href="/bricks/castle/horse-knights/" style="--fc:#f2f2f2"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/86/3846pb079.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846pb079.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s0"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s0)"><rect x="0" y="0" width="48" height="60" fill="#f2f2f2"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#d7a521" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#1f4f9a" stroke-width="7" clip-path="url(#s0)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Horse Knights<span class="yr">2025–2026</span></span></a></li><li><a href="/bricks/castle/serpent-knights/" style="--fc:#16181b"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/95/4972pb04.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/4972pb04.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s1"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s1)"><rect x="0" y="0" width="48" height="60" fill="#16181b"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#c9ced4" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#5b2a6e" stroke-width="7" clip-path="url(#s1)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Serpent Knights<span class="yr">2025–2026</span></span></a></li><li><a href="/bricks/castle/griffin-knights/" style="--fc:#7a1f24" aria-current="page"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/95/4972pb02.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/4972pb02.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s2"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s2)"><rect x="0" y="0" width="48" height="60" fill="#7a1f24"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#e8e8e8" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#d7a521" stroke-width="7" clip-path="url(#s2)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Griffin Knights<span class="yr">2025–2026</span></span></a></li><li><a href="/bricks/castle/kraken-warriors/" style="--fc:#1f4a2a"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/80/75902pb35.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/75902pb35.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s3"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s3)"><rect x="0" y="0" width="48" height="60" fill="#1f4a2a"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#c5d34a" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#1d6f73" stroke-width="7" clip-path="url(#s3)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Kraken Warriors<span class="yr">2025–2026</span></span></a></li></ul><h2>Classic factions in new sets</h2><ul><li><a href="/bricks/castle/crusaders/" style="--fc:#e2b31f"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846p4h.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p4h.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s4"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s4)"><rect x="0" y="0" width="48" height="60" fill="#e2b31f"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#1f4f9a" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#b3282d" stroke-width="7" clip-path="url(#s4)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Crusaders / Lion Knights<span class="yr">2022–2025 · 2001 · 1984–1992</span></span></a></li><li><a href="/bricks/castle/forestmen/" style="--fc:#2f6b3a"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/8/3846p48.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p48.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s5"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s5)"><rect x="0" y="0" width="48" height="60" fill="#2f6b3a"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#f2f2f2" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#e2b31f" stroke-width="7" clip-path="url(#s5)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Forestmen<span class="yr">2021–2025 · 2010 · 1987–1990</span></span></a></li><li><a href="/bricks/castle/black-falcons/" style="--fc:#16181b"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846p46.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p46.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s6"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s6)"><rect x="0" y="0" width="24" height="60" fill="#16181b"></rect><rect x="24" y="0" width="24" height="60" fill="#f2f2f2"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Black Falcons<span class="yr">2021–2025 · 2002–2003 · 1984–1990</span></span></a></li><li><a href="/bricks/castle/wolfpack/" style="--fc:#16181b"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846p44.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p44.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s7"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s7)"><rect x="0" y="0" width="48" height="60" fill="#16181b"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#c9ced4" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Wolfpack Renegades<span class="yr">2024–2025 · 1992–1994</span></span></a></li><li><a href="/bricks/castle/black-knights/" style="--fc:#b3282d"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846px10.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846px10.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s8"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s8)"><rect x="0" y="0" width="48" height="60" fill="#b3282d"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#1f4f9a" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Black Knights<span class="yr">2026 · 1988–1994</span></span></a></li><li><a href="/bricks/castle/dragon-masters/" style="--fc:#e2b31f"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/2586p4b.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/2586p4b.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s9"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s9)"><rect x="0" y="0" width="48" height="60" fill="#e2b31f"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#2f6b3a" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#b3282d" stroke-width="7" clip-path="url(#s9)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Dragon Masters<span class="yr">2022–2025 · 1993–1995</span></span></a></li><li><a href="/bricks/castle/fright-knights/" style="--fc:#16181b"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846px7.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846px7.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s10"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s10)"><rect x="0" y="0" width="48" height="60" fill="#16181b"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#7b4aa0" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#b3282d" stroke-width="7" clip-path="url(#s10)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Fright Knights<span class="yr">2024 · 2019 · 1997–1998</span></span></a></li><li><a href="/bricks/castle/klasicky-hrad/" style="--fc:#c4282d"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846p47.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p47.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s11"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s11)"><rect x="0" y="0" width="24" height="60" fill="#c4282d"></rect><rect x="24" y="0" width="24" height="60" fill="#f2f2f2"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Classic Castle<span class="yr">2022–2025 · 1978–1983</span></span></a></li><li><a href="/bricks/castle/navrat/"><svg width="20.8" height="26" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s12"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s12)"><rect x="0" y="0" width="48" height="60" fill="#d7a521"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg><span class="nm">The classics return<span class="yr">2016–2026</span></span></a></li></ul><h2>Earlier lines</h2><ul><li><a href="/bricks/castle/castle-2013/" style="--fc:#1f4f9a"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/86/3846pb036.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846pb036.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s13"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s13)"><rect x="0" y="0" width="48" height="60" fill="#1f4f9a"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#d7a521" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#d7a521" stroke-width="7" clip-path="url(#s13)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Castle (2013)<span class="yr">2013–2014</span></span></a></li><li><a href="/bricks/castle/kingdoms/" style="--fc:#b3282d"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/86/3846pb027.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846pb027.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s14"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s14)"><rect x="0" y="0" width="24" height="60" fill="#b3282d"></rect><rect x="24" y="0" width="24" height="60" fill="#2f6b3a"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Kingdoms<span class="yr">2010–2012</span></span></a></li><li><a href="/bricks/castle/fantasy-era/" style="--fc:#1d3a6e"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/86/3846pb024.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846pb024.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s15"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s15)"><rect x="0" y="0" width="48" height="60" fill="#1d3a6e"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#d7a521" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#d7a521" stroke-width="7" clip-path="url(#s15)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Castle: Fantasy Era<span class="yr">2024–2025 · 2007–2009</span></span></a></li><li><a href="/bricks/castle/vikingove/" style="--fc:#8a4b2a"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/2/3960pb014.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3960pb014.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s16"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s16)"><rect x="0" y="0" width="24" height="60" fill="#8a4b2a"></rect><rect x="24" y="0" width="24" height="60" fill="#e2b31f"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Vikings<span class="yr">2022–2025 · 2005–2006</span></span></a></li><li><a href="/bricks/castle/knights-kingdom-2/" style="--fc:#d7a521"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/99/48494pb03.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/48494pb03.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s17"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s17)"><rect x="0" y="0" width="24" height="60" fill="#d7a521"></rect><rect x="24" y="0" width="24" height="60" fill="#1f4f9a"></rect></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Knights' Kingdom II<span class="yr">2004–2006</span></span></a></li><li><a href="/bricks/castle/knights-kingdom/" style="--fc:#b3282d"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/9/3846px5.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846px5.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s18"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s18)"><rect x="0" y="0" width="48" height="60" fill="#b3282d"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#e2b31f" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#e2b31f" stroke-width="7" clip-path="url(#s18)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Knights' Kingdom<span class="yr">2006–2007 · 2000–2001</span></span></a></li><li><a href="/bricks/castle/ninja/" style="--fc:#f2f2f2"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/11/2335px1.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/2335px1.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s19"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s19)"><rect x="0" y="0" width="48" height="60" fill="#f2f2f2"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#b3282d" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#16181b" stroke-width="7" clip-path="url(#s19)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Ninja<span class="yr">1998–2000</span></span></a></li><li><a href="/bricks/castle/dark-forest/" style="--fc:#1f4a2a"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/8/3846p48.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p48.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s20"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s20)"><rect x="0" y="0" width="48" height="60" fill="#1f4a2a"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#f2f2f2" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#16181b" stroke-width="7" clip-path="url(#s20)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Dark Forest<span class="yr">1996</span></span></a></li><li><a href="/bricks/castle/royal-knights/" style="--fc:#b3282d"><span class="emb" style="height:28px;width:25px"><img src="https://img.bricklink.com/ItemImage/PN/1/3846p4d.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/3846p4d.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="22.400000000000002" height="28" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s21"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s21)"><rect x="0" y="0" width="24" height="60" fill="#b3282d"></rect><rect x="24" y="0" width="24" height="60" fill="#f2f2f2"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#e2b31f" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><span class="nm">Royal Knights<span class="yr">2006–2007 · 1995–1996</span></span></a></li></ul></div>
+  </aside>
+  <main id="view" tabindex="-1">
+  <div class="eyebrow">Nostalgia revival (2016–today)</div>
+  <div class="fhead"><span class="emb" style="height:84px;width:76px"><img src="https://img.bricklink.com/ItemImage/PN/95/4972pb02.png" alt="" onerror="if(!this.dataset.b){this.dataset.b=1;this.src='https://img.bricklink.com/ItemImage/PL/4972pb02.png'}else{this.nextElementSibling.hidden=false;this.remove()}"><span hidden=""><svg width="67.2" height="84" viewBox="0 0 48 60" aria-hidden="true"><defs><clipPath id="s23"><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z"></path></clipPath></defs><g clip-path="url(#s23)"><rect x="0" y="0" width="48" height="60" fill="#7a1f24"></rect><path d="M24 16 L32 27 L24 40 L16 27 Z" fill="#e8e8e8" stroke="#00000033" stroke-width="1"></path></g><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="#d7a521" stroke-width="7" clip-path="url(#s23)"></path><path d="M4 3 H44 V24 C44 40 34 50 24 55 C14 50 4 40 4 24 Z" fill="none" stroke="currentColor" stroke-opacity=".55" stroke-width="2"></path></svg></span></span><div style="min-width:0"><h1>Griffin Knights</h1><div class="meta"><span class="chip">The griffin crest knights</span><span class="chip">2025–2026</span><span class="chip">5 sets</span><span class="chip">6 minifigures</span></div></div></div>
+  <p class="lede">Knights in silver armour over dark red robes with a griffin shield. They first appeared in LEGO Ideas 21358 Minifigure Vending Machine (2025). According to a Brickset review, this faction and the Kraken Warriors were chosen by fans in a LEGO Ideas poll. They return in BrickLink Designer Program sets.</p>
+  <div class="erb"><div class="figs"><figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="https://img.bricklink.com/ItemImage/MN/0/idea232.png" alt="Griffin Knight – male" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption>Griffin Knight – male</figcaption></figure><figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="https://img.bricklink.com/ItemImage/MN/0/idea236.png" alt="Griffin Knight – female" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption>Griffin Knight – female</figcaption></figure><figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="https://img.bricklink.com/ItemImage/MN/0/bdp353.png" alt="Griffin Knight (910062)" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption>Griffin Knight (910062)</figcaption></figure></div><div class="panel"><div class="eyebrow">Crest and colours</div><p style="margin:6px 0 12px">A white-and-silver griffin on dark red with a gold border; silver armour, dark red sleeves, gold gloves.</p><div class="eyebrow">Characters</div><ul class="facts" style="margin-top:6px"><li>Griffin Knight – male and female (21358)</li><li>Griffin Knight with a shoulder plate (910062)</li></ul></div></div>
+  <h2 class="sec">Sets with this faction</h2>
+  <div class="feats"><article class="feat">
+    <a class="ph" href="https://brickset.com/sets/910070-1" target="_blank" rel="noopener" data-n="910070"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/910070-1.webp" data-fb="https://images.brickset.com/sets/images/910070-1.jpg" alt="Sleepy Dragon Inn" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="fb"><span class="tn">910070 · BrickLink DP – Series 9</span>
+      <h3>Sleepy Dragon Inn</h3>
+      <div class="ty">2027 · 3,121 pieces <span class="st lim">◇ coming soon</span></div>
+      <p>A tavern from BrickLink Designer Program Series 9 by MarinBD. Turning a log on the side roasts a chicken over the hearth while patrons dance and a bard performs on stage. It is designed to stand next to 21325 Medieval Blacksmith and 910062 Alchemist's Shop. Griffin Knights, Horse Knights and Kraken Warriors keep the guests company.</p><span class="tnote"><a href="/bricks/castle/griffin-knights/">Griffin Knights</a>, <a href="/bricks/castle/horse-knights/">Horse Knights</a>, <a href="/bricks/castle/kraken-warriors/">Kraken Warriors</a></span>
+      <div class="shops"><a href="https://brickset.com/sets/910070-1" target="_blank" rel="noopener">Brickset</a></div>
+    </div></article><article class="feat">
+    <a class="ph" href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener" data-n="910064"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/910064-1.webp" data-fb="https://images.brickset.com/sets/images/910064-1.jpg" alt="Dustmark Keep" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="fb"><span class="tn">910064 · BrickLink DP – Series 8</span>
+      <h3>Dustmark Keep</h3>
+      <div class="ty">2026 · 3,960 pieces · 18 minifigures <span class="st off">○ retired</span></div>
+      <p>A large keep from BrickLink Designer Program Series 8 (3,960 pieces) with an observation tower, a cart and a horse. According to the Rebrickable inventory it is the home of the Serpent Knights' army: twelve serpent warriors against the White King and a knight of the Horse Knights, two Griffin Knights and one Kraken Warrior. Pre-orders opened in June 2026.</p><span class="tnote"><a href="/bricks/castle/serpent-knights/">Serpent Knights</a>, <a href="/bricks/castle/horse-knights/">Horse Knights</a>, <a href="/bricks/castle/griffin-knights/">Griffin Knights</a>, <a href="/bricks/castle/kraken-warriors/">Kraken Warriors</a></span>
+      <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%20910064" target="_blank" rel="sponsored noopener">eBay</a><a href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener">Brickset</a></div>
+    </div></article><article class="feat">
+    <a class="ph" href="https://brickset.com/sets/910062-1" target="_blank" rel="noopener" data-n="910062"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/910062-1.webp" data-fb="https://images.brickset.com/sets/images/910062-1.jpg" alt="Alchemist's Shop" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="fb"><span class="tn">910062 · BrickLink DP – Series 7</span>
+      <h3>Alchemist's Shop</h3>
+      <div class="ty">2026 · 2,319 pieces · 9 minifigures <span class="st off">○ retired</span></div>
+      <p>An alchemist's shop by Shram from BrickLink Designer Program Series 7, fully funded within two days. A laboratory, a fountain, a garden and scales. The nine figures include a Kraken Bandit, a Griffin Knight and two Horse Knights.</p><span class="tnote"><a href="/bricks/castle/kraken-warriors/">Kraken Warriors</a>, <a href="/bricks/castle/griffin-knights/">Griffin Knights</a>, <a href="/bricks/castle/horse-knights/">Horse Knights</a></span>
+      <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%20910062" target="_blank" rel="sponsored noopener">eBay</a><a href="https://brickset.com/sets/910062-1" target="_blank" rel="noopener">Brickset</a></div>
+    </div></article><article class="feat">
+    <a class="ph" href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener" data-n="40912"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/40912-1.webp" data-fb="https://images.brickset.com/sets/images/40912-1.jpg" alt="Sea Serpent" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="fb"><span class="tn">40912 · Gift with purchase (Ideas)</span>
+      <h3>Sea Serpent</h3>
+      <div class="ty">2026 · 241 pieces · 2 minifigures <span class="st off">○ retired</span></div>
+      <p>A new version of the 1992 ship 6057 that won the LEGO Ideas design contest “A Twist of Nostalgia” (design by HallowedBrick02, finished by Mel Caddick). A fabric sail, a modular stern, movable rudders, flags and a cargo hold. The crew are two knights that the Rebrickable catalogue lists as Griffin Knights in a dark blue variant. 241 pieces, about 20 cm long. A gift with purchase during Insiders Days in July 2026.</p><span class="tnote"><a href="/bricks/castle/black-knights/">Black Knights</a>, <a href="/bricks/castle/griffin-knights/">Griffin Knights</a></span>
+      <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%2040912" target="_blank" rel="sponsored noopener">eBay</a><a href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener">Brickset</a></div>
+    </div></article><article class="feat">
+    <a class="ph" href="https://www.lego.com/en-us/product/minifigure-vending-machine-21358" target="_blank" rel="sponsored noopener" data-n="21358"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/21358-1.webp" data-fb="https://images.brickset.com/sets/images/21358-1.jpg" alt="Minifigure Vending Machine" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="fb"><span class="tn">21358 · Ideas</span>
+      <h3>Minifigure Vending Machine</h3>
+      <div class="ty">2025 · 1,343 pieces · 16 minifigures <span class="st on">● on sale</span></div>
+      <p>LEGO Ideas No. 66, based on a fan design. A fully working vending machine: insert a coin, turn the handle and a capsule with a figure drops out. According to LEGO, the sixteen collectible figures pay tribute to classic themes such as Castle, Paradisa and Fabuland; four of them were chosen by LEGO Ideas fans – among them the new castle factions Griffin Knights and Kraken Warriors.</p><span class="tnote"><a href="/bricks/castle/griffin-knights/">Griffin Knights</a>, <a href="/bricks/castle/kraken-warriors/">Kraken Warriors</a></span>
+      <div class="shops"><a class="pri" href="https://www.lego.com/en-us/product/minifigure-vending-machine-21358" target="_blank" rel="sponsored noopener">LEGO.com</a><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%2021358" target="_blank" rel="sponsored noopener">eBay</a><a href="https://brickset.com/sets/21358-1" target="_blank" rel="noopener">Brickset</a></div>
+    </div></article></div>
+  <h2 class="sec">Minifigures <span class="cnt">6 variants</span></h2>
+  <p class="tnote" style="max-width:68ch">All catalogued figure variants of the faction with the sets they come in (Rebrickable inventories, 29 Oct 2026). Faction assignment is editorial, not an official LEGO taxonomy.</p><div class="mfigs"><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/fig-016357.webp" data-fb="https://cdn.rebrickable.com/media/sets/fig-016357.jpg" alt="Male Griffin Knight" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Male Griffin Knight</b><span><a href="https://brickset.com/sets/21358-1" target="_blank" rel="noopener">21358</a></span></figcaption></figure><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/fig-016358.webp" data-fb="https://cdn.rebrickable.com/media/sets/fig-016358.jpg" alt="Griffin Knight, Female, Dark Red Arms" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Griffin Knight, Female, Dark Red Arms</b><span><a href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener">910064</a>, <a href="https://brickset.com/sets/21358-1" target="_blank" rel="noopener">21358</a></span></figcaption></figure><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/fig-017916.webp" data-fb="https://cdn.rebrickable.com/media/sets/fig-017916.jpg" alt="Griffin Knight" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Griffin Knight</b><span><a href="https://brickset.com/sets/910062-1" target="_blank" rel="noopener">910062</a></span></figcaption></figure><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/fig-017958.webp" data-fb="https://cdn.rebrickable.com/media/sets/fig-017958.jpg" alt="Griffin Knight, Female, Dark Blue Arms" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Griffin Knight, Female, Dark Blue Arms</b><span><a href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener">40912</a></span></figcaption></figure><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/fig-017959.webp" data-fb="https://cdn.rebrickable.com/media/sets/fig-017959.jpg" alt="Griffin Knight, Male, Dark Blue Arms" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Griffin Knight, Male, Dark Blue Arms</b><span><a href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener">40912</a></span></figcaption></figure><figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" src="https://cdn.rebrickable.com/media/sets/fig-018242.jpg" alt="Griffin Knight, Reddish Brown Hair" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></div><figcaption><b>Griffin Knight, Reddish Brown Hair</b><span><a href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener">910064</a></span></figcaption></figure></div>
+  <h2 class="sec">Allies and enemies</h2>
+  <ul class="facts"><li>Created together with the Kraken Warriors (21358); no official relationship has been described yet. <span class="tag unc">uncertain</span></li><li>Together with Horse Knights and Kraken Warriors in 910062 and 910070. <span class="tag off">official</span></li></ul>
+  <p style="margin-top:8px"><a href="/bricks/castle/diagram/">Show on the faction map</a></p>
+  <h2 class="sec">History</h2>
+  <ul class="facts"><li>2027: announced in BDP 910070 Sleepy Dragon Inn.</li><li>2026: BDP 910062 Alchemist's Shop, two Griffin Knights in 910064 Dustmark Keep and two in a dark blue variant aboard the ship 40912 Sea Serpent.</li><li>2025: debut in 21358 Minifigure Vending Machine (LEGO Ideas No. 66).</li></ul>
+  <h2 class="sec">Retired sets</h2>
+  <p style="font-size:.92rem;color:var(--ink-2)">From newest to oldest.</p>
+  <div class="tiles"><div class="tile">
+    <a class="ph" href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener" data-n="910064"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/910064-1.webp" data-fb="https://images.brickset.com/sets/images/910064-1.jpg" alt="Dustmark Keep" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="b"><span class="tn">910064 · BrickLink DP – Series 8</span><b>Dustmark Keep</b>
+    <span class="ty">2026 · 3,960 pieces</span><span class="st off">○ retired</span>
+    <span class="tnote">Limited edition, sold out</span>
+    
+    <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%20910064" target="_blank" rel="sponsored noopener">eBay</a></div>
+    <a class="alt" href="https://brickset.com/sets/910064-1" target="_blank" rel="noopener">Brickset</a></div></div><div class="tile">
+    <a class="ph" href="https://brickset.com/sets/910062-1" target="_blank" rel="noopener" data-n="910062"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/910062-1.webp" data-fb="https://images.brickset.com/sets/images/910062-1.jpg" alt="Alchemist's Shop" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="b"><span class="tn">910062 · BrickLink DP – Series 7</span><b>Alchemist's Shop</b>
+    <span class="ty">2026 · 2,319 pieces</span><span class="st off">○ retired</span>
+    <span class="tnote">Limited edition, sold out</span>
+    
+    <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%20910062" target="_blank" rel="sponsored noopener">eBay</a></div>
+    <a class="alt" href="https://brickset.com/sets/910062-1" target="_blank" rel="noopener">Brickset</a></div></div><div class="tile">
+    <a class="ph" href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener" data-n="40912"><img loading="lazy" src="/bricks/cs/castle/assets/catalog/40912-1.webp" data-fb="https://images.brickset.com/sets/images/40912-1.jpg" alt="Sea Serpent" onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"></a>
+    <div class="b"><span class="tn">40912 · Gift with purchase (Ideas)</span><b>Sea Serpent</b>
+    <span class="ty">2026 · 241 pieces</span><span class="st off">○ retired</span>
+    <span class="tnote">Insiders Days 7/2026; remake of 6057</span>
+    
+    <div class="shops"><a class="" href="https://www.ebay.com/sch/i.html?_nkw=LEGO%2040912" target="_blank" rel="sponsored noopener">eBay</a></div>
+    <a class="alt" href="https://brickset.com/sets/40912-1" target="_blank" rel="noopener">Brickset</a></div></div></div>
+  <div class="meta" style="margin-top:28px;justify-content:space-between"><a href="/bricks/castle/serpent-knights/">← Serpent Knights</a><a href="/bricks/castle/kraken-warriors/">Kraken Warriors →</a></div></main>
+  <footer id="foot"><div class="fmain"><span>© 2026 Made with ❤️ for creative play</span><span class="dot">·</span><a href="/bricks/castle/soukromi/">Privacy Policy</a><span class="dot">·</span><a href="/bricks/castle/podminky/">Terms of Use</a><span class="dot">·</span><a href="mailto:vinmat.sn@gmail.com" title="vinmat.sn@gmail.com">✉️ Contact</a></div><div class="fsmall">LEGO® is a trademark of the LEGO Group of companies which does not sponsor, authorize or endorse this site. Set and minifigure photos: Brickset, BrickLink.</div></footer>
+</div>
+
+
+<script>window.CASTLE_PRERENDERED=1;window.CASTLE_LANG="en"</script>
+<script src="/bricks/cs/castle/castle-app.js?v=02567f0f41"></script>
+
+
+</body></html>

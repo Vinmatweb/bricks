@@ -1,0 +1,5 @@
+bricks/cs/castle/assets/catalog/
+_src/castle/index.html
+node_modules/
+__pycache__/
+*.pyc

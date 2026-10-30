@@ -1,4 +1,4 @@
-# LEGO Castle Kronika – nasazení na vinmat.eu
+# Hradní kronika – nasazení na vinmat.eu
 
 Česká verze: https://vinmat.eu/bricks/cs/castle/ · Anglická verze: https://vinmat.eu/bricks/castle/
 
@@ -8,6 +8,9 @@
 |---|---|
 | `bricks/cs/castle/index.html` | web – česká verze |
 | `bricks/castle/index.html` | web – anglická verze (stav prodeje čte z české složky) |
+| `bricks/cs/castle/<stránka>/`, `bricks/castle/<stránka>/` | samostatné stránky frakcí a sekcí |
+| `bricks/cs/castle/castle-app.js` | společný skript a data obou verzí |
+| `bricks/castle-sitemap.xml` | mapa stránek pro Google |
 | `bricks/cs/castle/status.json` | stav prodeje, který web načítá |
 | `scripts/lego-castle-status.mjs` | kontrola lego.cz + Brickset |
 | `.github/workflows/lego-castle-status.yml` | spouští kontrolu každé pondělí |
@@ -50,7 +53,7 @@ nasazujete vlastním workflow (ne „Deploy from a branch“), přidejte do něj
 
 ## Partnerské (affiliate) odkazy
 
-Na začátku skriptu v obou `index.html` je blok `const AFF = {...}`. Vyplňte jen to, co máte schválené;
+V `_src/castle/src/05-app.js` je blok `const AFF = {...}` (po úpravě spusťte build, zapíše se do `bricks/cs/castle/castle-app.js`). Vyplňte jen to, co máte schválené;
 prázdná položka = obyčejný odkaz bez provize, Amazon se bez `amazon_tag` vůbec nezobrazí.
 
 | Klíč | Program | Co vložit |
@@ -66,7 +69,9 @@ Odkazy na obchody mají `rel="sponsored"`.
 ## Úpravy webu
 
 Zdroje jsou v `_src/castle/src/` (složky s podtržítkem GitHub Pages nepublikuje). Po úpravě spusťte
-`_src/castle/build.sh` – vygeneruje obě jazykové verze do `bricks/`. Data jsou v `03-data-cs.js`
+`_src/castle/build.sh` – vygeneruje obě jazykové verze do `bricks/` jako samostatné stránky (každá frakce a sekce
+má vlastní adresu, např. `/bricks/cs/castle/black-falcons/`). Potřebuje Python 3 a Node s Playwrightem
+(`npm i -D playwright && npx playwright install chromium`), který stránky předvykreslí, aby je viděl Google. Data jsou v `03-data-cs.js`
 (české texty, sety) a `04-data-en.js` (anglické texty); partnerské odkazy v bloku `AFF` v `05-app.js`.
 
 ## Sekce „Již brzy“
@@ -77,5 +82,18 @@ Sety z BrickLink Designer Programu se na lego.cz neprodávají, ty je potřeba p
 
 ## Patička, ochrana soukromí, podmínky
 
-Zásady ochrany osobních údajů a Podmínky užití jsou součástí webu (`#soukromi`, `#podminky`) v obou jazycích.
+Zásady ochrany osobních údajů a Podmínky užití jsou samostatné stránky webu (`/bricks/cs/castle/soukromi/`, `/bricks/cs/castle/podminky/`, anglicky `/bricks/castle/soukromi/`, `/bricks/castle/podminky/`).
 Kontaktní e-mail je v konstantě `CONTACT` v `05-app.js`. Datum platnosti je v konstantě `UPDATED`.
+
+## Katalog setů a minifigurek
+
+`_src/castle/src/03c-catalog.js` obsahuje 370 setů a 735 variant minifigurek z veřejných dat Rebrickable
+(převzato z verze GPT v2, snímek 29. 10. 2026). Fotky jsou lokálně v `bricks/cs/castle/assets/catalog/`
+(stejná složka a názvy souborů jako u verze GPT, takže se nic neduplikuje); když fotka chybí, použije se Brickset nebo Rebrickable.
+
+## Google
+
+Každá stránka má vlastní titulek, popis, kanonickou adresu a odkaz na jazykovou dvojici.
+Mapa stránek je `bricks/castle-sitemap.xml` – v Google Search Console ji odešlete jako
+`https://vinmat.eu/bricks/castle-sitemap.xml`. Případně ji uveďte i v `robots.txt` v kořeni webu:
+`Sitemap: https://vinmat.eu/bricks/castle-sitemap.xml`. Staré odkazy s `#` se samy přesměrují na nové adresy.

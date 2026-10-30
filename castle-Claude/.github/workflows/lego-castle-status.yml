@@ -3,6 +3,11 @@
 name: LEGO Castle – stav prodeje
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'castle-Claude/scripts/lego-castle-status.mjs'
+      - '.github/workflows/lego-castle-status.yml'
   schedule:
     - cron: "17 5 * * 1"     # každé pondělí 5:17 UTC (6:17 / 7:17 v Praze)
   workflow_dispatch:          # ruční spuštění z karty Actions
