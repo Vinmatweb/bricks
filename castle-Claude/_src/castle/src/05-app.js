@@ -100,6 +100,16 @@ const bs = n => `https://brickset.com/sets/${sid(n)}`;
 const IMGFAIL = `onerror="if(this.dataset.fb){this.src=this.dataset.fb;this.dataset.fb=''}else{this.parentNode.classList.add('noimg');this.remove()}"`;
 // fotky: na vinmat.eu lokální kopie (katalog), jinak Brickset / Rebrickable
 const CAT_BASE = DEPLOYED ? "/bricks/cs/castle/assets/catalog/" : null;
+/* místní kopie obrázků z BrickLinku, Bricksetu a Rebrickable (assets/ext, stahuje je akce „Stáhnout obrázky“);
+   když kopie chybí, načte se originál */
+const EXT_BASE = "/bricks/cs/castle/assets/ext/";
+const EXT_RE = /(src|href)="(https:\/\/(img\.bricklink\.com|images\.brickset\.com|cdn\.rebrickable\.com)\/([^"]+))"/g;
+const MIR = h => DEPLOYED ? h.replace(EXT_RE,(m,a,u,host,p)=>`${a}="${EXT_BASE}${host}/${p}" data-o="${u}"`) : h;
+document.addEventListener("error", e => {
+  const el=e.target; if(!el||!el.dataset||!el.dataset.o) return;
+  const u=el.dataset.o; delete el.dataset.o; e.stopImmediatePropagation();
+  el.setAttribute(el.tagName.toLowerCase()==="img"?"src":"href", u);
+}, true);
 function setImgAttrs(n){
   const id=sid(n), c=CAT_SETS[id];
   if(CAT_BASE && c && c[6]) return `src="${CAT_BASE}${id}.webp" data-fb="${setImg(n)}"`;
@@ -273,6 +283,134 @@ function feature(m){
     </div></article>`;
 }
 
+/* ================== DETAIL SETU, ČASOVÁ OSA, ŘÁDKY CIK-CAK ================== */
+// další fotky z oficiálních stránek setů (lokální kopie v assets/gal/{číslo}-{n}.webp)
+const GAL = {"10305":8,"10332":2,"21325":2,"21343":2,"21358":3,"31120":2,"31132":2,"31161":2,"31168":2,"40567":2,"40601":2,"40912":2};
+const GAL_BASE = DEPLOYED ? "/bricks/cs/castle/assets/gal/" : "assets/gal/";
+const SETREG = new Map();   // sety vykreslené na stránce – pro vyskakovací detail
+const reg = m => { const k=String(m.n); SETREG.set(k,m); return k; };
+const full = m => Object.assign({}, M.find(x=>x.n===m.n)||{}, m);
+// doba prodeje: „2025 – dosud“, „2022–2025“, „1986“, „vyjde 2027“
+function avail(m){
+  const en=LANG==="en";
+  if(m.st==="soon") return (en?"coming ":"vyjde ")+m.y;
+  if(m.st==="on"||m.st==="lim") return `${m.y} – ${en?"present":"dosud"}`;
+  let to=m.to; if(to==null && REISSUE[m.n]) to=REISSUE[m.n][1];
+  return to && to!==m.y ? `${m.y}–${to}` : `${m.y}`;
+}
+const stLive = m => m.st && m.st!=="off" ? stTxt(m.st) : "";
+function figCount(m){
+  if(m.mf) return m.mf;
+  const c=CAT_SETS[sid(m.n)]; return c ? c[5].reduce((a,[,q])=>a+q,0) : 0;
+}
+function factsOf(m){
+  const en=LANG==="en", mf=figCount(m);
+  return [avail(m), m.pcs?`${fmtNum(m.pcs)} ${t("pieces")}`:"", mf?`${mf} ${en?(mf===1?"minifigure":"minifigures"):(mf===1?"minifigurka":mf<5?"minifigurky":"minifigurek")}`:"",
+    m.st==="on"&&m.price&&LANG==="cs"?`<b>${fmtNum(Math.round(m.price))} Kč</b>`:""].filter(Boolean);
+}
+const factionIds = m => (m.f&&m.f.length?m.f:((CAT_SETS[sid(m.n)]||[])[4]||[])).filter(fById);
+const photoCount = m => 1 + (GAL[disp(m.n)]||0) + (((CAT_SETS[sid(m.n)]||[])[5])||[]).filter(([id])=>CAT_FIGS[id]).length;
+function shopRow(m){
+  const shops=shopsFor(m);
+  return `<div class="shops">${shops.map((s,i)=>`<a class="${i===0&&m.st==="on"?"pri":""}" href="${s.url(m)}" ${RELAFF}>${esc(s.label)}</a>`).join("")}<a href="${bs(m.n)}" ${REL}>Brickset</a></div>`;
+}
+
+// karta na časové ose frakce (střídavě nad a pod linkou)
+function tlCard(m,i,cur){
+  const k=reg(m), d=descOf(m.n);
+  return `<li class="tlc ${i%2?"dn":"up"} ${m.st||"off"}${cur?" cur":""}" style="--i:${i}">
+    <button type="button" class="tlb" data-set="${esc(k)}" aria-haspopup="dialog">
+      <span class="tlph" data-n="${esc(disp(m.n))}"><img loading="lazy" ${setImgAttrs(m.n)} alt="" ${IMGFAIL}></span>
+      <span class="tlt"><span class="tn">${esc(disp(m.n))}</span><b>${esc(nameOf(m))}</b><span class="tlav">${esc(avail(m))}</span>${stLive(m)}</span>
+    </button>
+    <span class="tly" aria-hidden="true">${m.y}</span>${d?`<span class="vh">${esc(d)}</span>`:""}
+  </li>`;
+}
+function setTimeline(list){
+  const asc=list.slice().sort((a,b)=>a.y-b.y || String(a.n).localeCompare(String(b.n)));
+  let cur=-1;
+  asc.forEach((m,i)=>{ if(m.st==="on"||m.st==="lim") cur=i; });
+  if(cur<0) asc.forEach((m,i)=>{ if(m.st!=="soon") cur=i; });
+  const en=LANG==="en";
+  return `<div class="stlw">
+    <button type="button" class="stl-nav prev" aria-label="${en?"Older sets":"Starší sety"}">‹</button>
+    <div class="stl" tabindex="0" aria-label="${en?"Set timeline":"Časová osa setů"}"><ol class="stl-in" style="--n:${asc.length}">${asc.map((m,i)=>tlCard(m,i,i===cur)).join("")}</ol></div>
+    <button type="button" class="stl-nav next" aria-label="${en?"Newer sets":"Novější sety"}">›</button>
+  </div>`;
+}
+
+// řádek setu se střídáním fotky vlevo/vpravo (Teď v prodeji, Nedávno vyřazeno, Již brzy)
+function zrow(m0,i){
+  const m=full(m0), k=reg(m), en=LANG==="en", note=noteOf(m), fl=factionIds(m), pc=photoCount(m);
+  return `<article class="zr${i%2?" rev":""}">
+    <button type="button" class="zph" data-set="${esc(k)}" aria-haspopup="dialog" aria-label="${esc((en?"Details and photos: ":"Detail a fotky: ")+nameOf(m))}">
+      <span class="tlph" data-n="${esc(disp(m.n))}"><img loading="lazy" ${setImgAttrs(m.n)} alt="${esc(nameOf(m))}" ${IMGFAIL}></span>
+      ${pc>1?`<span class="zmore">${pc} ${en?"photos":pc<5?"fotky":"fotek"}</span>`:""}
+    </button>
+    <div class="zb"><span class="tn">${esc(disp(m.n))}${m.line?` · ${esc(trLine(m.line))}`:""}</span>
+      <h3>${esc(nameOf(m))}</h3>${subName(m)}
+      <div class="ty">${factsOf(m).join(" · ")} ${stLive(m)}</div>
+      ${descOf(m.n)?`<p>${esc(descOf(m.n))}</p>`:""}
+      ${note?`<span class="tnote">${esc(note)}</span>`:""}
+      ${fl.length?`<span class="tnote">${en?"Factions":"Frakce"}: ${linkFactions(fl)}</span>`:""}
+      ${shopRow(m)}
+      <button type="button" class="zdet" data-set="${esc(k)}">${en?"Details and photos":"Detail a fotky"} →</button>
+    </div></article>`;
+}
+const zrows = (arr,start=0) => arr.length?`<div class="zz">${arr.map((m,i)=>zrow(m,start+i)).join("")}</div>`:`<div class="empty">${t("none")}</div>`;
+
+// vyskakovací okno s detailem setu
+function setDialog(){
+  let d=$("#setdlg"); if(d) return d;
+  d=document.createElement("dialog"); d.id="setdlg"; d.className="sdlg";
+  document.body.appendChild(d);
+  d.addEventListener("click",e=>{
+    if(e.target===d || e.target.closest(".sdx")){ d.close(); return; }
+    const th=e.target.closest(".gth"); if(!th) return;
+    const src=th.querySelector("img"); const v=d.querySelector(".gv img");
+    if(!src||!v) return;
+    v.src=src.currentSrc||src.src; v.alt=th.dataset.cap||"";
+    d.querySelector(".gv figcaption").textContent=th.dataset.cap||"";
+    d.querySelectorAll(".gth").forEach(b=>b.setAttribute("aria-current",b===th));
+  });
+  d.addEventListener("close",()=>document.documentElement.classList.remove("dlg-open"));
+  return d;
+}
+function openSet(k){
+  const m0=SETREG.get(k); if(!m0) return;
+  const m=full(m0), en=LANG==="en", c=CAT_SETS[sid(m.n)];
+  const pics=[{a:setImgAttrs(m.n),cap:""}];
+  for(let i=1;i<=(GAL[disp(m.n)]||0);i++) pics.push({a:`src="${GAL_BASE}${disp(m.n)}-${i}.webp"`,cap:""});
+  if(c) for(const [fid,q] of c[5]) if(CAT_FIGS[fid]) pics.push({a:figImgAttrs(fid),cap:CAT_FIGS[fid][0]+(q>1?` ×${q}`:"")});
+  const fl=factionIds(m), d=descOf(m.n), note=noteOf(m);
+  const html=`<button type="button" class="sdx" aria-label="${en?"Close":"Zavřít"}">×</button>
+  <div class="sdin">
+    <div class="sdg">
+      <figure class="gv"><img ${pics[0].a} alt="${esc(nameOf(m))}" ${IMGFAIL}><figcaption></figcaption></figure>
+      ${pics.length>1?`<div class="gths">${pics.map((p,i)=>`<button type="button" class="gth" data-cap="${esc(p.cap)}" aria-current="${i===0}" aria-label="${esc(p.cap||(en?"Photo ":"Fotka ")+(i+1))}"><img loading="lazy" ${p.a} alt="" ${IMGFAIL}></button>`).join("")}</div>`:""}
+    </div>
+    <div class="sdt">
+      <span class="tn">${esc(disp(m.n))}${m.line?` · ${esc(trLine(m.line))}`:""}</span>
+      <h2>${esc(nameOf(m))}</h2>${subName(m)}
+      <div class="ty">${factsOf(m).join(" · ")} ${stLive(m)}</div>
+      ${d?`<p>${esc(d)}</p>`:`<p class="tnote">${en?"We don’t have a longer description of this set yet – piece count, figures and instructions are on Brickset.":"Podrobnější popis tohoto setu zatím nemáme – dílky, figurky a návody najdete na Bricksetu."}</p>`}
+      ${note?`<span class="tnote">${esc(note)}</span>`:""}
+      ${fl.length?`<span class="tnote">${en?"Factions":"Frakce"}: ${linkFactions(fl)}</span>`:""}
+      ${shopRow(m)}
+    </div>
+  </div>`;
+  const dlg=setDialog();
+  dlg.setAttribute("aria-label",nameOf(m));
+  dlg.innerHTML=MIR(html); rewriteLinks(dlg);
+  document.documentElement.classList.add("dlg-open");
+  dlg.showModal();
+}
+document.addEventListener("click",e=>{
+  const s=e.target.closest("[data-set]"); if(s){ e.preventDefault(); openSet(s.dataset.set); return; }
+  const g=e.target.closest("[data-goto]"); if(g){ const el=document.getElementById(g.dataset.goto); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); return; }
+  const nv=e.target.closest(".stl-nav"); if(nv){ const s2=nv.parentNode.querySelector(".stl"); s2.scrollBy({left:(nv.classList.contains("prev")?-1:1)*s2.clientWidth*0.8,behavior:"smooth"}); }
+});
+
 /* ================== RÁM STRÁNKY ================== */
 function renderChrome(){
   document.documentElement.lang = LANG;
@@ -281,6 +419,7 @@ function renderChrome(){
   $("#mainnav").setAttribute("aria-label", LANG==="cs"?"Hlavní navigace":"Main navigation");
   $("#mainnav").innerHTML = t("nav").map(([id,l])=>`<a href="#${id}">${esc(l)}</a>`).join("");
   $("#side").setAttribute("aria-label", t("factions"));
+  const tt=$("#totop"); if(tt){ tt.setAttribute("aria-label",LANG==="cs"?"Nahoru":"Back to top"); tt.title=tt.getAttribute("aria-label"); }
   $("#langsw").innerHTML = ["cs","en"].map(l=>`<a href="${DEPLOYED?routeUrl(routeId(),l):"#"}" data-lang="${l}" hreflang="${l}" aria-current="${l===LANG}">${l.toUpperCase()}</a>`).join("");
   const cs=LANG==="cs";
   $("#foot").innerHTML = `<div class="fmain"><span>© 2026 ${cs?"Vyrobeno s ❤️ ke kreativnímu hraní":"Made with ❤️ for creative play"}</span><span class="dot">·</span><a href="#soukromi">${cs?"Zásady ochrany osobních údajů":"Privacy Policy"}</a><span class="dot">·</span><a href="#podminky">${cs?"Podmínky užití":"Terms of Use"}</a><span class="dot">·</span><a href="mailto:${CONTACT}" title="${CONTACT}">✉️ ${cs?"Kontakt":"Contact"}</a></div>`
@@ -292,7 +431,7 @@ function renderChrome(){
     if(g.id==="back") h+=`<li><a href="#navrat">${shield({f:["#d7a521"],p:"plain",b:null,c:null},26)}<span class="nm">${t("returnNav")}<span class="yr">2016–2026</span></span></a></li>`;
     h+="</ul>";
   }
-  $("#sidenav").innerHTML=h;
+  $("#sidenav").innerHTML=MIR(h);
 }
 
 /* ================== ČASOVÁ OSA ================== */
@@ -334,30 +473,56 @@ function timeline(){
 function vFaction(f){
   const en=LANG==="en";
   const all=factionSets(f);
-  const featured=all.filter(m=>SETDESC[m.n] || m.st==="on" || m.st==="soon");
-  const retired=all.filter(m=>m.st==="off"||m.st==="lim");
   const figs=(MF[f.id]||[]).map(m=>{const cap=en?(MF_EN[m[0]]||m[1]):m[1];return `<figure class="fig"><div class="ph" data-n="?"><img loading="lazy" src="${mfUrl(m[0])}" alt="${esc(cap)}" ${IMGFAIL}></div><figcaption>${esc(cap)}</figcaption></figure>`;}).join("");
   const rels=fx(f,"rel");
   const yearOf = s => { const m=String(s).match(/^(\d{4})/); return m?+m[1]:-1; };
   const hist=fx(f,"hist").map((h,i)=>[h,i]).sort((a,b)=>(yearOf(b[0])-yearOf(a[0]))||(a[1]-b[1])).map(x=>x[0]);
   const idx=F.indexOf(f), prev=F[idx-1], next=F[idx+1];
-  return `
-  <div class="eyebrow">${eraName(f.era)}</div>
-  <div class="fhead">${emblem(f,84)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${yearLabel(f)}</span><span class="chip">${all.length} ${en?"sets":"setů"}</span>${(()=>{const n=Object.values(CAT_FIGS).filter(c=>c[1]===f.id).length;return n?`<span class="chip">${n} ${en?"minifigures":"minifigurek"}</span>`:""})()}</div></div></div>
-  <p class="lede">${esc(fx(f,"intro"))}</p>
-  <div class="erb"><div class="figs">${figs}</div><div class="panel"><div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p style="margin:6px 0 12px">${esc(fx(f,"heraldry"))}</p><div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts" style="margin-top:6px">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul></div></div>
-  <h2 class="sec">${en?"Sets with this faction":"Sety s touto frakcí"}</h2>
-  ${featured.length?`<div class="feats">${featured.map(feature).join("")}</div>`:`<div class="empty">${en?"No described sets yet.":"Zatím bez popsaných setů."}</div>`}
-  ${figGallery(f)}
-  <h2 class="sec">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
-  <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
-  <p style="margin-top:8px"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"}</a></p>
-  <h2 class="sec">${en?"History":"Historie"}</h2>
-  <ul class="facts">${hist.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
-  <h2 class="sec">${en?"Retired sets":"Vyřazené sety"}</h2>
-  <p style="font-size:.92rem;color:var(--ink-2)">${en?"From newest to oldest.":"Od nejnovějších po nejstarší."}</p>
-  ${tiles(retired.map(m=>tile(m,{noNote:!M.find(x=>x.n===m.n)})))}
-  <div class="meta" style="margin-top:28px;justify-content:space-between">${prev?`<a href="#${prev.id}">← ${esc(fx(prev,"name"))}</a>`:"<span></span>"}${next?`<a href="#${next.id}">${esc(fx(next,"name"))} →</a>`:""}</div>`;
+  const nFig=Object.values(CAT_FIGS).filter(c=>c[1]===f.id).length;
+  const gal=figGallery(f);
+  const col=f.sh.f[0]==="#16181b"?"var(--blk)":f.sh.f[0];
+  const secs=[["sec-uvod",en?"Overview":"Úvod"],["sec-sety",en?"Sets":"Sety"]];
+  if(gal) secs.push(["sec-figurky",en?"Minifigures":"Minifigurky"]);
+  secs.push(["sec-historie",en?"History":"Historie"]);
+  const nextBtn = id => { const i=secs.findIndex(s=>s[0]===id), n=secs[i+1]; return n?`<button type="button" class="snext" data-goto="${n[0]}">${esc(n[1])} <span aria-hidden="true">↓</span></button>`:""; };
+  return `<div class="fp" style="--fc:${col}">
+  <nav class="fdots" aria-label="${en?"Page sections":"Části stránky"}">${secs.map(([id,l])=>`<button type="button" data-goto="${id}" aria-label="${esc(l)}"><span>${esc(l)}</span></button>`).join("")}</nav>
+
+  <section class="fs fs-intro" id="sec-uvod">
+    <nav class="fstrip" aria-label="${en?"All factions":"Všechny frakce"}">${F.map(x=>`<a href="#${x.id}" title="${esc(fx(x,"name"))}"${x===f?` aria-current="page"`:""} style="--fc:${x.sh.f[0]}">${emblem(x,30)}</a>`).join("")}</nav>
+    <div class="fintro">
+      <div class="fi-main">
+        <div class="eyebrow">${eraName(f.era)}</div>
+        <div class="fhead">${emblem(f,84)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${yearLabel(f)}</span><span class="chip">${all.length} ${en?"sets":"setů"}</span>${nFig?`<span class="chip">${nFig} ${en?"minifigures":"minifigurek"}</span>`:""}</div></div></div>
+        <p class="lede">${esc(fx(f,"intro"))}</p>
+        <h2 class="h2s">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
+        <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
+        <p class="more"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"} →</a></p>
+      </div>
+      <div class="fi-side">
+        ${figs?`<div class="figs">${figs}</div>`:""}
+        <div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p>${esc(fx(f,"heraldry"))}</p>
+        <div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul>
+      </div>
+    </div>
+    ${nextBtn("sec-uvod")}
+  </section>
+
+  <section class="fs fs-sets" id="sec-sety">
+    <div class="fs-head"><h2 class="sec">${en?"Sets with this faction":"Sety s touto frakcí"} <span class="cnt">${all.length}</span></h2>
+    <p class="tnote">${en?"From the oldest on the left to the newest on the right; the highlighted set is on sale now or was sold last. Click a set for details and more photos.":"Od nejstarších vlevo po nejnovější vpravo; zvýrazněný set je teď v prodeji, nebo se prodával naposledy. Kliknutím na set otevřete detail s dalšími fotkami."}</p></div>
+    ${all.length?setTimeline(all):`<div class="empty">${en?"No sets yet.":"Zatím bez setů."}</div>`}
+    ${nextBtn("sec-sety")}
+  </section>
+
+  ${gal?`<section class="fs fs-figs" id="sec-figurky">${gal}${nextBtn("sec-figurky")}</section>`:""}
+
+  <section class="fs fs-hist" id="sec-historie">
+    <h2 class="sec">${en?"History":"Historie"}</h2>
+    <ul class="facts">${hist.map(h=>`<li>${esc(h)}</li>`).join("")}</ul>
+    <div class="fpn">${prev?`<a href="#${prev.id}">${emblem(prev,26)}<span><small>${en?"Previous faction":"Předchozí frakce"}</small>${esc(fx(prev,"name"))}</span></a>`:"<span></span>"}${next?`<a class="nx" href="#${next.id}"><span><small>${en?"Next faction":"Další frakce"}</small>${esc(fx(next,"name"))}</span>${emblem(next,26)}</a>`:""}</div>
+  </section>
+  </div>`;
 }
 
 /* ================== TEĎ V PRODEJI ================== */
@@ -370,8 +535,8 @@ function vSale(){
   <p class="lede">${en
     ?"Castle and medieval sets you can buy at LEGO.com right now. Links go straight to the product page; once a set leaves the shop, it moves to Recently retired by itself."
     :"Hradní a středověké sety, které teď koupíte na lego.cz. Odkaz vede přímo na produktovou stránku; jakmile set z nabídky zmizí, sám se přesune do sekce Nedávno vyřazeno."}</p>
-  <div class="feats">${on.map(feature).join("")}</div>
-  ${lim.length?`<h2 class="sec">${en?"Only at LEGOLAND parks":"Jen v parcích LEGOLAND"}</h2>${tiles(lim.map(m=>tile(m)))}`:""}
+  ${zrows(on)}
+  ${lim.length?`<h2 class="sec">${en?"Only at LEGOLAND parks":"Jen v parcích LEGOLAND"}</h2>${zrows(lim,on.length)}`:""}
   <p class="note">${en?"Sale status is checked automatically once a week (LEGO and Brickset). Always confirm the price in the shop.":"Stav prodeje se kontroluje automaticky jednou týdně (lego.cz a Brickset). Cenu vždy ověřte v obchodě."}</p>`;
 }
 
@@ -383,8 +548,9 @@ function vRetired(){
   for(const m of list){ const k=m.to||m.y; (byYear[k]=byYear[k]||[]).push(m); }
   let h=`<div class="eyebrow">2016–2026</div><h1>${en?"Recently retired":"Nedávno vyřazeno"}</h1>
   <p class="lede">${en?"Castle and medieval sets of recent years that are no longer sold by LEGO. Many can still be found at other online shops, on eBay or in second-hand marketplaces.":"Hradní a středověké sety posledních let, které LEGO už neprodává. Mnohé se dají ještě sehnat na různých e-shopech a v bazarech."}</p>`;
+  let i=0;
   for(const y of Object.keys(byYear).sort((a,b)=>b-a)){
-    h+=`<h2 class="sec">${en?"Last sold in":"Naposledy v prodeji"} ${y}</h2>${tiles(byYear[y].map(m=>tile(m,{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:`<span class="tnote">${en?"no faction":"bez frakce"}</span>`})))}`;
+    h+=`<h2 class="sec">${en?"Last sold in":"Naposledy v prodeji"} ${y}</h2>${zrows(byYear[y],i)}`; i+=byYear[y].length;
   }
   return h;
 }
@@ -663,7 +829,7 @@ document.addEventListener("click",e=>{
   else if(l){DG.link=+l.dataset.dgl;}
   else if(n){DG.node=n.dataset.dgn;DG.link=null;}
   else return;
-  wrap.innerHTML=dgInner(); rewriteLinks(wrap);
+  wrap.innerHTML=MIR(dgInner()); rewriteLinks(wrap);
 });
 document.addEventListener("keydown",e=>{
   if(e.key!=="Enter"&&e.key!==" ") return;
@@ -740,7 +906,7 @@ function vSoon(){
   <p class="lede">${en
     ?"Castle and medieval sets that have been announced but are not on sale yet. We add a set here once it is officially announced or listed in the Brickset database; when it goes on sale, it moves to On sale now by itself."
     :"Hradní a středověké sety, které už jsou oznámené, ale ještě se neprodávají. Set sem přidáme, jakmile ho LEGO oficiálně oznámí nebo se objeví v databázi Brickset; po zahájení prodeje se sám přesune do sekce Teď v prodeji."}</p>
-  ${tiles(soon.map(m=>tile({n:m.n},{extra:m.f.length?`<span class="tnote">${linkFactions(m.f)}</span>`:""})))}
+  ${zrows(soon)}
   <p class="note">${en
     ?"No new set with a classic faction (Lion Knights, Black Falcons, Forestmen and others) has been announced so far. Rumours and unconfirmed leaks are not listed."
     :"Zatím nebyl oznámen žádný nový set s klasickou frakcí (Lion Knights, Black Falcons, Forestmen a další). Spekulace a nepotvrzené úniky neuvádíme."}</p>`;
@@ -917,6 +1083,7 @@ function applyMeta(r){
   setHead('link[rel="alternate"][hreflang="x-default"]',{rel:"alternate",hreflang:"x-default",href:SITE+routeUrl(r,"en")});
 }
 function route(keepScroll){
+  SETREG.clear();
   let r=routeId();
   if(r==="moderni-sety") r="nedavno-vyrazeno";
   // staré odkazy s # převést na skutečné adresy
@@ -933,15 +1100,58 @@ function route(keepScroll){
   else if(r==="soukromi") html=vPrivacy();
   else if(r==="podminky") html=vTerms();
   else { r="uvod"; html=vHome(); }
-  $("#view").innerHTML=html;
+  const oldStl=$(".stl"), keepSL = keepScroll && oldStl && fById(r) ? oldStl.scrollLeft : null;
+  $("#view").innerHTML=MIR(html);
   document.querySelectorAll("nav.main a, aside a").forEach(a=>{
     const h=a.getAttribute("href"); if(h==="#"+r||h===routeUrl(r)) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current");
   });
   rewriteLinks(document);
   document.querySelectorAll("nav.main a, aside a").forEach(a=>{ if(a.getAttribute("href")===routeUrl(r)) a.setAttribute("aria-current","page"); });
   applyMeta(r);
+  afterRender(!!f, keepScroll, keepSL);
   if(!keepScroll) window.scrollTo(0,0);
 }
+/* po vykreslení: režim stránky frakce (bez levého menu, sekce přes celou obrazovku), časová osa setů */
+let fObs=null;
+function afterRender(isF, keep, sl){
+  document.documentElement.classList.toggle("fmode", isF);
+  const dlg=$("#setdlg"); if(dlg && dlg.open && !keep) dlg.close();
+  if(fObs){ fObs.disconnect(); fObs=null; }
+  if(!isF) return;
+  const s=$(".stl");
+  if(s){
+    s.style.scrollBehavior="auto";
+    if(sl!=null) s.scrollLeft=sl;
+    else { const c=s.querySelector(".tlc.cur"); if(c) s.scrollLeft=c.offsetLeft+c.offsetWidth/2-s.clientWidth/2; }
+    s.style.scrollBehavior="";
+    dragScroll(s);
+  }
+  const dots=[...document.querySelectorAll(".fdots button")];
+  if("IntersectionObserver" in window && dots.length){
+    fObs=new IntersectionObserver(es=>{ for(const e of es) if(e.isIntersecting) dots.forEach(b=>b.setAttribute("aria-current", String(b.dataset.goto===e.target.id))); },{rootMargin:"-45% 0px -45% 0px"});
+    document.querySelectorAll(".fs").forEach(x=>fObs.observe(x));
+  }
+}
+// posouvání časové osy tažením myší
+function dragScroll(s){
+  if(s.dataset.drag) return; s.dataset.drag="1";
+  let x0=0,l0=0,down=false,moved=false;
+  s.addEventListener("pointerdown",e=>{ if(e.pointerType!=="mouse"||e.button!==0) return; down=true; moved=false; x0=e.clientX; l0=s.scrollLeft; });
+  s.addEventListener("pointermove",e=>{ if(!down) return; const dx=e.clientX-x0; if(!moved&&Math.abs(dx)>5){ moved=true; s.classList.add("drag"); } if(moved) s.scrollLeft=l0-dx; });
+  const up=()=>{ down=false; s.classList.remove("drag"); };
+  s.addEventListener("pointerup",up); s.addEventListener("pointerleave",up); s.addEventListener("pointercancel",up);
+  s.addEventListener("click",e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); moved=false; } },true);
+}
+// ukotvená hlavička (výška do --hh) a tlačítko Nahoru
+(function(){
+  const h=$("header.top"), root=document.documentElement;
+  const set=()=>root.style.setProperty("--hh",h.offsetHeight+"px");
+  set(); if(window.ResizeObserver) new ResizeObserver(set).observe(h);
+  const tt=$("#totop");
+  const onS=()=>{ const y=window.scrollY; root.classList.toggle("scrolled",y>4); if(tt) tt.classList.toggle("show",y>600); };
+  addEventListener("scroll",onS,{passive:true}); onS();
+  if(tt) tt.addEventListener("click",()=>{ root.style.scrollSnapType="none"; window.scrollTo({top:0,behavior:"smooth"}); setTimeout(()=>root.style.scrollSnapType="",900); });
+})();
 renderChrome();
 applyThemeButton();
 window.addEventListener("hashchange",()=>route());

@@ -4,7 +4,7 @@
 Anglická verze: https://vinmat.eu/bricks/castle/  
 Sitemap: https://vinmat.eu/bricks/castle-sitemap.xml
 
-Aktualizace z archivu `lego-castle-github (2).zip`, 30. 10. 2026. Obsahuje 60 předvykreslených stránek, samostatné adresy frakcí, metadata pro vyhledávače, společný `castle-app.js` a ověřené erby z katalogu BrickLink. Partnerská ID zatím zůstávají prázdná.
+Aktualizace z archivu `lego-castle-github (3).zip`, 31. 10. 2026. Obsahuje 60 předvykreslených stránek, samostatné adresy frakcí, metadata pro vyhledávače, společný `castle-app.js` a ověřené erby z katalogu BrickLink. Partnerská ID zatím zůstávají prázdná.
 
 ## Publikace v tomto repozitáři
 
@@ -23,3 +23,12 @@ Aktivní workflow je `.github/workflows/lego-castle-status.yml` v kořeni repozi
 ## Google a affiliate
 
 Sitemap obsahuje 60 skutečných adres a jejich jazykové protějšky. Odeslání do Google Search Console je samostatný následující krok; samotné nasazení nezaručuje indexaci. Affiliate konfigurace je připravená v `05-app.js`, ale neobsahuje žádné partnerské identifikátory.
+
+
+## Galerie a místní kopie externích obrázků
+
+Nová verze přidává časové osy setů, vyskakovací detail setu a 31 dalších produktových fotografií ve složce `bricks/cs/castle/assets/gal/`. Tyto soubory se publikují spolu s HTML a společným skriptem.
+
+Nové ručně spouštěné workflow `Hradní kronika – stáhnout obrázky` v kořeni repozitáře je převzaté ze ZIPu a přizpůsobené cestám `castle-Claude/`. Při spuštění ukládá místní kopie veřejných obrázků do `castle-Claude/bricks/cs/castle/assets/ext/`; jeho úspěšné dokončení vyvolá nové nasazení. Pokud kopie chybí, aplikace použije původní server. Při importu ZIPu toto volitelné stahování nespouštíme.
+
+Předchozí verze je zachovaná v historii Git v commitu `11b6f16262cc6a0a5f29948a675937c9ea05690f`; nové nasazení historii nepřepisuje.

@@ -17,6 +17,15 @@ assert combined[:-len('</script>')]==text, 'Source changed: rebuild and prerende
 version=hashlib.sha1(text.encode()).hexdigest()[:10]
 subprocess.run(['node','--check',str(app)],check=True,capture_output=True)
 
+# Gallery photos and optional image mirrors are local assets of the supplied app.
+gallery=json.loads(re.search(r'const GAL = (\{[^;]+\});',text)[1])
+expected_gallery={f'{number}-{i}.webp'for number,count in gallery.items()for i in range(1,count+1)}
+assert len(expected_gallery)==31
+assert expected_gallery=={p.name for p in (source/'cs/castle/assets/gal').glob('*.webp')}
+for folder in ['gal','ext']:
+    origin=source/'cs/castle/assets'/folder
+    if origin.exists():shutil.copytree(origin,target/'cs/castle/assets'/folder,dirs_exist_ok=True)
+
 pages=[]
 ns={'s':'http://www.sitemaps.org/schemas/sitemap/0.9','x':'http://www.w3.org/1999/xhtml'}
 sitemap=ET.parse(source/'castle-sitemap.xml')
@@ -42,6 +51,11 @@ for base,lang in [('castle','en'),('cs/castle','cs')]:
             path=urlsplit(url).path.removeprefix('/bricks/')
             if not path:continue
             if path.endswith('/'):path+='index.html'
+            if path.startswith('cs/castle/assets/ext/'):
+                # These mirrors are optional: the app falls back to data-o.
+                tags=re.findall(r'<[^>]+(?:src|href)="'+re.escape(url)+r'"[^>]*>',body)
+                assert tags and all(re.search(r'data-o="https://(?:img\.bricklink\.com|images\.brickset\.com|cdn\.rebrickable\.com)/',tag)for tag in tags),(relative,url)
+                continue
             assert (source/path).exists() or (target/path).exists(),(relative,url)
         dest=target/relative;dest.parent.mkdir(parents=True,exist_ok=True)
         shutil.copyfile(page,dest)
@@ -60,4 +74,4 @@ for relative in ['castle/favicon.svg','cs/castle/favicon.svg','cs/castle/castle-
     if relative.endswith('.svg'):assert '<svg'in item.read_text()
     if relative.endswith('status.json'):assert 'sets'in json.loads(item.read_text())
     dest=target/relative;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(item,dest)
-print(f'PASS: {len(pages)} prerendered Claude pages, sitemap and language links, JavaScript, status JSON and {len(manifest)} shared images')
+print(f'PASS: {len(pages)} prerendered Claude pages, sitemap and language links, JavaScript, status JSON, {len(manifest)} shared images and {len(expected_gallery)} gallery photos')

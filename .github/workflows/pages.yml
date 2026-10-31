@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
   workflow_run:
-    workflows: ["LEGO Castle – stav prodeje"]
+    workflows: ["LEGO Castle – stav prodeje", "Hradní kronika – stáhnout obrázky"]
     types: [completed]
 permissions:
   contents: read

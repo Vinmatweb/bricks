@@ -25,7 +25,7 @@ const port = server.address().port;
 const browser = await chromium.launch();
 const ctx = await browser.newContext();
 // cizí servery (fotky, písma) při vykreslování nahradit prázdným obrázkem – adresy v HTML zůstanou původní
-await ctx.route(url => !url.href.startsWith(`http://127.0.0.1:${port}`), r => {
+await ctx.route(url => !url.href.startsWith(`http://127.0.0.1:${port}`) || url.pathname.includes("/assets/ext/"), r => {
   const u = r.request().url();
   if (/\.css|fonts\.googleapis/.test(u)) return r.fulfill({ status: 200, contentType: "text/css", body: "" });
   return r.fulfill({ status: 200, contentType: "image/png", body: PIXEL });

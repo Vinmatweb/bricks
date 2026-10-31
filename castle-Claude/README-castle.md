@@ -97,3 +97,10 @@ Každá stránka má vlastní titulek, popis, kanonickou adresu a odkaz na jazyk
 Mapa stránek je `bricks/castle-sitemap.xml` – v Google Search Console ji odešlete jako
 `https://vinmat.eu/bricks/castle-sitemap.xml`. Případně ji uveďte i v `robots.txt` v kořeni webu:
 `Sitemap: https://vinmat.eu/bricks/castle-sitemap.xml`. Staré odkazy s `#` se samy přesměrují na nové adresy.
+
+## Místní kopie obrázků
+
+Štíty, fotky figurek a část fotek setů pocházejí z BrickLinku, Bricksetu a Rebrickable. Akce
+**Actions → Hradní kronika – stáhnout obrázky → Run workflow** je stáhne do `bricks/cs/castle/assets/ext/`
+a commitne. Web pak bere místní kopie; když kopie chybí, načte originál. Po přidání setů nebo frakcí akci spusťte znovu
+(stáhne jen nové obrázky).
