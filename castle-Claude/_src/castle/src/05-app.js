@@ -255,7 +255,7 @@ function figGallery(f){
     return `<figure class="mfig"><div class="ph" data-n="?"><img loading="lazy" ${figImgAttrs(id)} alt="${esc(c[0])}" ${IMGFAIL}></div><figcaption><b>${esc(c[0])}</b><span>${links}</span></figcaption></figure>`;
   };
   let h=`<h2 class="sec">${en?"Minifigures":"Minifigurky"} <span class="cnt">${figs.length} ${en?"variants":"variant"}</span></h2>
-  <p class="tnote" style="max-width:68ch">${en?"All catalogued figure variants of the faction with the sets they come in (Rebrickable inventories, 29 Oct 2026). Faction assignment is editorial, not an official LEGO taxonomy.":"Všechny katalogizované varianty figurek frakce a sety, ve kterých jsou (inventáře Rebrickable, 29. 10. 2026). Přiřazení k frakci je redakční, nejde o oficiální dělení LEGO."}</p>`;
+  <p class="tnote">${en?"All catalogued figure variants of the faction with the sets they come in (Rebrickable inventories, 29 Oct 2026). Faction assignment is editorial, not an official LEGO taxonomy.":"Všechny katalogizované varianty figurek frakce a sety, ve kterých jsou (inventáře Rebrickable, 29. 10. 2026). Přiřazení k frakci je redakční, nejde o oficiální dělení LEGO."}</p>`;
   for(const k of keys){
     if(keys.length>1) h+=`<h3>${esc(en?CAT_SUB[k][1]:CAT_SUB[k][0])}</h3>`;
     h+=`<div class="mfigs">${groups[k].map(card).join("")}</div>`;
@@ -316,9 +316,9 @@ function shopRow(m){
 }
 
 // karta na časové ose frakce (střídavě nad a pod linkou)
-function tlCard(m,i,cur){
+function tlCard(m,i,cur,x=0){
   const k=reg(m), d=descOf(m.n);
-  return `<li class="tlc ${i%2?"dn":"up"} ${m.st||"off"}${cur?" cur":""}" style="--i:${i}">
+  return `<li class="tlc ${i%2?"dn":"up"} ${m.st||"off"}${cur?" cur":""}" style="--i:${i};--x:${x}">
     <button type="button" class="tlb" data-set="${esc(k)}" aria-haspopup="dialog">
       <span class="tlph" data-n="${esc(disp(m.n))}"><img loading="lazy" ${setImgAttrs(m.n)} alt="" ${IMGFAIL}></span>
       <span class="tlt"><span class="tn">${esc(disp(m.n))}</span><b>${esc(nameOf(m))}</b><span class="tlav">${esc(avail(m))}</span>${stLive(m)}</span>
@@ -332,9 +332,17 @@ function setTimeline(list){
   asc.forEach((m,i)=>{ if(m.st==="on"||m.st==="lim") cur=i; });
   if(cur<0) asc.forEach((m,i)=>{ if(m.st!=="soon") cur=i; });
   const en=LANG==="en";
+  // delší časová prodleva = větší mezera na ose (1 jednotka za každý rok navíc, nejvýš 16)
+  const xs=[0], gaps=[];
+  for(let i=1;i<asc.length;i++){
+    const dy=asc[i].y-asc[i-1].y, u=Math.min(16,Math.max(0,dy-1));
+    xs.push(xs[i-1]+u);
+    if(dy>=4) gaps.push(`<li class="tlgap" aria-hidden="true" style="--i:${i-1};--x:${xs[i-1]};--u:${u}"><span>${dy} ${en?"years":dy<5?"roky":"let"}</span></li>`);
+  }
+  const cards=asc.map((m,i)=>tlCard(m,i,i===cur,xs[i])).join("");
   return `<div class="stlw">
     <button type="button" class="stl-nav prev" aria-label="${en?"Older sets":"Starší sety"}">‹</button>
-    <div class="stl" tabindex="0" aria-label="${en?"Set timeline":"Časová osa setů"}"><ol class="stl-in" style="--n:${asc.length}">${asc.map((m,i)=>tlCard(m,i,i===cur)).join("")}</ol></div>
+    <div class="stl" tabindex="0" aria-label="${en?"Set timeline":"Časová osa setů"}"><ol class="stl-in" style="--n:${asc.length};--xt:${xs[xs.length-1]||0}">${gaps.join("")}${cards}</ol></div>
     <button type="button" class="stl-nav next" aria-label="${en?"Newer sets":"Novější sety"}">›</button>
   </div>`;
 }
@@ -469,6 +477,85 @@ function timeline(){
   return `<div class="tl"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${LANG==="cs"?"Časová osa frakcí":"Faction timeline"}">${g}</svg></div>`;
 }
 
+/* ================== VŮDCE, JÍZDA, SÍDLO (ověřeno na Brickset, inventáře Rebrickable) ==================
+   lead: [figurka z katalogu, jméno cs/en]; none: frakce vůdce nemá (ověřeno v setech); cav: příklad setu s jízdou; seat: hlavní sídla */
+const FMETA = {
+  "horse-knights":{lead:[["fig-016597",{cs:"Král koňských rytířů",en:"Horse Knight King"}]],cav:"31168",seat:["31168"]},
+  "serpent-knights":{seat:["910064"]},
+  "crusaders":{lead:[["fig-015248",{cs:"Král Lvích rytířů",en:"Lion Knights King"}]],cav:"6081",seat:["6080","6081","10305"]},
+  "forestmen":{none:1,seat:["6054","6077-2","40567"]},
+  "black-falcons":{cav:"6074",seat:["6074","10039"]},
+  "wolfpack":{none:1,cav:"6038",seat:["6075-1","910057"]},
+  "black-knights":{none:1,seat:["6085","6086"]},
+  "dragon-masters":{lead:[["fig-000573",{cs:"Čaroděj Majisto",en:"Majisto the Wizard"}]],seat:["6082"]},
+  "fright-knights":{lead:[["fig-000648",{cs:"Basil, Netopýří lord",en:"Basil the Bat Lord"}]],cav:"6097",seat:["6097","6087"]},
+  "klasicky-hrad":{cav:"375-2",seat:["375-2","6075-2"]},
+  "castle-2013":{lead:[["fig-010111",{cs:"Král",en:"The King"}]],seat:["70404"]},
+  "kingdoms":{lead:[["fig-010066",{cs:"Lví král",en:"Lion King"}],["fig-010070",{cs:"Lví královna",en:"Lion Queen"}]],cav:"10223",seat:["7946"]},
+  "fantasy-era":{lead:[["fig-009943",{cs:"Král Korunních rytířů",en:"Crown King"}]],seat:["7094","7097"]},
+  "vikingove":{lead:[["fig-004676",{cs:"Vikingský král",en:"Viking King"}]],seat:["7019"]},
+  "knights-kingdom-2":{lead:[["fig-009257",{cs:"Král Mathias",en:"King Mathias"}]],cav:"8781",seat:["8781","8877"]},
+  "knights-kingdom":{lead:[["fig-001002",{cs:"Král Leo",en:"King Leo"}]],seat:["6098"]},
+  "ninja":{lead:[["fig-000475",{cs:"Šógun",en:"The Shogun"}]],seat:["6093","3053"]},
+  "dark-forest":{none:1,seat:["6079"]},
+  "royal-knights":{lead:[["fig-007107",{cs:"Král",en:"The King"}]],cav:"6044",seat:["6090"]}
+};
+// set podle čísla – z frakce, katalogu nebo seznamu M; vrátí tlačítko otevírající detail
+function setRef(f,n){
+  const all=factionSets(f), key=sid(n);
+  let m=all.find(x=>sid(x.n)===key) || M.find(x=>sid(x.n)===key);
+  if(!m){ const c=CAT_SETS[key]; if(!c) return esc(disp(n)); m={n:key,name:c[0],y:c[1],pcs:c[2]||null,st:"off",line:""}; }
+  const k=reg(m);
+  return `<button type="button" class="sref" data-set="${esc(k)}"><span class="tn">${esc(disp(m.n))}</span> ${esc(nameOf(m))}<span class="sy"> · ${m.y}</span></button>`;
+}
+function leaderFigs(f){
+  const L=(FMETA[f.id]||{}).lead||[];
+  return L.filter(([id])=>CAT_FIGS[id]).map(([id,nm])=>`<figure class="fig lead"><div class="ph" data-n="?"><img loading="lazy" ${figImgAttrs(id)} alt="${esc(nm[LANG])}" ${IMGFAIL}></div><figcaption><b>${esc(nm[LANG])}</b></figcaption></figure>`).join("");
+}
+function factBox(f){
+  const en=LANG==="en", fm=FMETA[f.id]||{}, rows=[];
+  if(fm.lead&&fm.lead.length){
+    rows.push([en?"Leader":"Vůdce", fm.lead.map(([id,nm])=>{ const c=CAT_FIGS[id]; const s=c?c[3].slice().sort((a,b)=>((CAT_SETS[a]||[])[1]||9999)-((CAT_SETS[b]||[])[1]||9999))[0]:null; return `${esc(nm[LANG])}${s?` <span class="sy">(${en?"first in":"poprvé v"} ${esc(disp(s))})</span>`:""}`; }).join("<br>")]);
+  } else if(fm.none) rows.push([en?"Leader":"Vůdce", en?"no king or named leader in the sets":"v setech nemají krále ani jmenovaného vůdce"]);
+  if(fm.cav) rows.push([en?"Cavalry":"Jízda", `${en?"yes – e.g.":"ano – např."} ${setRef(f,fm.cav)}`]);
+  if(fm.seat&&fm.seat.length) rows.push([en?(fm.seat.length>1?"Seats":"Seat"):"Sídlo", fm.seat.map(n=>setRef(f,n)).join("")]);
+  return rows.length?`<dl class="fbox">${rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join("")}</dl>`:"";
+}
+// malý náhled vztahů z diagramů + odkaz na diagram s vybranou frakcí
+function relCard(f){
+  const en=LANG==="en";
+  const rank={off:0,fan:1,ally:2,legend:3,line:3,with:4};
+  const isCenter = n => !n.name && dFac(n).id===f.id;
+  const keyOf = n => isCenter(n) ? "@" : (n.name ? "n:"+n.id : dFac(n).id);
+  const nodes=new Map(), edges=new Map();
+  for(const d of DIAS) for(const e of d.edges){
+    const A=dnode(d,e[0]), B=dnode(d,e[1]); if(!A||!B) continue;
+    if(dFac(A).id!==f.id && dFac(B).id!==f.id) continue;
+    const ka=keyOf(A), kb=keyOf(B); if(ka===kb) continue;
+    for(const [k,n] of [[ka,A],[kb,B]]) if(k!=="@" && !nodes.has(k)) nodes.set(k,n);
+    const ek=[ka,kb].sort().join("|"), prev=edges.get(ek);
+    if(!prev || rank[e[2]]<rank[prev.t]) edges.set(ek,{a:ka,b:kb,t:e[2]});
+  }
+  const hasC=[...edges.values()].some(x=>x.a==="@"||x.b==="@");
+  const ring=[...nodes.entries()].slice(0,7);
+  const W=280,H=170,cx=W/2,cy=H/2, R=hasC?[112,58]:[100,56];
+  const pos={"@":{x:cx,y:cy}};
+  ring.forEach(([k],i)=>{ const a=-Math.PI/2+i*2*Math.PI/Math.max(ring.length,1)+(ring.length===2?Math.PI/2:0); pos[k]={x:cx+Math.cos(a)*R[0],y:cy+Math.sin(a)*R[1]}; });
+  const cls={off:"e-off",fan:"e-fan",ally:"e-ally",legend:"e-legend",line:"e-line",with:"e-with"};
+  const E=[...edges.values()].filter(x=>pos[x.a]&&pos[x.b]);
+  const lines=E.map(x=>`<path class="${cls[x.t]}" d="M${pos[x.a].x.toFixed(1)} ${pos[x.a].y.toFixed(1)}L${pos[x.b].x.toFixed(1)} ${pos[x.b].y.toFixed(1)}"/>`).join("");
+  const em=n=>n.sh?shield(n.sh,26):emblem(dFac(n),26);
+  const nodesH=ring.map(([k,n])=>`<span class="rn" style="left:${(pos[k].x/W*100).toFixed(2)}%;top:${(pos[k].y/H*100).toFixed(2)}%" title="${esc(dName(n))}">${em(n)}</span>`).join("")
+    + ((hasC||!ring.length)?`<span class="rn rc">${emblem(f,40)}</span>`:"");
+  const cnt=t=>E.filter(x=>t.includes(x.t)).length;
+  const en1=cnt(["off","fan"]), al=cnt(["ally"]), ln=cnt(["line","legend"]);
+  const parts=[en1?`${en1} ${en?(en1===1?"conflict":"conflicts"):(en1===1?"konflikt":en1<5?"konflikty":"konfliktů")}`:"", al?`${al} ${en?(al===1?"alliance":"alliances"):(al===1?"spojenectví":"spojenectví")}`:"", ln?`${ln} ${en?(ln===1?"successor link":"successor links"):(ln===1?"vazba nástupce":ln<5?"vazby nástupců":"vazeb nástupců")}`:""].filter(Boolean).join(" · ");
+  return `<a class="relcard" href="#diagram" data-dgf="${f.id}">
+    <span class="relg"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${lines}</svg>${nodesH}</span>
+    <span class="relt"><span class="eyebrow">${en?"Faction map":"Diagram vztahů"}</span><b>${en?"Who did they fight and who were their allies?":"S kým bojovali a s kým se spojili?"}</b>${parts?`<span class="tnote">${parts}</span>`:""}<span class="relgo">${en?"Open the interactive map":"Otevřít interaktivní diagram"} →</span></span>
+  </a>`;
+}
+
 /* ================== STRÁNKA FRAKCE ================== */
 function vFaction(f){
   const en=LANG==="en";
@@ -489,18 +576,18 @@ function vFaction(f){
   <nav class="fdots" aria-label="${en?"Page sections":"Části stránky"}">${secs.map(([id,l])=>`<button type="button" data-goto="${id}" aria-label="${esc(l)}"><span>${esc(l)}</span></button>`).join("")}</nav>
 
   <section class="fs fs-intro" id="sec-uvod">
-    <nav class="fstrip" aria-label="${en?"All factions":"Všechny frakce"}">${F.map(x=>`<a href="#${x.id}" title="${esc(fx(x,"name"))}"${x===f?` aria-current="page"`:""} style="--fc:${x.sh.f[0]}">${emblem(x,30)}</a>`).join("")}</nav>
     <div class="fintro">
       <div class="fi-main">
-        <div class="eyebrow">${eraName(f.era)}</div>
+        <div class="eyebrow"><a class="back" href="#uvod" data-allf="1">← ${en?"All factions":"Všechny frakce"}</a> · ${eraName(f.era)}</div>
         <div class="fhead">${emblem(f,84)}<div style="min-width:0"><h1>${esc(fx(f,"name"))}</h1><div class="meta"><span class="chip">${esc(fx(f,"alt"))}</span><span class="chip">${yearLabel(f)}</span><span class="chip">${all.length} ${en?"sets":"setů"}</span>${nFig?`<span class="chip">${nFig} ${en?"minifigures":"minifigurek"}</span>`:""}</div></div></div>
         <p class="lede">${esc(fx(f,"intro"))}</p>
         <h2 class="h2s">${en?"Allies and enemies":"Spojenci a nepřátelé"}</h2>
         <ul class="facts">${f.rel.map((r,i)=>`<li>${esc(rels[i]||r[0])} ${tag(r[1])}</li>`).join("")}</ul>
-        <p class="more"><a href="#diagram">${en?"Show on the faction map":"Zobrazit v diagramu vztahů"} →</a></p>
+        ${relCard(f)}
       </div>
       <div class="fi-side">
-        ${figs?`<div class="figs">${figs}</div>`:""}
+        ${(figs||leaderFigs(f))?`<div class="figs">${leaderFigs(f)}${figs}</div>`:""}
+        ${factBox(f)}
         <div class="eyebrow">${en?"Crest and colours":"Erb a barvy"}</div><p>${esc(fx(f,"heraldry"))}</p>
         <div class="eyebrow">${en?"Characters":"Postavy"}</div><ul class="facts">${fx(f,"chars").map(c=>`<li>${esc(c)}</li>`).join("")}</ul>
       </div>
@@ -588,7 +675,7 @@ function vHome(){
     <li><b>2007–2014, the Castle name returns.</b> Castle 2007 with skeletons, trolls and dwarves, the realistic Kingdoms (Lion Kingdom against Dragon Kingdom), the 2013 line combining history and fantasy. In 2016 LEGO followed with NEXO Knights.</li>
     <li><b><a href="#navrat">2016–today, nostalgia.</a></b> Reimagined classics for adult fans: 10305 Lion Knights' Castle, 10332 Medieval Town Square, the BrickLink Designer Program, remake gifts 40567, 40601 and 40912.</li>
   </ul>
-  <h2 class="sec">All factions</h2>
+  <h2 class="sec" id="frakce">All factions</h2>
   <div class="grid">${cards}</div>
   <p class="note">Labels on claims: ${tag("off")} backed by LEGO material – LEGO.com articles, set descriptions, catalogues, boxes or instructions, ${tag("fan")} a fan interpretation, ${tag("unc")} contradictory or unverified. Crests are shown on original minifigures; the small shields are simplified colour markers, not replicas.</p>`;
   return `
@@ -611,7 +698,7 @@ function vHome(){
     <li><b>2007–2014, návrat značky Castle.</b> Castle 2007 s kostlivci, trolly a trpaslíky, realistické Kingdoms (Lví království proti Dračímu), řada 2013 spojující historii a fantasy. V roce 2016 navázalo LEGO řadou NEXO Knights.</li>
     <li><b><a href="#navrat">2016–dnes, nostalgie.</a></b> Reinterpretace klasických setů pro dospělé fanoušky: 10305 Lion Knights' Castle, 10332 Medieval Town Square, BrickLink Designer Program, remake dárky 40567, 40601 a 40912.</li>
   </ul>
-  <h2 class="sec">Všechny frakce</h2>
+  <h2 class="sec" id="frakce">Všechny frakce</h2>
   <div class="grid">${cards}</div>
   <p class="note">Štítky u tvrzení: ${tag("off")} doloženo materiály LEGO – články na LEGO.com, popisy setů, katalogy, krabice nebo návody, ${tag("fan")} výklad fanoušků, ${tag("unc")} rozporné nebo neověřené. Erby jsou ukázané na původních figurkách; malé štíty jsou zjednodušené barevné značky, ne repliky.</p>`;
 }
@@ -838,6 +925,7 @@ document.addEventListener("keydown",e=>{
 });
 function vDiagram(){
   const en=LANG==="en";
+  if(DG_PRE){ for(const d of DIAS){ const n=d.nodes.find(x=>(x.fid||x.id)===DG_PRE && !x.name) || d.nodes.find(x=>(x.fid||x.id)===DG_PRE); if(n){ DG.dia=d.id; DG.node=n.id; DG.link=null; break; } } DG_PRE=null; }
   const lists=DIAS.map(d=>`<h3>${esc(d[LANG])}</h3><ul class="facts">${d.edges.map(e=>{const A=dnode(d,e[0]),B=dnode(d,e[1]);
     return `<li><b>${esc(dName(A))}</b> ${e[2]==="ally"?(en?"⟷ alliance":"⟷ spojenectví"):(e[2]==="line"||e[2]==="legend")?(en?"→ successor":"→ nástupce"):e[2]==="with"?(en?"＋ together":"＋ společně"):"⚔"} <b>${esc(dName(B))}</b>: ${esc(dgLab(e))} ${dgTag(e[2])}</li>`;}).join("")}</ul>`).join("");
   return `
@@ -1035,14 +1123,19 @@ const ROUTES_STATIC=["uvod","diagram","v-prodeji","nedavno-vyrazeno","navrat","b
 const SITE="https://vinmat.eu";
 const routeUrl = (id,lang=LANG) => PATHS[lang] + (!id||id==="uvod" ? "" : id+"/");
 function routeId(){
-  if(location.hash.length>1) return location.hash.slice(1);
+  const h=location.hash.slice(1);
+  if(h && (!DEPLOYED || fById(h) || ROUTES_STATIC.includes(h) || h==="moderni-sety")) return h;
   if(DEPLOYED){ const m=location.pathname.match(/\/bricks\/(?:cs\/)?castle\/([^\/]+)\/?$/); if(m) return m[1]; }
   return "uvod";
 }
 function rewriteLinks(root=document){
   if(!DEPLOYED) return;
-  root.querySelectorAll('a[href^="#"]').forEach(a=>{ const id=a.getAttribute("href").slice(1); if(id) a.setAttribute("href",routeUrl(id)); });
+  root.querySelectorAll('a[href^="#"]').forEach(a=>{ const id=a.getAttribute("href").slice(1); if(!id) return;
+    let u=routeUrl(id); if(a.dataset.dgf) u+="?f="+a.dataset.dgf; if(a.dataset.allf) u+="#frakce"; a.setAttribute("href",u); });
 }
+// diagram otevřený z frakce: ?f=… (na webu) nebo kliknutí (náhled)
+let DG_PRE = (()=>{ try{ return new URLSearchParams(location.search).get("f"); }catch(e){ return null; } })();
+document.addEventListener("click",e=>{ const a=e.target.closest("a[data-dgf]"); if(a && !DEPLOYED) DG_PRE=a.dataset.dgf; const b=e.target.closest("a[data-allf]"); if(b && !DEPLOYED) setTimeout(()=>{ const g=document.getElementById("frakce"); if(g) g.scrollIntoView(); },60); });
 function pageMeta(r){
   const en=LANG==="en", f=fById(r), brand=t("brand");
   const nav=Object.fromEntries(t("nav"));
@@ -1087,7 +1180,7 @@ function route(keepScroll){
   let r=routeId();
   if(r==="moderni-sety") r="nedavno-vyrazeno";
   // staré odkazy s # převést na skutečné adresy
-  if(DEPLOYED && location.hash.length>1 && (fById(r)||ROUTES_STATIC.includes(r))){ location.replace(routeUrl(r)); return; }
+  { const hr=location.hash.slice(1); if(DEPLOYED && hr && (fById(hr)||ROUTES_STATIC.includes(hr)||hr==="moderni-sety")){ location.replace(routeUrl(r)); return; } }
   const f=fById(r);
   let html;
   if(f) html=vFaction(f);
@@ -1109,7 +1202,7 @@ function route(keepScroll){
   document.querySelectorAll("nav.main a, aside a").forEach(a=>{ if(a.getAttribute("href")===routeUrl(r)) a.setAttribute("aria-current","page"); });
   applyMeta(r);
   afterRender(!!f, keepScroll, keepSL);
-  if(!keepScroll) window.scrollTo(0,0);
+  if(!keepScroll){ const anc=DEPLOYED&&location.hash.length>1&&document.getElementById(location.hash.slice(1)); if(anc) anc.scrollIntoView(); else window.scrollTo(0,0); }
 }
 /* po vykreslení: režim stránky frakce (bez levého menu, sekce přes celou obrazovku), časová osa setů */
 let fObs=null;
